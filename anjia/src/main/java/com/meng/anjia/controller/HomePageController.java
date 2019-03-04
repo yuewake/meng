@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class HomePageController {
 	
-	@RequestMapping("/HomePage")
+	@RequestMapping("/")
 	public String getHomePagePath()
 	{
 		return"HomePage";

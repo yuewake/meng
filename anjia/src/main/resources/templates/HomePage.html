@@ -142,7 +142,8 @@
 					<li class="col-lg-2"><a  style="text-decoration:none;"><span class="homepage_banner">历史房价</span></a></li>
 					<li class="col-lg-2"><a  style="text-decoration:none;"><span class="homepage_banner">&nbsp;&nbsp;&nbsp;工具</span></a></li>
 					<li class="col-lg-2"><a  style="text-decoration:none;"><span class="homepage_banner">房产问答</span></a></li>
-					<li class="col-lg-2"><i class = "icon" style="background:url(img/login1.png);"></i><a th:href="@{/loginwin}" style="text-decoration:none;"><span class="login text-left" style="color:#FFFFFF;">登录/注册</span></a></li>
+					<li th:if="${user} != null" th:text="'您好,' + ${user.username}"></li>
+					<li th:if="${user} == null" class="col-lg-2"><i class = "icon" style="background:url(img/login1.png);"></i><a th:href="@{/loginwin}" style="text-decoration:none;"><span class="login text-left" style="color:#FFFFFF;">登录/注册</span></a></li>
 				</ul>
 			</form>
 		</div>
