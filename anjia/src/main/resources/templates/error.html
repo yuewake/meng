@@ -1,10 +1,29 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title>404页面</title>
+
+<style>
+</style>
 </head>
 <body>
-    <div>404</div>
-</body>
-</html>
+
+<link href="/css/404page.css" rel="stylesheet">
+
+<svg viewBox="0 0 960 300">
+	<symbol id="s-text">
+		<text text-anchor="middle" x="50%" y="80%">404</text>
+	</symbol>
+
+	<g class="g-ants">
+		<use xlink:href="#s-text" class="text"></use>
+		<use xlink:href="#s-text" class="text"></use>
+		<use xlink:href="#s-text" class="text"></use>
+		<use xlink:href="#s-text" class="text"></use>
+	</g>
+</svg>
+<div class="content" style="text-align:center;margin:auto;line-height: 200px;">
+    <h1>抱歉，亲，您要的页面未找到</h1>
+    <a th:href="@{/HomePage}">返回安家首页</a>
+</div>
+</body></html>
