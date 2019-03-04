@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="/css/loginWin.css" type="text/css" />
+<script src="/js/jquery-2.1.1.min.js" type="text/javascript"></script>
+<script src="/js/loginVerify.js" type="text/javascript"></script>
+<title>登录注册页面</title>
+
+
+</head>
+<body>
+<div class="htmleaf-container">
+    <div id="wrapper" class="login-page">
+      <div id="login_form" class="form">
+        <form class="register-form">
+        	<div id="error_boxusername"></div>
+          <input type="text" placeholder="用户名" id="r_user_name"/>
+          <div id="error_boxpassword"></div>
+          <input type="password" placeholder="密码" id="r_password" />
+          <div id="error_boxcheckpassword"></div>
+          <input type="password" placeholder="确认密码" id="r_checkpassword" />
+          <div id="error_boxEmail"></div>
+          <input type="text" placeholder="电子邮件" id="r_email"/>
+          <div id="error_boxButton"></div>
+          <button id="create">创建账户</button>
+          <p class="message">已经有了一个账户? <a href="#">立刻登录</a></p>
+        </form>
+        <form class="login-form">
+          <div id="error_box"></div>
+          <input type="text" placeholder="请输入电子邮箱" id="user_name"/>
+          <input type="password" placeholder="密码" id="password"/>
+          <button id="login">登录</button>
+          <p class="message">还没有账户? <a href="#">立刻创建</a></p>
+        </form>
+      </div>
+    </div>
+</div>
+</body>
+</html>

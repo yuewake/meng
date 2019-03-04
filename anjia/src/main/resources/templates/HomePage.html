@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=1600">
+		<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" name="viewport" />
+		<title>安家首页</title>
+	</head>
+	<script src="js/jquery-2.1.1.min.js" th:src="@{/js/jquery-2.1.1.min.js}"></script>
+	<script src="js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}" type="text/javascript" charset="utf-8"></script>
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}"/>
+	<style>
+		/*标签*/
+		body
+		{
+			margin: 0;
+		}
+		 li{
+	 	list-style-type: none;
+	 	width: 36px;
+	 	height: 72px;
+	 }
+	 a{
+		text-decoration:none
+	 }
+	 b{
+	 	width: 300px;
+	 	text-decoration: none;
+	 	font-family: "微软雅黑";
+	 	font-size:24px;
+	 	color:#9ACD32;
+	 }
+	/* class*/
+		.homepage_banner{
+		font-family: "微软雅黑";
+		font-size:large;
+		color:#FFFFFF;		
+	}
+	.login{
+		font-family: "微软雅黑";
+		font-size:small;
+		color:#808080;
+	}
+	.sidebar-ul{
+	position:fixed; 	
+	top:50%;
+	transform: translate(-50%,-50%);
+	 }
+	 .icon{
+		display:inline-block;
+		width:16px;
+		height:16px;
+		background-position:center center;
+		background-repeat:no-repeat;
+		}
+	.fix-right-v3 {
+    position: fixed;
+    right: 0;
+    top: 0;
+    width: 38px;
+    height: 100%;
+    background: gold;
+    z-index: 1000;
+    box-shadow: 0 1px 10px rgba(0,0,0,.2);
+    z-index: 1001;
+	}
+	.fix-right-v3-icon
+	{
+		position: fixed;
+		right: 5px;
+		display:inline-block;
+		width:32px;
+		height:32px;
+		background-position:center center;
+		background-repeat:no-repeat;
+	}
+	.middle_banner{
+	height: 200px;
+	line-height: 200px;
+	text-align: center;
+	}
+	.middle_link{
+		display:block;
+		width:300px;
+		height:200px;
+		text-decoration: none;
+	}
+	.house_banner
+	{
+		display: block;
+		height: 200px;
+		line-height: 200px;
+		text-align: center;
+	}
+	.house_link{
+		display: block;
+		height: 80px;
+		line-height: 80px;
+		text-align: center;
+		background: #eeeef1;
+		text-decoration:none;
+	}
+	.house_img{
+		width: 280px;
+		height:200px;
+		background-repeat:no-repeat;
+	}
+	.house_title{
+		display: block;
+		height:80px;
+		line-height: 80px;
+		text-align: center;
+	}
+	.house_link_title
+	{
+		font-family: "微软雅黑";
+		color: #000000;
+		font-weight: 200;
+	}
+	.house_link_info
+	{
+		text-decoration: none;
+		font-family: "微软雅黑";
+		color: #000000;
+		text-align: left;
+	}
+/*	id*/
+</style>
+<body>
+<!--首页图片-->
+<div class = "row" style="background-image:url(img/home_page_1.jpg);margin:0;position:absolute;width:1500px;">
+	<div class ="row">
+		<!--前半部分-->
+		<div class="col-lg-6">
+		</div>
+		<!--后半部分-->
+		<div class="col-lg-6">
+			<form class="form-horizontal">
+				<ul>
+					<li class="col-lg-2"><a style="text-decoration:none;"><span class="homepage_banner">首页</span></a></li>
+					<li class="col-lg-2"><a  style="text-decoration:none;"><span class="homepage_banner">二手房</span></a></li>
+					<li class="col-lg-2"><a  style="text-decoration:none;"><span class="homepage_banner">历史房价</span></a></li>
+					<li class="col-lg-2"><a  style="text-decoration:none;"><span class="homepage_banner">&nbsp;&nbsp;&nbsp;工具</span></a></li>
+					<li class="col-lg-2"><a  style="text-decoration:none;"><span class="homepage_banner">房产问答</span></a></li>
+					<li class="col-lg-2"><i class = "icon" style="background:url(img/login1.png);"></i><a th:href="@{/loginwin}" style="text-decoration:none;"><span class="login text-left" style="color:#FFFFFF;">登录/注册</span></a></li>
+				</ul>
+			</form>
+		</div>
+	</div>
+	
+	
+<!--留白-->
+	<div class="row">
+		<br/>
+		<br/>
+		<br/>
+		<br/>
+	</div>
+	
+	
+<!--安家口号-->
+	<div class="row">
+		<div class="col-lg-3"></div>
+		<div class="col-lg-6">
+			<h1 style="text-align: center;font-family:'微软雅黑';color:#FFFFFF;font-weight:700;font-size:72px">连接每个家的故事</h1>
+		</div>
+		<div class="col-lg-3"></div>
+	</div>
+	<div class="row">
+		<br />
+		<br />
+		<br />
+	</div>
+	
+	
+<!--搜索栏-->
+	<div class="row">
+		<div class="col-md-2"></div>
+		<div class="col-md-8">
+			<form class="form-inline" style="text-align: center;">
+			  <div class="form-group">
+			    <label class="sr-only text-center" for="exampleInputAmount">Amount (in dollars)</label>
+			    <div class="input-group">
+			      <div class="input-group "></div>
+			      <input type="text"  class="form-control input-lg " id="exampleInputAmount" placeholder="输入小区，城市，区域查询房价">
+			      <div class="input-group"></div>
+			    </div>
+			  </div>
+			  <button type="submit" class="btn btn-success btn-lg">开始搜索</button>
+			</form>
+		</div>
+		<div class="col-md-2"></div>
+	</div>	
+	<br />
+	<br />
+	<br />
+	<br />
+	<br />
+	<br />	
+	<br />
+</div>
+
+<!--中间导航栏-->
+<div class="row" style="position: absolute;width:1500px;top:518px">
+	<div class="col-lg-4 middle_banner" >
+		<a href="https:www.baidu.com" class="middle_link" style="text-decoration:none;display: inline-block;">
+		<img src="img/house.png"/>
+		<b style="width:120px;">纵览小区</b>
+		</a>
+	</div>
+	<div class="col-lg-4 middle_banner" >
+		<a href="https:www.baidu.com" class="middle_link" style="text-decoration:none;display: inline-block;">
+		<img src="img/history.png"/>	
+		<b style="width:120px;">房价预测</b>
+		</a>
+	</div>
+	<div class="col-lg-4 middle_banner" >
+		<a href="https:www.baidu.com" class="middle_link" style="text-decoration:none;display: block;">
+		<img src="img/location.png"/>
+		<b style="width:120px;">地图找房</b>
+		</a>
+	</div>
+</div>
+<!--小区推荐-->
+<div class="row" style="position: absolute;width:1500px;top:718px;background:#eeeef1;">	
+		<div class="row" style="text-align: center;">
+			<h2 style="font: '微软雅黑';font-weight: 100;">小区推荐</h2>
+		</div>
+		<div class="row" style="text-align: center;">
+			<h6 class="text-muted">纵览小区，恋上这座城</h6>
+		</div>
+		<!--小区展示-->
+		<div class ="row">
+			<div class="col-lg-2"></div>
+			<!--三个小区-->
+			<div class="col-lg-8">
+				<div class="col-lg-4 house_banner">
+					<a href:"#">
+					<img  class="house_img" src="img/example1.jpg" />				
+					</a>
+				</div>
+				<div class="col-lg-4 house_banner">
+					<a href:"#">
+					<img  class="house_img" src="img/example2.jpg" />	
+					</a>
+				</div>
+				<div class="col-lg-4 house_banner">
+					<a href:"#">
+					<img  class="house_img" src="img/example3.jpg" />				
+					</a>
+				</div>
+			</div>			
+			<div class="col-lg-2"></div>
+		</div>
+		<div class ="row">
+			<div class="col-lg-2"></div>
+			<!--三个小区介绍-->
+			<div class="col-lg-8">
+				<div class="col-lg-4 house_title">
+					<a class="house_link" href:"#">
+						<h4 class="house_link_title">悦湖家天下</h4>
+					</a>
+				</div>
+				<div class="col-lg-4 house_title" href:"#">
+					<a class="house_link">
+						<h4 class="house_link_title">悦湖家天下</h4>
+					</a>
+				</div>
+				<div class="col-lg-4 house_title" href:"#">
+					<a class="house_link">
+						<h4 class="house_link_title">悦湖家天下</h4>
+					</a>
+				</div>
+			</div>			
+			<div class="col-lg-2"></div>
+		</div>
+	<br />
+	<br />
+	<br />
+
+</div>
+<!--尾部-->
+<div class="row" style="position: absolute;width:1500px;top:1154px;background:#394043;">
+	<div class="row">
+		<div class="col-lg-2"></div>
+		<div class="col-lg-8">			
+		</div>
+		<div class="col-lg-2"></div>
+	</div>
+	<br />
+	<br />
+	<br />
+	<br />
+	<br />
+</div>
+
+<!--侧边导航栏-->
+<div class="fix-right-v3" id="back-top" style="height: 100%;">
+	<div>
+		<ul class="sidebar-ul">
+			<li><a class="fix-right-v3-icon" href="#" th:style="'background:url('+ @{/img/calculator.png} +');'"  data-content ="房贷计算器"   data-placement ="left"></a></li>
+			<li><a class="fix-right-v3-icon" href="#" th:style="'background:url('+ @{/img/service.png} +');'"  data-content ="客服"   data-placement ="left"></a></li>
+			<li><a class="fix-right-v3-icon" href="#" th:style="'background:url('+ @{/img/back.png} +');'"  data-content ="反馈"   data-placement ="left"></a></li>
+		</ul>
+	</div>
+</div>
+
+</body>
+
+<script>
+	$('a').popover({
+        html: true,
+        trigger: "hover",
+        placement: "left",
+        delay: {hide: 100}
+    }).on('shown.bs.popover', function (event) {
+        var that = this;
+        $(this).parent().find('div.popover').on('mouseenter', function () {
+            $(that).attr('in', true);
+        }).on('mouseleave', function () {
+            $(that).removeAttr('in');
+            $(that).popover('hide');
+        });
+    }).on('hide.bs.popover', function (event) {
+        if ($(this).attr('in')) {
+            event.preventDefault();
+        }
+    });
+</script>
+</html>
