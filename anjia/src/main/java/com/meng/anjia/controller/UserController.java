@@ -43,6 +43,7 @@ public class UserController {
 				//TODO 如果next不为空， 就跳到next的页面。
 				return "redirect:/";
 			}else {
+				System.out.println(map.get("msg"));
 				model.addAttribute("msg", map.get("msg"));
 				return "loginwin";//返回到登陆页面
 			}
@@ -69,13 +70,14 @@ public class UserController {
 	 * @return
 	 */
 	@RequestMapping("/regist")
-	public String regist(User user, Model model) {
+	public String regist(User user, Model model, HttpServletResponse response) {
 		//TODO 修改成邮箱注册
 		try {
 			Map<String, Object> map = userService.regist(user);
 			if(map.isEmpty()){
 				return "redirect:/";
 			}else{
+				System.out.println(map.get("msg"));
 				model.addAttribute("msg",map.get("msg"));
 				return "loginwin";
 			}

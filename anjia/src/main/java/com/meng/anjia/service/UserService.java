@@ -41,7 +41,7 @@ public class UserService {
         } else {
             String salt = UUID.randomUUID().toString().replaceAll("-", "");
             user.setSalt(salt);
-            user.setPassword(AnjiaUtil.MD5(salt));
+            user.setPassword(AnjiaUtil.MD5(salt + user.getPassword()));
             userDao.insertUser(user);
             return map;
         }
@@ -67,8 +67,9 @@ public class UserService {
             map.put("msg","用户名不存在");
             return map;
         }
-        if(u.getPassword() != user.getPassword()){
+        if(!u.getPassword().equals(AnjiaUtil.MD5(u.getSalt() + user.getPassword()))){
             map.put("msg","密码错误");
+            return map;
         }
         //所有都准确无误的情况下 创建一个ticket给这个用户
         String ticket = addLoginTicket(u.getId());
