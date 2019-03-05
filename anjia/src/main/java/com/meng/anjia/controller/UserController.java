@@ -72,9 +72,17 @@ public class UserController {
 	@RequestMapping("/regist")
 	public String regist(User user, Model model, HttpServletResponse response) {
 		//TODO 修改成邮箱注册
+		User u = new User();
+		u.setPassword(user.getPassword());
+		u.setUsername(user.getUsername());
 		try {
 			Map<String, Object> map = userService.regist(user);
 			if(map.isEmpty()){
+				Map<String, Object> maps = userService.login(u);
+				Cookie c = new Cookie("ticket", maps.get("ticket").toString());
+				c.setPath("/");
+				c.setMaxAge(3600*24*5);//过期时间设置为5天；
+				response.addCookie(c);
 				return "redirect:/";
 			}else{
 				System.out.println(map.get("msg"));
