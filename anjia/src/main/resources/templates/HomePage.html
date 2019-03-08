@@ -45,7 +45,7 @@
 	position:fixed; 	
 	top:50%;
 	transform: translate(-50%,-50%);
-	 }
+	}
 	 .icon{
 		display:inline-block;
 		width:16px;
@@ -59,9 +59,9 @@
     top: 0;
     width: 38px;
     height: 100%;
-    background: gold;
+    background: #FFFFFF;
     z-index: 1000;
-    box-shadow: 0 1px 10px rgba(0,0,0,.2);
+    box-shadow: 0 1px 10px rgba(0,0,0,0.5);
     z-index: 1001;
 	}
 	.fix-right-v3-icon
@@ -133,6 +133,11 @@
 	}
 /*	id*/
 </style>
+<!--
+        	作者：1007623893@qq.com
+        	时间：2019-03-04
+        	描述：安家首页
+        -->
 <body>
 <!--首页图片-->
 <div class = "row" style="background-image:url(img/home_page_1.jpg);margin:0;position:absolute;width:1500px;">
@@ -154,10 +159,10 @@
 		<div class="col-lg-6">
 			<form class="form-horizontal">
 				<ul>
-					<li class="col-lg-2"><a style="text-decoration:none;"><span class="homepage_banner">历史房价</span></a></li>
-					<li class="col-lg-2"><a  style="text-decoration:none;"><span class="homepage_banner">&nbsp;&nbsp;&nbsp;工具</span></a></li>
+					<li class="col-lg-2"><a  style="text-decoration:none;"><span class="homepage_banner">历史房价</span></a></li>
+					<li class="col-lg-2"><a  th:href="@{/calculator}" style="text-decoration:none;"><span class="homepage_banner">&nbsp;&nbsp;&nbsp;工具</span></a></li>
 					<li class="col-lg-2"><a  style="text-decoration:none;"><span class="homepage_banner">房产问答</span></a></li>
-					<li class="col-lg-2"><a  style="text-decoration:none;"><span class="homepage_banner"></span></a></li>
+					<li class="col-lg-2"><a   style="text-decoration:none;"><span class="homepage_banner"></span></a></li>
 					<li class="col-lg-4">
 					<i th:if="${user} == null" class = "icon" style="background:url(img/login1.png);"></i><a th:if="${user} == null" th:href="@{/loginwin}" style="text-decoration:none;"><span class="login text-left" style="color:#FFFFFF;">登录/注册</span></a>
 					<div th:if="${user} != null" class="dropdown">
@@ -331,13 +336,57 @@
 <div class="fix-right-v3" id="back-top" style="height: 100%;">
 	<div>
 		<ul class="sidebar-ul">
-			<li><a class="fix-right-v3-icon" href="#" th:style="'background:url('+ @{/img/calculator.png} +');'"  data-content ="房贷计算器"   data-placement ="left"></a></li>
-			<li><a class="fix-right-v3-icon" href="#" th:style="'background:url('+ @{/img/service.png} +');'"  data-content ="客服"   data-placement ="left"></a></li>
-			<li><a class="fix-right-v3-icon" href="#" th:style="'background:url('+ @{/img/back.png} +');'"  data-content ="反馈"   data-placement ="left"></a></li>
+			<li><a class="fix-right-v3-icon" th:href="@{/calculator}" th:style="'background:url('+ @{/img/calculator.png} +');'"  data-content ="房贷计算器"   data-placement ="left"></a></li>
+			<li><a class="fix-right-v3-icon" href="#" th:style="'background:url('+ @{/img/service.png} +');'"  data-content ="客服"   data-placement ="left"  data-toggle="modal" data-target="#ServiceModal" data-whatever="@mdo"></a></li>
+			<li><a class="fix-right-v3-icon" href="#" th:style="'background:url('+ @{/img/back.png} +');'"  data-content ="反馈"   data-placement ="left" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo"></a></li>
 		</ul>
 	</div>
 </div>
 
+<!--反馈与意见-->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="exampleModalLabel" style="font-weight: 500; color: #9ACD32;font-size:25px;">反馈与意见</h4>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label for="recipient-name" class="control-label">请输入您的联系方式(手机，邮箱，qq等)</label>
+            <input type="text" class="form-control" id="recipient-name">
+          </div>
+          <div class="form-group">
+            <label for="message-text" class="control-label">请输入您对安家的建议</label>
+            <textarea class="form-control" id="message-text"></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+        <button type="button" class="btn btn-success" data-dismiss="modal"  >提交</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!--客服-->
+<div class="modal fade" id="ServiceModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" >
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h3 class="modal-title" id="myModalLabel">客服</h3>
+      </div>
+      <div class="modal-body">
+           <h4>客服联系方式 qq:1007623893<small>周一到周五：9:00--15:00</small></h4>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+      </div>
+    </div>
+  </div>
+</div>
 </body>
 
 <script>
