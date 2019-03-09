@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <style type="text/css">
+        body, html {width: 100%;height: 100%;overflow: hidden;margin:0;font-family:"微软雅黑";}
+        #allmap{height:500px;width:100%;}
+        .circle{width: 80px; height: 80px; background-color: blue; border-radius: 50%; -moz-border-radius: 50%; -webkit-border-radius: 50%;}
+    </style>
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=GLi1qh8qq38xQZuCCQ7bIUhbXln3HgiN"></script>
+    <title>房价地图</title>
+    <script src="js/jquery-3.3.1.js"></script>
+    <script src="js/axios/0.17.1/axios.min.js"></script>
+    <script src="js/vue/2.5.16/vue.min.js"></script>
+</head>
+<body>
+<div id="allmap"></div>
+</body>
+</html>
+<script type="text/javascript">
+    var map = new BMap.Map("allmap");
+    var point = new BMap.Point(120.619907, 31.317987);
+    map.centerAndZoom(point, 11);
+    map.enableScrollWheelZoom();
+    map.enableInertialDragging();
+    map.addEventListener("zoomend", reshow);
+    map.enableContinuousZoom();
+    var size = new BMap.Size(10, 20);
+    map.addControl(new BMap.CityListControl({
+        anchor: BMAP_ANCHOR_TOP_LEFT,
+        offset: size,
+        // 切换城市之间事件
+        onChangeBefore: function(){
+           alert('before');
+        },
+        // 切换城市之后事件
+        onChangeAfter:function(){
+          alert('after');
+        }
+    }));
+    var geolocationControl = new BMap.GeolocationControl();
+    geolocationControl.addEventListener("locationSuccess", function(e){
+        // 定位成功事件
+        var address = '';
+        address += e.addressComponent.province;
+        address += e.addressComponent.city;
+        address += e.addressComponent.district;
+        address += e.addressComponent.street;
+        address += e.addressComponent.streetNumber;
+        alert("当前定位地址为：" + address);
+    });
+    geolocationControl.addEventListener("locationError",function(e){
+        // 定位失败事件
+        alert(e.message);
+    });
+    map.addControl(geolocationControl);
+
+    var data4vue = {
+        uri:'avgprice',
+        beans:[]
+    };
+    var vue = new Vue({
+        el: '#container',
+        data: data4vue,
+        mounted:function () {
+            this.list();
+
+        },
+        methods: {
+            list:function () {
+                var url =  "avgprice";
+                axios.get(url).then(function (response) {
+                    vue.beans = response.data;
+                    console.log(vue.beans);
+                     vue.beans.forEach(function (bean) {
+                         var point = new BMap.Point(bean.place.lng, bean.place.lat);
+                         var txt = bean.place.name+ "<br>" + bean.price + "元";
+                         var level = bean.place.level;
+                         var id = bean.place.id
+                         var myCompOverlay = new ComplexCustomOverlay(id,point,txt,level);
+                         if (myCompOverlay._level == 2)
+                            {map.addOverlay(myCompOverlay);}
+                     });
+                });
+            }
+        }
+    });
+    function reshow(e){
+        console.log(map.getZoom());
+        var allOverlay = map.getOverlays();
+        console.log(allOverlay);
+        if(map.getZoom()<=13&&map.getZoom()>=10){
+
+        }
+    }
+    // 复杂的自定义覆盖物
+    function ComplexCustomOverlay(id, point, text,level){
+        this._id = id;
+        this._point = point;
+        this._text = text;
+        this._level = level;
+    }
+    ComplexCustomOverlay.prototype = new BMap.Overlay();
+    ComplexCustomOverlay.prototype.initialize = function(map){
+        this._map = map;
+        var div = this._div = document.createElement("div");
+        div.className = "circle";
+        div.style.position = "absolute";
+        div.style.zIndex = 2;
+        div.style.backgroundColor = "#0000FF";
+        div.style.border = "1px solid #5f6ae7";
+        div.style.color = "white";
+        div.style.padding = "2px";
+        div.style.lineHeight = "18px";
+        div.style.whiteSpace = "nowrap";
+        div.style.MozUserSelect = "none";
+        div.style.fontSize = "16px";
+        div.style.textAlign = "center";
+        div.style.lineHeight = "30px";
+        var span = this._span = document.createElement("span");
+        span.innerHTML = this._text;
+        div.appendChild(span);
+        // span.appendChild(document.createTextNode(this._text));
+        var that = this;
+
+
+        div.onmouseover = function(){
+            this.style.backgroundColor = "#f43028";
+            this.style.borderColor = "#f44f77";
+            this.style.zIndex = 6;
+        }
+
+        div.onmouseout = function(){
+            this.style.backgroundColor = "#0000FF";
+            this.style.borderColor = "#5f6ae7";
+            this.style.zIndex = 2;
+        }
+
+        map.getPanes().labelPane.appendChild(div);
+
+        return div;
+    }
+    ComplexCustomOverlay.prototype.draw = function(){
+        var map = this._map;
+        var pixel = map.pointToOverlayPixel(this._point);
+        this._div.style.left = pixel.x + "px";
+        this._div.style.top  = pixel.y + "px";
+    }
+
+
+</script>
