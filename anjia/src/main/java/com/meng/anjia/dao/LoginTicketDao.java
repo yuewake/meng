@@ -1,10 +1,7 @@
 package com.meng.anjia.dao;
 
 import com.meng.anjia.model.LoginTicket;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Component;
 
 @Mapper
@@ -18,6 +15,6 @@ public interface LoginTicketDao {
     void addTicket(LoginTicket ticket);
 
     @Update("update login_ticket set status = #{status} where ticket = #{ticket}")
-    void updateStatus(String ticket, int status);
+    void updateStatus(@Param("ticket") String ticket, @Param("status")int status);
 
 }

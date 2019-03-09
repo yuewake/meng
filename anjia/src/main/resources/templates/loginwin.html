@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="zh" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"> 
@@ -20,8 +20,8 @@
 <div class="htmleaf-container">
     <div id="wrapper" class="login-page">
       <div id="login_form" class="form">
-        <form class="register-form" method="post" th:action="@{/regist}">
-        	<div id="error_boxusername"></div>
+        <form class="register-form" method="post"  onsubmit="return check_register()" th:action="@{/regist}">
+        	<div id="error_boxusername"><span th:if = "${msg} != null" th:text = "${msg}" ></span></div>
           <input type="text" placeholder="用户名" id="r_user_name" name="username"/>
           <div id="error_boxpassword"></div>
           <input type="password" placeholder="密码" id="r_password" name="password"/>
@@ -33,8 +33,10 @@
           <button type="submit" >创建账户</button>
           <p class="message">已经有了一个账户? <a href="#">立刻登录</a></p>
         </form>
-        <form class="login-form" method="post" th:action="@{/login}">
-          <div id="error_box"></div>
+        <form class="login-form"  onsubmit="return check_login()" method="post" th:action="@{/login}">
+          <div id="error_box">
+            <span th:if = "${msg} != null " th:text = "${msg}" ></span>
+          </div>
           <input type="text" placeholder="请输入电子邮箱" id="user_name" name="username"/>
           <input type="password" placeholder="密码" id="password" name="password"/>
           <button type="submit">登录</button>
@@ -44,4 +46,6 @@
     </div>
 </div>
 </body>
+<script type="text/javascript">
+</script>
 </html>
