@@ -12,6 +12,7 @@ import java.util.List;
 public class PlaceController {
     @Autowired
     PlaceService placeService;
+
     @GetMapping("/places")
     public List<Place> list() throws Exception{
         return placeService.list();
