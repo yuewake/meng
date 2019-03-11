@@ -5,7 +5,7 @@
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
     <style type="text/css">
         body, html {width: 100%;height: 100%;overflow: hidden;margin:0;font-family:"微软雅黑";}
-        #allmap{height:500px;width:100%;}
+        #allmap{height:100%;width:100%;}
         .circle{width: 80px; height: 80px; background-color: blue; border-radius: 50%; -moz-border-radius: 50%; -webkit-border-radius: 50%;}
     </style>
     <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=GLi1qh8qq38xQZuCCQ7bIUhbXln3HgiN"></script>
@@ -30,14 +30,14 @@
     map.addControl(new BMap.CityListControl({
         anchor: BMAP_ANCHOR_TOP_LEFT,
         offset: size,
-        // 切换城市之间事件
-        onChangeBefore: function(){
-           alert('before');
-        },
-        // 切换城市之后事件
-        onChangeAfter:function(){
-          alert('after');
-        }
+        // // 切换城市之间事件
+        // onChangeBefore: function(){
+        //    alert('before');
+        // },
+        // // 切换城市之后事件
+        // onChangeAfter:function(){
+        //   alert('after');
+        // }
     }));
     var geolocationControl = new BMap.GeolocationControl();
     geolocationControl.addEventListener("locationSuccess", function(e){
@@ -77,7 +77,7 @@
                          var point = new BMap.Point(bean.place.lng, bean.place.lat);
                          var txt = bean.place.name+ "<br>" + bean.price + "元";
                          var level = bean.place.level;
-                         var id = bean.place.id
+                         var id = bean.place.id;
                          var myCompOverlay = new ComplexCustomOverlay(id,point,txt,level);
                          if (myCompOverlay._level == 2)
                             {map.addOverlay(myCompOverlay);}
