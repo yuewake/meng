@@ -9,6 +9,6 @@ public class CalculatorController {
 	@RequestMapping("/calculator")
 	public String showCalculatorPath()
 	{
-		return  "calculator_tax";
+		return "calculator";
 	}
 }
