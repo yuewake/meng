@@ -12,9 +12,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.ArrayList;
 
 /**
- *  create by Qian
+ *  create by shine10076
  */
 @Controller
 public class Statics_cityController {
@@ -82,5 +83,47 @@ public class Statics_cityController {
         return cityPricelist.toJSONString();
     }
 
+    /**
+     * 返回当前城市的最新房价
+     */
+    @RequestMapping(value = "/city/firstPrice/{name}", method = RequestMethod.GET)
+    @ResponseBody
+    public String FirstCityPrice(@PathVariable("name")String name)
+    {
+        CityPrice firstPrice = cityPriceService.getFirstCityPrice(name);
+        JSONObject price = new JSONObject();
+        price.put("CityName", name);
+        String strpirce = Integer.toString(firstPrice.getPrice());
+        price.put("price", strpirce);
+        return price.toJSONString();
+    }
 
+    /**
+     * 返回当前城市子区域的最新房价
+     */
+    @RequestMapping(value = "/city/FirstPriceList/{name}", method = RequestMethod.GET)
+    @ResponseBody
+    public String FirstPriceList(@PathVariable("name") String name)
+    {
+        int uid  = cityService.getCityIDbyName(name);
+        List<City> list = cityService.CityList(uid);
+        List<CityPrice> priceList = new ArrayList<CityPrice>();
+        for(int i=0;i<list.size();i++)
+        {
+            priceList.add(cityPriceService.getFirstCityPrice(list.get(i).getName()));
+        }
+        JSONArray priceArray = new JSONArray();
+        System.out.println(priceList.size());
+        for(int i=0;i<priceList.size();i++)
+        {
+            JSONObject json = new JSONObject();
+            json.put("name" ,  priceList.get(i).getName());
+            String str = Integer.toString(priceList.get(i).getPrice());
+            json.put("price", str);
+            priceArray.add(json);
+        }
+        JSONObject result =new JSONObject();
+        result.put("result", priceArray);
+        return result.toJSONString();
+    }
 }

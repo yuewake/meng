@@ -104,9 +104,20 @@
 	<!--数据展示-->
 	<div class="container">
 		<div class="row">
-			<div class="col-sm-1"></div>
+			<div class="col-sm-1" style="text-align: center">
+			</div>
 			<div id="main1" class="col-sm-10">
+			</div>
+			<div class="col-sm-1"></div>
+		</div>
+	</div>
 
+	<!--对比数据展示-->
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-1" style="text-align: center">
+			</div>
+			<div id="main2" class="col-sm-10">
 			</div>
 			<div class="col-sm-1"></div>
 		</div>
@@ -197,9 +208,7 @@
                             },
                             series: [{
                                 type: 'bar',
-                                data: price,
-                                // Set `large` for large data amount
-                                large: true
+                                data: price
                             }]
                         };
                         myChart1.setOption(option);
@@ -210,6 +219,109 @@
                     },
                     error:function (errorMsg) {
                         alert("房价请求失败");
+                    }
+                });
+
+                $.ajax({
+                    url:"/city/FirstPriceList/" + name,
+                    type:'get',
+                    dataType: 'json',
+                    success:function (data) {
+                        var json = data.result;
+                        console.log(json);
+                        var price = [];
+                        var name = [];
+                        for(var i = 0; i < json.length; i++ )
+                        {
+                            price.push(json[i].price);
+                            name.push(json[i].name);
+                        }
+
+                        var myChart2 = echarts.init(document.getElementById('main2'));
+                        option = {
+                            title: {
+                                text:'区域房价对比图',
+                            },
+                            xAxis: {
+                                data: name,
+                                axisLabel: {
+                                    inside: true,
+                                    textStyle: {
+                                        color: '#fff'
+                                    }
+                                },
+                                axisTick: {
+                                    show: false
+                                },
+                                axisLine: {
+                                    show: false
+                                },
+                                z: 10
+                            },
+                            yAxis: {
+                                axisLine: {
+                                    show: false
+                                },
+                                axisTick: {
+                                    show: false
+                                },
+                                axisLabel: {
+                                    textStyle: {
+                                        color: '#999'
+                                    }
+                                }
+                            },
+                            dataZoom: [
+                                {
+                                    type: 'inside'
+                                }
+                            ],
+                            series: [
+                                { // For shadow
+                                    type: 'bar',
+                                    itemStyle: {
+                                        normal: {color: 'rgba(0,0,0,0.05)'}
+                                    },
+                                    barGap:'-100%',
+                                    barCategoryGap:'40%',
+                                    animation: false
+                                },
+                                {
+                                    type: 'bar',
+                                    itemStyle: {
+                                        normal: {
+                                            color: new echarts.graphic.LinearGradient(
+                                                0, 0, 0, 1,
+                                                [
+                                                    {offset: 0, color: '#83bff6'},
+                                                    {offset: 0.5, color: '#188df0'},
+                                                    {offset: 1, color: '#188df0'}
+                                                ]
+                                            )
+                                        },
+                                        emphasis: {
+                                            color: new echarts.graphic.LinearGradient(
+                                                0, 0, 0, 1,
+                                                [
+                                                    {offset: 0, color: '#2378f7'},
+                                                    {offset: 0.7, color: '#2378f7'},
+                                                    {offset: 1, color: '#83bff6'}
+                                                ]
+                                            )
+                                        }
+                                    },
+                                    data: price
+                                }]
+                        };
+                        myChart2.setOption(option);
+                        window.onresize = function (){
+
+                            myChart2.resize();
+                        }
+
+                    },
+                    error:function () {
+                        alert("请求失败");
                     }
                 });
             });
@@ -243,7 +355,6 @@
 					dataType:'json',
 					success:function (data) {
 						var json = data.priceList;
-						console.log(json);
 						var price = [];
 						var time = [];
 						for(var i = 0; i < json.length; i++ )
@@ -296,9 +407,7 @@
                             },
                             series: [{
                                 type: 'bar',
-                                data: price,
-                                // Set `large` for large data amount
-                                large: true
+                                data: price
                             }]
                         };
                         myChart1.setOption(option);
@@ -311,6 +420,109 @@
 						alert("房价请求失败");
                     }
 				});
+
+				$.ajax({
+					url:"/city/FirstPriceList/" + name,
+					type:'get',
+					dataType: 'json',
+					success:function (data) {
+							var json = data.result;
+							console.log(json);
+							var price = [];
+							var name = [];
+                        for(var i = 0; i < json.length; i++ )
+                        {
+                            price.push(json[i].price);
+                            name.push(json[i].name);
+                        }
+
+                        var myChart2 = echarts.init(document.getElementById('main2'));
+                        option = {
+                            title: {
+                                text:'区域房价对比图',
+                            },
+                            xAxis: {
+                                data: name,
+                                axisLabel: {
+                                    inside: true,
+                                    textStyle: {
+                                        color: '#fff'
+                                    }
+                                },
+                                axisTick: {
+                                    show: false
+                                },
+                                axisLine: {
+                                    show: false
+                                },
+                                z: 10
+                            },
+                            yAxis: {
+                                axisLine: {
+                                    show: false
+                                },
+                                axisTick: {
+                                    show: false
+                                },
+                                axisLabel: {
+                                    textStyle: {
+                                        color: '#999'
+                                    }
+                                }
+                            },
+                            dataZoom: [
+                                {
+                                    type: 'inside'
+                                }
+                            ],
+                            series: [
+                                { // For shadow
+                                    type: 'bar',
+                                    itemStyle: {
+                                        normal: {color: 'rgba(0,0,0,0.05)'}
+                                    },
+                                    barGap:'-100%',
+                                    barCategoryGap:'40%',
+                                    animation: false
+                                },
+                                {
+                                    type: 'bar',
+                                    itemStyle: {
+                                        normal: {
+                                            color: new echarts.graphic.LinearGradient(
+                                                0, 0, 0, 1,
+                                                [
+                                                    {offset: 0, color: '#83bff6'},
+                                                    {offset: 0.5, color: '#188df0'},
+                                                    {offset: 1, color: '#188df0'}
+                                                ]
+                                            )
+                                        },
+                                        emphasis: {
+                                            color: new echarts.graphic.LinearGradient(
+                                                0, 0, 0, 1,
+                                                [
+                                                    {offset: 0, color: '#2378f7'},
+                                                    {offset: 0.7, color: '#2378f7'},
+                                                    {offset: 1, color: '#83bff6'}
+                                                ]
+                                            )
+                                        }
+                                    },
+                                    data: price
+                                }]
+                        };
+                        myChart2.setOption(option);
+                        window.onresize = function (){
+
+                            myChart2.resize();
+                        }
+
+                    },
+                    error:function () {
+						alert("请求失败");
+                    }
+				})
             })
 
         })

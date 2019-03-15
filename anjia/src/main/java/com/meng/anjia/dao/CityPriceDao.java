@@ -18,4 +18,7 @@ public interface CityPriceDao {
     @Select("select * from avg_price where name = #{name} order by year, month")
     List<CityPrice> getAllCityPrice(String name);
 
+    @Select("select * from avg_price where name = #{name} order by year desc, month desc limit 1")
+    CityPrice getFirstCityPrice(String name);
+
 }

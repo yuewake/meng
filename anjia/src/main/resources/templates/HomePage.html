@@ -9,6 +9,12 @@
 <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}"/>
 <link href="css/citystyle.css" th:href="@{/css/citystyle.css}" type="text/css" rel="stylesheet" />
 <link rel="stylesheet" type="text/css" href="css/main.css" th:href="@{/css/main.css}"/>
+<style>
+	.house_img
+	{
+		height:150px;
+	}
+</style>
 <body>
 <!--城市列表-->
 <div class="selcity" id="allCity" style="display:none;">
@@ -89,13 +95,13 @@
 						<div class="input-group"></div>
 					</div>
 				</div>
-				<button type="submit" class="btn btn-success btn-lg">开始搜索</button>
+				<button type="submit" class="btn btn-lg" style="background: #3072f6;color: #FFFFFF">开始搜索</button>
 			</form>
 		</div>
 		<div class="col-sm-2"></div>
 	</div>
 	<!--脚注-->
-	<div class="row"><br/><br/><br/></div>
+	<div class="row"><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/></div>
 </div>
 
 <!--中层导航-->
@@ -107,19 +113,19 @@
 		<div class="col-sm-4 ">
 			<a href="https:www.baidu.com" class="middle_link" style="text-decoration:none;display: inline-block;">
 				<img class="middle-img" src="img/house.png" style="margin: 0 auto;"/>
-				<b style="width:120px;">纵览小区</b>
+				<b style="width:120px;color: #3072f6">纵览小区</b>
 			</a>
 		</div>
 		<div class="col-sm-4 ">
 			<a href="https:www.baidu.com" class="middle_link" style="text-decoration:none;display: inline-block;">
 				<img  class="middle-img" src="img/history.png" style="margin: 0 auto;"/>
-				<b style="width:120px;">房价预测</b>
+				<b style="width:120px;color: #3072f6">房价预测</b>
 			</a>
 		</div>
 		<div class="col-sm-4 ">
 			<a th:href = "@{/map}" class="middle_link" style="text-decoration:none;display: inline-block;">
 				<img  class="middle-img" src="img/location.png" style="margin: 0 auto;"/>
-				<b style="width:120px;">地图找房</b>
+				<b style="width:120px;color: #3072f6">地图找房</b>
 				<p ></p>
 			</a>
 		</div>
@@ -193,7 +199,7 @@
 			<!--三个小区-->
 			<div class="col-sm-4 house_show">
 				<a class="house_link" href="https:www.baidu.com">
-					<img  class="house_img" src="img/example2.jpg" />
+					<img  class="house_img"  src="img/example2.jpg" />
 					<div class="col-sm-12">
 						<span class="house_title">悦湖家天下</span>
 					</div>
