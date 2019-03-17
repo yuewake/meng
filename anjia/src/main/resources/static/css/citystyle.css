@@ -1,0 +1,12 @@
+@charset "utf-8";
+table{border-collapse:collapse;border-spacing:0;}
+/* selcity */
+.selcity{padding:2px 0 4px 0;z-index:10;background:#1a73e8;position:relative;}
+.selcity .none{left:47.5%;bottom:-18px;position:absolute}
+.selcity .none a{display:block;width:68px;text-indent:-3000px;height:21px;text-decoration:none}
+.selcity .none a:hover{display:block;text-indent:-3000px;height:21px;text-decoration:none}
+.selcity table{margin:0px auto;width:950px;border-collapse:collapse}
+.selcity table td{border:#8b3d3b 1px dashed;font-size:14px;vertical-align:middle;width:157px;color:#fff;height:39px;text-align:center}
+.selcity table td a{display:block;color:#fff;line-height:40px;height:40px;text-decoration:none}
+.selcity table td a:hover{background:#a86e6d;color:#fff;text-decoration:none}
+.selcity table td a.cur{background:#a86e6d}

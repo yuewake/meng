@@ -1,0 +1,170 @@
+/*tag*/
+img{
+	display: block;
+	max-width:100%;
+	border-radius: 3px;
+}
+b{
+	text-decoration: none;
+	font-family: "微软雅黑";
+	font-size:24px;
+	color:#1a73e8;
+
+}
+
+/*class*/
+.navbar-brand {
+    background-image: url(../img/logo.svg);
+    width: 50px;
+    background-size: 75%;
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+.home_header{
+	width: 100%;	
+	background-image: url(../img/home_page_2.jpg);
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-size: 100%;
+	border-radius: 2px;
+}
+.middle-banner
+{	
+	display: block;
+	text-align: center;
+}
+.middle_link{
+	text-decoration: none;
+}
+.middle-img
+{
+	cursor: pointer;
+	transition: all 0.6s;
+}
+.middle-img:hover
+{
+	transform: scale(1.2);
+}
+.house_banner
+{
+	width: 100%;
+	background:#eeeef1;
+	display: block;
+	text-align: center;
+}
+.house_link
+{
+	display: inline-block;
+	text-align: center;
+	text-decoration:blink;
+}
+.house_link img
+{
+	margin: 0 auto;
+	cursor: pointer;
+	transition: all 0.6s;
+}
+.house_link img:hover
+{
+	transform: scale(1.1);
+}
+.house_title
+{
+	text-decoration: none;
+	font-family: "微软雅黑";
+	font-size:24px;
+	color:#000000;	
+}
+.house_price 
+{
+	font-family: "微软雅黑";
+	font-size:16px;
+	color:#000000;	
+}
+.sidebar-ul{
+	position:fixed; 	
+	top:50%;
+	transform: translate(-50%,-50%);
+}
+.sidebar-ul li
+{
+	list-style-type: none;
+	list-style: none;
+    margin: 0 auto;
+ 	width: 24px;
+ 	height: 64px;
+ 	right: 0px;
+}
+.fix-right-v3 {
+	position: fixed;
+	right: 0;
+	top: 0;
+	width: 32px;
+	height: 100%;
+	background: #FFFFFF;
+	z-index: 1000;
+	box-shadow: 0 1px 10px rgba(0,0,0,0.5);
+	z-index: 1001;
+	display: inline-block;
+}
+.fix-right-v3-icon
+{
+	position: fixed;
+	right: 0px;
+	display:inline-block;
+	width:32px;
+	height:32px;
+	background-position:center center;
+	background-repeat:no-repeat;
+}
+.footer_banner
+{
+	width: 100%;
+	background:#394043;
+}
+.footer_banner ul
+{
+	display: inline-block;
+}
+.footer_banner ul li
+{
+	display: inline-block;
+}
+.footer_link
+{
+	text-decoration: none;
+	font-family: "微软雅黑";
+	color:#FFFFFF;
+	font-weight: 200;
+}
+.footer-link span
+{
+	text-decoration: none;
+	font-family: "微软雅黑";
+	color:#FFFFFF;
+	font-weight: 200;
+}
+/*id*/
+#headerbar{
+	background: rgba(0,0,0,0);
+	border: none;
+}
+#toggle-checkbox:checked ~ div {
+  display: block !important;
+}
+
+#toggle-label {
+  display: inline-block;
+  position: absolute;
+  right: 15px;
+  top: 13px;
+  font-size: 16px;
+  font-weight: normal;
+  color: #666;
+  display: none;
+}
+
+#toggle-label:hover {
+  color: #333;
+}
+

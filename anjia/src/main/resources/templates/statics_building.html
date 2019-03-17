@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>楼盘显示</title>
+</head>
+<script src="js/jquery-2.1.1.min.js" th:src="@{/js/jquery-2.1.1.min.js}"></script>
+<script src="js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}" type="text/javascript" charset="utf-8"></script>
+<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}"/>
+<link href="css/citystyle.css" th:href="@{/css/citystyle.css}" type="text/css" rel="stylesheet" />
+<link href="css/headbar.css" th:href="@{/css/headerbar.css}" type="text/css" rel="stylesheet" />
+<body>
+<!--城市列表-->
+<div class="selcity" id="allCity" style="display:none;">
+    <table>
+        <tbody>
+        <tr>
+            <td><a class="cur" href="#">苏州</a></td>
+            <td><a href="#">上海</a></td>
+            <td><a href="#">广州</a></td>
+            <td><a href="#">深圳</a></td>
+            <td><a href="#">重庆</a></td>
+            <td><a href="#">西安</a></td>
+        </tr>
+        <tr>
+            <td><a href="#">北京</a></td>
+            <td><a href="#">南京</a></td>
+            <td><a href="#">成都</a></td>
+            <td><a href="#">武汉</a></td>
+            <td><a href="#">杭州</a></td>
+            <td><a href="#">济南</a></td>
+        </tr>
+        </tbody>
+    </table>
+    <div class="none"><a id="foldin" href="#">收起</a></div>
+</div>
+<!--导航栏-->
+<div class="container home_header">
+    <div  id="headerbar" class="navbar navbar-default">
+        <div class="container">
+            <div class="navbar-header" style="margin-left: 100px;">
+                <a href="#" class="navbar-brand"></a>
+            </div>
+            <label id="toggle-label" class="visible-xs-inline-block" for="toggle-checkbox">MENU</label>
+            <input class="hidden" id="toggle-checkbox" type="checkbox">
+            <div class="hidden-xs">
+                <ul class="nav navbar-nav" style="font-family: '微软雅黑';color: #FFFFFF;">
+                    <li><a th:href ="@{/}" style="font-family: '微软雅黑';color: #FFFFFF;font-weight: 600;">首页</a></li>
+                    <li><a href="#" style="font-family: '微软雅黑';color: #FFFFFF;font-weight: 600;">二手房</a></li>
+                    <li><a th:href="@{/city}" style="font-family: '微软雅黑';color: #FFFFFF;font-weight: 600;">历史房价</a></li>
+                    <li><a th:href="@{/calculator}" style="font-family: '微软雅黑';color: #FFFFFF;font-weight: 600;">工具</a></li>
+                    <li><a href="#" style="font-family: '微软雅黑';color: #FFFFFF;font-weight: 600;">问答</a></li>
+                    <li class="i1"><a id = "cityname" value = "苏州" href="#" style="font-family: '微软雅黑';color: #FFFFFF;background: rgba(128,128,128,0.5)">苏州</a> </li>
+                    <li class="i2" id="changeCity"><a href="#" style="font-family: '微软雅黑';color: #FFFFFF;font-style: italic;font-size:5px ">[切换城市]</a></li>
+                </ul>
+                <ul th:if="${user} == null"class="nav navbar-nav navbar-right" th:style = "'margin-right:50px'">
+                    <li><a th:href="@{/loginwin}" style="font-family: '微软雅黑';color: #FFFFFF;">登录</a></li>
+                    <li><a th:href="@{/loginwin}" style="font-family: '微软雅黑';color: #FFFFFF;">注册</a></li>
+                </ul>
+                <ul th:if="${user} != null"class="nav navbar-nav navbar-right" th:style = "'margin-right:50px'">
+                    <li><a th:text = "'您好,' + ${user.username}" style="font-family: '微软雅黑';color: #FFFFFF;"></a></li>
+                    <li><a th:href="@{/logout}" style="font-family: '微软雅黑';color: #FFFFFF;">退出</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</body>
+
+
+<script type="text/javascript">
+    $(function(){
+        /*城市切换*/
+        $("#changeCity").click(function(a){
+            $("#allCity").slideDown(300);
+            a.stopPropagation();
+            $(this).blur()
+        });
+
+        $("#allCity").click(function(a){
+            a.stopPropagation()
+        });
+
+        $(document).click(function(a){
+            a.button!=2&&$("#allCity").slideUp(300)
+        });
+
+        $("#foldin").click(function(){
+            $("#allCity").slideUp(300)
+        });
+
+    })
+</script>
+</html>

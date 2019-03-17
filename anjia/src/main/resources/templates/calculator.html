@@ -1,0 +1,1048 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>计算器</title>
+	</head>
+	<script src="js/jquery-2.1.1.min.js" th:src="@{/js/jquery-2.1.1.min.js}"></script>
+	<script src="js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}" type="text/javascript" charset="utf-8"></script>
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}"/>	
+	<script src="js/echarts.js" th:src="@{/js/echarts.js}"></script>
+	<style type="text/css">
+	/*标签*/
+	li{
+	list-style-type: none;
+	}
+	/*名称*/
+	.navbar-brand {
+    background-image: url(../img/logo.svg);
+    width: 50px;
+    background-size: 75%;
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+	.container
+	{
+	/*container有内边距*/
+	width: 100%;
+	margin-left:0px;
+ 	margin-right:0px;
+  	padding-left: 0px;
+ 	padding-right: 0px;
+	}
+	.row
+	{
+		width: 100%;
+	}
+	.homepage_banner
+	{
+		font-family: "微软雅黑";
+		font-size:small;
+		color:#FFFFFF;	
+	}
+	.fix-right-v3 {
+    position: fixed;
+    right: 0;
+    top: 0;
+    width: 38px;
+    height: 100%;
+    background: #FFFFFF;
+    z-index: 1000;
+    box-shadow: 0 1px 10px rgba(0,0,0,0.5);
+    z-index: 1001;
+	}
+	.fix-right-v3-icon
+	{
+		position: fixed;
+		right: 5px;
+		display:inline-block;
+		width:32px;
+		height:32px;
+		background-position:center center;
+		background-repeat:no-repeat;
+	}
+	.cal-tab-pane
+	{
+		width: 146px;
+		font-family: "微软雅黑";
+		font-weight: 800;
+		color: #394043;
+	}	
+	.cell-title{
+		font-family: "微软雅黑";
+		font-size: 16px;
+		font-weight: 800;
+	}
+	.cell-title-div
+	{
+		height: 50px;
+		text-align: center;
+	}
+	.cell-input-div
+	{
+		height: 50px;
+		top:50%;
+		text-align: left;
+	}
+	.cell-input-unit{
+		font-family: "微软雅黑";
+		font-size: 16px;
+		font-weight: 800;
+	}	
+	.cell-input-Year
+	{
+		font-family: "微软雅黑";
+		font-size: 16px;
+	}
+	.footer_banner
+{
+	width: 100%;
+	background:#394043;
+}
+.footer_banner ul
+{
+	display: inline-block;
+}
+.footer_banner ul li
+{
+	display: inline-block;
+}
+.footer_link
+{
+	text-decoration: none;
+	font-family: "微软雅黑";
+	color:#FFFFFF;
+	font-weight: 200;
+}
+.footer-link span
+{
+	text-decoration: none;
+	font-family: "微软雅黑";
+	color:#FFFFFF;
+	font-weight: 200;
+}
+
+/*导航*/
+.row
+{
+	width: 100%;
+}
+.home_header
+{
+	background: #1a73e8;
+}
+
+/*id*/
+#headerbar{
+	background: rgba(0,0,0,0);
+	border: none;
+}
+	#toggle-checkbox:checked ~ div {
+		display: block !important;
+	}
+
+#toggle-label {
+	display: inline-block;
+	position: absolute;
+	right: 15px;
+	top: 13px;
+	font-size: 16px;
+	font-weight: normal;
+	color: #666;
+	display: none;
+}
+
+#toggle-label:hover {
+	color: #333;
+}
+	</style>
+	
+<body>
+    <!--顶栏-->
+	<!--导航栏-->
+	<div class="container home_header" style="background: ;">
+		<div  id="headerbar" class="navbar navbar-default">
+		    <div class="container">
+		      <div class="navbar-header" style="margin-left: 100px;">
+		        <a href="#" class="navbar-brand"></a>
+		      </div>
+		      <label id="toggle-label" class="visible-xs-inline-block" for="toggle-checkbox">MENU</label>
+		      <input class="hidden" id="toggle-checkbox" type="checkbox">
+		      <div class="hidden-xs">
+		        <ul class="nav navbar-nav" style="font-family: '微软雅黑';color: #FFFFFF;">
+		          <li><a th:href ="@{/}" style="font-family: '微软雅黑';color: #FFFFFF;font-weight: 600;">首页</a></li>
+		          <li><a href="#" style="font-family: '微软雅黑';color: #FFFFFF;font-weight: 600;">二手房</a></li>
+		          <li><a th:href ="@{/city}" style="font-family: '微软雅黑';color: #FFFFFF;font-weight: 600;">历史房价</a></li>
+		          <li><a th:href ="@{/calculator}" style="font-family: '微软雅黑';color: #FFFFFF;font-weight: 600;">工具</a></li>
+		          <li><a href="#" style="font-family: '微软雅黑';color: #FFFFFF;font-weight: 600;">问答</a></li>
+		        </ul>
+				  <ul th:if="${user} == null"class="nav navbar-nav navbar-right" th:style = "'margin-right:50px'">
+					  <li><a th:href="@{/loginwin}" style="font-family: '微软雅黑';color: #FFFFFF;">登录</a></li>
+					  <li><a th:href="@{/loginwin}" style="font-family: '微软雅黑';color: #FFFFFF;">注册</a></li>
+				  </ul>
+				  <ul th:if="${user} != null"class="nav navbar-nav navbar-right" th:style = "'margin-right:50px'">
+					  <li><a th:text = "'您好,' + ${user.username}" style="font-family: '微软雅黑';color: #FFFFFF;"></a></li>
+					  <li><a th:href="@{/logout}" style="font-family: '微软雅黑';color: #FFFFFF;">退出</a></li>
+				  </ul>
+		      </div>
+		    </div>
+		</div>
+	</div>	
+
+	<!--第二层-->
+<div class="container" >	
+	<div class="row"style="margin:0;width:100%;text-align: center;">
+		<div class=" jumbotron">
+		  <h2>安家房贷计算器</h2>
+		  <h5 style="color:#D8BFD8;">复杂房贷安家帮你计算</h5>
+		</div>
+	</div>	
+</div>	
+
+<!--第三层-->
+<div class="container">
+	<!--第三层-->
+	<div class="row"style="margin:0;width:100%;text-align: center;">
+			<div class="col-sm-1"></div>
+			<div class="col-sm-10">
+				<nav class="nav-bar navbar-default ">
+				<!--输入面板-->
+					  <ul class="nav nav-tabs" role="tablist">
+					    <li role="presentation" class="active"><a class="cal-tab-pane" href="#GJJ" aria-controls="GJJ" role="tab" data-toggle="tab">公积金贷款</a></li>
+					    <li role="presentation"><a class="cal-tab-pane" href="#SY" aria-controls="SY" role="tab" data-toggle="tab">商业贷款</a></li>
+					    <li role="presentation"><a class="cal-tab-pane" href="#Mixed" aria-controls="Mixed" role="tab" data-toggle="tab">组合贷款</a></li>
+					    <li role="presentation"><a class="cal-tab-pane" href="#Taxes" aria-controls="Taxes" role="tab" data-toggle="tab">新房税费</a></li>
+					  </ul>
+					  <div class="tab-content">
+					    <div role="tabpanel" class="tab-pane active" id="GJJ">
+					    	<div class="col-sm-12"><br/><br/></div>
+					    	<!--信息面板-->
+					    	<div class="col-sm-6">
+					    		<!--title-->
+					    		<div class="col-sm-4">
+					    			<div class="col-sm-12 cell-title-div" style="text-align: left;"><span class="cell-title">贷款数量：</span></div>
+					    			<div class="col-sm-12 cell-title-div" style="text-align: left;"><span class="cell-title">贷款年限：</span></div>
+					    			<div class="col-sm-12 cell-title-div" style="text-align: left;"><span class="cell-title">还款方式：</span></div>
+					    			<div class="col-sm-12 cell-title-div" style="text-align: left;"><span class="cell-title">公积金利率：</span></div>
+					    		</div>
+					    		<div class="col-sm-8">
+					    			<!--贷款金额-->
+					    			<div class="col-sm-12 cell-input-div" style="text-align: left;">
+					    				<div class="col-sm-8">
+					    					<input type="number" name="GJJAmount" id="GJJAmount" value="" class="form-control" placeholder="输入贷款金额"/>
+					    				</div>
+					    				<div class="col-sm-4">
+					    					<span class="cell-input-unit">万元</span>
+					    				</div>
+					    			</div>	
+					    			<!--贷款年限-->
+					    			<div class="col-sm-12 cell-input-div" style="text-align: left;">
+					    				<div class="col-sm-8">
+					    					<select class="selectpicker show-tick form-control" id="GJJYear" style="width:188px;height: 34px;">
+					    						<option value="5"  class="cell-input-Year">5年</option>
+					    						<option value="10" class="cell-input-Year">10年</option>
+					    						<option value="15" class="cell-input-Year">15年</option>
+					    						<option value="20" class="cell-input-Year">20年</option>
+					    						<option value="25" class="cell-input-Year">25年</option>
+					    						<option value="30" class="cell-input-Year" selected="selected">30年</option>					    						
+					    					</select>
+					    				</div>
+					    				<div class="col-sm-4">
+					    				</div>
+					    			</div>	
+					    			<!--还款方式-->
+					    			<div class="col-sm-12 cell-input-div" style="text-align: left;">
+					    				<div class="col-sm-8">
+					    					<select class="selectpicker show-tick form-control" id="GJJPayback" style="width:188px;height: 34px;">
+					    						<option value="等额还款"  class="cell-input-Year">等额还款</option>
+					    						<option value="等息还款"  class="cell-input-Year" selected="selected">等息还款</option>					    						
+					    					</select>
+					    				</div>
+					    				<div class="col-sm-4">
+					    				</div>
+					    			</div>	
+					    			<!--公积金利率-->
+					    			<div class="col-sm-12 cell-input-div" style="text-align: left;">
+					    				<div class="col-sm-8">
+					    					<select class="selectpicker show-tick form-control" id="GJJRate" style="width:188px;height: 34px;">
+					    						<option value="0.0325"  class="cell-input-Year">最新公积金利率(3.25%)</option>	
+					    						<option value="0.0358"  class="cell-input-Year">最新公积金利率1.1倍(3.58%)</option>					    						
+					    						<option value="0.039"  class="cell-input-Year">最新公积金利率1.2倍(3.9%)</option>					    											    						
+					    					</select>
+					    				</div>
+					    				<div class="col-sm-4">
+					    				</div>
+					    			</div>	
+					    			<div class="col-sm-12 cell-input-div">
+					    				<button id="submit1" class="btn btn-success" style="width:200px">开始计算</button>
+					    			</div>
+					    		</div>					    		
+					    	</div>
+					    	<!--统计面板-->
+					    	<div class="col-sm-6">
+								<!--title-->
+					    		<div class="col-sm-4">
+					    			<div class="col-sm-12 cell-title-div" style="text-align: left;"><span class="cell-title">月供：</span></div>
+					    			<div class="col-sm-12 cell-title-div" style="text-align: left;"><span class="cell-title">每月递减：</span></div>							    			
+					    			<div class="col-sm-12 cell-title-div" style="text-align: left;"><span class="cell-title">还款月份：</span></div>
+					    			<div class="col-sm-12 cell-title-div" style="text-align: left;"><span class="cell-title">总利息：</span></div>
+					    			<div class="col-sm-12 cell-title-div" style="text-align: left;"><span class="cell-title">本息合计：</span></div>			    			
+					    		</div>
+					    		<div class="col-sm-6">
+					    			<div class="col-sm-12 cell-title-div" style="text-align: left;"><span id = "result1Amount" class="cell-title">0</span><span>万元</span></div>
+					    			<div class="col-sm-12 cell-title-div" style="text-align: left;"><span id = "result1less" class="cell-title">0</span><span>元</span></div>					    			
+					    			<div class="col-sm-12 cell-title-div" style="text-align: left;"><span id = "result1Year" class="cell-title">0</span><span>月</span></div>
+					    			<div class="col-sm-12 cell-title-div" style="text-align: left;"><span id = "result1Interest" class="cell-title">0</span><span>万元</span></div>
+					    			<div class="col-sm-12 cell-title-div" style="text-align: left;"><span id = "result1All" class="cell-title">0</span><span>万元</span></div>
+					    		</div>
+					    		<div class="col-sm-2"></div>
+					    	</div>
+					    </div>
+					    <!--商业-->
+					    <div role="tabpanel" class="tab-pane " id="SY">
+					    	<div class="col-sm-12"><br/><br/></div>
+					    	<!--信息面板-->
+					    	<div class="col-sm-6">
+					    		<!--title-->
+					    		<div class="col-sm-4">
+					    			<div class="col-sm-12 cell-title-div" style="text-align: left;"><span class="cell-title">贷款数量：</span></div>
+					    			<div class="col-sm-12 cell-title-div" style="text-align: left;"><span class="cell-title">贷款年限：</span></div>
+					    			<div class="col-sm-12 cell-title-div" style="text-align: left;"><span class="cell-title">还款方式：</span></div>
+					    			<div class="col-sm-12 cell-title-div" style="text-align: left;"><span class="cell-title">基准利率：</span></div>
+					    		</div>	
+					    		<div class="col-sm-8">
+					    			<!--贷款金额-->
+					    			<div class="col-sm-12 cell-input-div" style="text-align: left;">
+					    				<div class="col-sm-8">
+					    					<input type="number" name="SYAmount" id="SYAmount" value="" class="form-control" placeholder="输入贷款金额"/>
+					    				</div>
+					    				<div class="col-sm-4">
+					    					<span class="cell-input-unit">万元</span>
+					    				</div>
+					    			</div>	
+					    			<!--贷款年限-->
+					    			<div class="col-sm-12 cell-input-div" style="text-align: left;">
+					    				<div class="col-sm-8">
+					    					<select class="selectpicker show-tick form-control" id="SYYear" style="width:188px;height: 34px;">
+					    						<option value="5"  class="cell-input-Year">5年</option>
+					    						<option value="10" class="cell-input-Year">10年</option>
+					    						<option value="15" class="cell-input-Year">15年</option>
+					    						<option value="20" class="cell-input-Year">20年</option>
+					    						<option value="25" class="cell-input-Year">25年</option>
+					    						<option value="30" class="cell-input-Year" selected="selected">30年</option>					    						
+					    					</select>
+					    				</div>
+					    				<div class="col-sm-4">
+					    				</div>
+					    			</div>	
+					    			<!--还款方式-->
+					    			<div class="col-sm-12 cell-input-div" style="text-align: left;">
+					    				<div class="col-sm-8">
+					    					<select class="selectpicker show-tick form-control" id="SYPayback" style="width:188px;height: 34px;">
+					    						<option value="等额还款"  class="cell-input-Year">等额还款</option>
+					    						<option value="等息还款"  class="cell-input-Year" selected="selected">等息还款</option>					    						
+					    					</select>
+					    				</div>
+					    				<div class="col-sm-4">
+					    				</div>
+					    			</div>	
+					    			<!--基准利率-->
+					    			<div class="col-sm-12 cell-input-div" style="text-align: left;">
+					    				<div class="col-sm-8">
+					    					<select class="selectpicker show-tick form-control" id="SYRate" style="width:188px;height: 34px;">
+					    						<option value="0.049"  class="cell-input-Year">最新基准利率(4.9%)</option>	
+					    						<option value="0.0539"  class="cell-input-Year">最新基准利率1.1倍(5.39%)</option>					    						
+					    						<option value="0.0588"  class="cell-input-Year">最新基准利率1.2倍(5.88%)</option>					    											    						
+					    					</select>
+					    				</div>
+					    				<div class="col-sm-4">
+					    				</div>
+					    			</div>	
+					    			<div class="col-sm-12 cell-input-div">
+					    				<button id="submit2" class="btn btn-success" style="width:200px">开始计算</button>
+					    			</div>
+					    		</div>					    							    		
+					    	</div>					    					    						 					    	
+					    	<div class="col-sm-6">
+								<!--title-->
+					    		<div class="col-sm-4">
+					    			<div class="col-sm-12 cell-title-div" style="text-align: left;"><span class="cell-title">月供：</span></div>
+					    			<div class="col-sm-12 cell-title-div" style="text-align: left;"><span class="cell-title">每月递减：</span></div>							    			
+					    			<div class="col-sm-12 cell-title-div" style="text-align: left;"><span class="cell-title">还款月份：</span></div>
+					    			<div class="col-sm-12 cell-title-div" style="text-align: left;"><span class="cell-title">总利息：</span></div>
+					    			<div class="col-sm-12 cell-title-div" style="text-align: left;"><span class="cell-title">本息合计：</span></div>			    			
+					    		</div>
+					    		<div class="col-sm-6">
+					    			<div class="col-sm-12 cell-title-div" style="text-align: left;"><span id = "result2Amount" class="cell-title">0</span><span>万元</span></div>
+					    			<div class="col-sm-12 cell-title-div" style="text-align: left;"><span id = "result2less" class="cell-title">0</span><span>元</span></div>					    			
+					    			<div class="col-sm-12 cell-title-div" style="text-align: left;"><span id = "result2Year" class="cell-title">0</span><span>月</span></div>
+					    			<div class="col-sm-12 cell-title-div" style="text-align: left;"><span id = "result2Interest" class="cell-title">0</span><span>万元</span></div>
+					    			<div class="col-sm-12 cell-title-div" style="text-align: left;"><span id = "result2All" class="cell-title">0</span><span>万元</span></div>
+					    		</div>
+					    		<div class="col-sm-2"></div>					    		
+					    	</div>
+					    </div>
+					    					    					    					 					    
+					    <!--<组合贷款>-->
+					    <div role="tabpanel" class="tab-pane" id="Mixed">
+					    	<!--title-->
+					    	<div class="col-sm-6">
+					    		<!--title-->
+					    		<div class="col-sm-4">
+					    			<div class="col-sm-12 cell-title-div" style="text-align: left;"><span class="cell-title">公积金贷款：</span></div>
+					    			<div class="col-sm-12 cell-title-div" style="text-align: left;"><span class="cell-title">商业贷款：</span></div>					    			
+					    			<div class="col-sm-12 cell-title-div" style="text-align: left;"><span class="cell-title">贷款年限：</span></div>
+					    			<div class="col-sm-12 cell-title-div" style="text-align: left;"><span class="cell-title">还款方式：</span></div>
+					    			<div class="col-sm-12 cell-title-div" style="text-align: left;"><span class="cell-title">公积金利率：</span></div>					    			
+					    			<div class="col-sm-12 cell-title-div" style="text-align: left;"><span class="cell-title">基准利率：</span></div>					    		
+					    		</div>
+					    		<div class="col-sm-8">
+					    			<!--公积金贷款金额-->
+					    			<div class="col-sm-12 cell-input-div" style="text-align: left;">
+					    				<div class="col-sm-8">
+					    					<input type="number" name="MGAmount" id="MGAmount" value="" class="form-control" placeholder="输入贷款金额"/>
+					    				</div>
+					    				<div class="col-sm-4">
+					    					<span class="cell-input-unit">万元</span>
+					    				</div>
+					    			</div>	
+					    			<!--商业贷款金额-->
+					    			<div class="col-sm-12 cell-input-div" style="text-align: left;">
+					    				<div class="col-sm-8">
+					    					<input type="number" name="MSAmount" id="MSAmount" value="" class="form-control" placeholder="输入贷款金额"/>
+					    				</div>
+					    				<div class="col-sm-4">
+					    					<span class="cell-input-unit">万元</span>
+					    				</div>
+					    			</div>						    			
+					    			<!--贷款年限-->
+					    			<div class="col-sm-12 cell-input-div" style="text-align: left;">
+					    				<div class="col-sm-8">
+					    					<select class="selectpicker show-tick form-control" id="MixYear" style="width:188px;height: 34px;">
+					    						<option value="5"  class="cell-input-Year">5年</option>
+					    						<option value="10" class="cell-input-Year">10年</option>
+					    						<option value="15" class="cell-input-Year">15年</option>
+					    						<option value="20" class="cell-input-Year">20年</option>
+					    						<option value="25" class="cell-input-Year">25年</option>
+					    						<option value="30" class="cell-input-Year" selected="selected">30年</option>					    						
+					    					</select>
+					    				</div>
+					    				<div class="col-sm-4">
+					    				</div>
+					    			</div>	
+					    			<!--还款方式-->
+					    			<div class="col-sm-12 cell-input-div" style="text-align: left;">
+					    				<div class="col-sm-8">
+					    					<select class="selectpicker show-tick form-control" id="MixPayback" style="width:188px;height: 34px;">
+					    						<option value="等额还款"  class="cell-input-Year">等额还款</option>
+					    						<option value="等息还款"  class="cell-input-Year" selected="selected">等息还款</option>					    						
+					    					</select>
+					    				</div>
+					    				<div class="col-sm-4">
+					    				</div>
+					    			</div>	
+					    			<!--公积金利率-->
+					    			<div class="col-sm-12 cell-input-div" style="text-align: left;">
+					    				<div class="col-sm-8">
+					    					<select class="selectpicker show-tick form-control" id="MGRate" style="width:188px;height: 34px;">
+					    						<option value="0.0325"  class="cell-input-Year">最新公积金利率(3.25%)</option>	
+					    						<option value="0.0358"  class="cell-input-Year">最新公积金利率1.1倍(3.58%)</option>					    						
+					    						<option value="0.039"  class="cell-input-Year">最新公积金利率1.2倍(3.9%)</option>					    											    						
+					    					</select>
+					    				</div>
+					    				<div class="col-sm-4">
+					    				</div>
+					    			</div>
+					    			<!--基准利率-->
+					    			<div class="col-sm-12 cell-input-div" style="text-align: left;">
+					    				<div class="col-sm-8">
+					    					<select class="selectpicker show-tick form-control" id="MSRate" style="width:188px;height: 34px;">
+					    						<option value="0.049"  class="cell-input-Year">最新基准利率(4.9%)</option>	
+					    						<option value="0.0539"  class="cell-input-Year">最新基准利率1.1倍(5.39%)</option>					    						
+					    						<option value="0.0588"  class="cell-input-Year">最新基准利率1.2倍(5.88%)</option>					    											    						
+					    					</select>
+					    				</div>
+					    				<div class="col-sm-4">
+					    				</div>
+					    			</div>						    			
+					    			<div class="col-sm-12 cell-input-div">
+					    				<button id="submit3" class="btn btn-success" style="width:200px">开始计算</button>
+					    			</div>
+					    		</div>						    		
+					    	</div>
+					    	<div class="col-sm-6">
+								<!--title-->
+					    		<div class="col-sm-4">
+					    			<div class="col-sm-12 cell-title-div" style="text-align: left;"><span class="cell-title">月供：</span></div>
+					    			<div class="col-sm-12 cell-title-div" style="text-align: left;"><span class="cell-title">每月递减：</span></div>							    			
+					    			<div class="col-sm-12 cell-title-div" style="text-align: left;"><span class="cell-title">还款月份：</span></div>
+					    			<div class="col-sm-12 cell-title-div" style="text-align: left;"><span class="cell-title">总利息：</span></div>
+					    			<div class="col-sm-12 cell-title-div" style="text-align: left;"><span class="cell-title">本息合计：</span></div>			    			
+					    		</div>
+					    		<div class="col-sm-6">
+					    			<div class="col-sm-12 cell-title-div" style="text-align: left;"><span id = "result3Amount" class="cell-title">0</span><span>万元</span></div>
+					    			<div class="col-sm-12 cell-title-div" style="text-align: left;"><span id = "result3less" class="cell-title">0</span><span>元</span></div>					    			
+					    			<div class="col-sm-12 cell-title-div" style="text-align: left;"><span id = "result3Year" class="cell-title">0</span><span>月</span></div>
+					    			<div class="col-sm-12 cell-title-div" style="text-align: left;"><span id = "result3Interest" class="cell-title">0</span><span>万元</span></div>
+					    			<div class="col-sm-12 cell-title-div" style="text-align: left;"><span id = "result3All" class="cell-title">0</span><span>万元</span></div>
+					    		</div>
+					    		<div class="col-sm-2"></div>					    							    		
+					    	</div>
+					    </div>
+					    <div role="tabpanel" class="tab-pane" id="Taxes">
+					    	<div class="col-sm-12"><br/><br/></div>					    	
+					    	<!--信息面板-->
+					    	<div class="col-sm-6">
+					    		<!--title-->
+					    		<div class="col-sm-4">
+					    			<div class="col-sm-12 cell-title-div" style="text-align: left;"><span class="cell-title">住宅类型：</span></div>
+					    			<div class="col-sm-12 cell-title-div" style="text-align: left;"><span class="cell-title">房屋面积：</span></div>
+					    			<div class="col-sm-12 cell-title-div" style="text-align: left;"><span class="cell-title">住宅总价：</span></div>
+					    			<div class="col-sm-12 cell-title-div" style="text-align: left;"><span class="cell-title">是否首套房：</span></div>
+					    		</div>
+					    		<div class="col-sm-8">
+					    			<!--住宅类型-->
+					    			<div class="col-sm-12 cell-input-div" style="text-align: left;">
+					    				<div class="col-sm-8">
+					    					<select class="selectpicker show-tick form-control" id="TaxHouse" style="width:188px;height: 34px;">
+					    						<option value="普通住宅"  class="cell-input-Year">普通住宅</option>
+					    						<option value="非普通住宅" class="cell-input-Year">非普通住宅</option>			    						
+					    					</select>
+					    				</div>
+					    				<div class="col-sm-4">
+					    				</div>
+					    			</div>	
+					    			<!--住宅面积-->
+					    			<div class="col-sm-12 cell-input-div" style="text-align: left;">
+					    				<div class="col-sm-8">
+					    					<input type="number" name="TaxArea" id="TaxArea" value="" class="form-control" placeholder="输入住宅面积"/>
+					    				</div>
+					    				<div class="col-sm-4">
+					    					<span class="cell-input-unit">平方米</span>
+					    				</div>
+					    			</div>	
+					    			<!--住宅总价-->
+					    			<div class="col-sm-12 cell-input-div" style="text-align: left;">
+					    				<div class="col-sm-8">
+					    					<input type="number" name="TaxAmount" id="TaxAmount" value="" class="form-control" placeholder="输入住宅面积"/>
+					    				</div>
+					    				<div class="col-sm-4">
+					    					<span class="cell-input-unit">万元</span>
+					    				</div>
+					    			</div>	
+					    			<!--是否为首套房-->
+					    			<div class="col-sm-12 cell-input-div" style="text-align: left;">
+					    				<div class="col-sm-8">
+					    					<select class="selectpicker show-tick form-control" id="TaxFirst" style="width:188px;height: 34px;">
+					    						<option value="首套房"  class="cell-input-Year">首套房</option>	
+					    						<option value="非首套房"  class="cell-input-Year">非首套房</option>					    						
+					    					</select>
+					    				</div>
+					    				<div class="col-sm-4">
+					    				</div>
+					    			</div>	
+					    			<div class="col-sm-12 cell-input-div">
+					    				<button id="submit4" class="btn btn-success" style="width:200px">开始计算</button>
+					    			</div>
+					    		</div>					    							    		
+					    	</div>
+					    	<!--统计面板-->
+					    	<div class="col-sm-6">
+								<!--title-->
+					    		<div class="col-sm-4">
+					    			<div class="col-sm-12 cell-title-div" style="text-align: left;"><span class="cell-title">税费合计：</span></div>
+					    			<div class="col-sm-12 cell-title-div" style="text-align: left;"><span class="cell-title">契税：</span></div>							    			
+					    			<div class="col-sm-12 cell-title-div" style="text-align: left;"><span class="cell-title">交易手续费：</span></div>
+					    			<div class="col-sm-12 cell-title-div" style="text-align: left;"><span class="cell-title">维修基金：</span></div>
+					    			<div class="col-sm-12 cell-title-div" style="text-align: left;"><span class="cell-title">维权登记费：</span></div>			    			
+					    		</div>
+					    		<div class="col-sm-6">
+					    			<div class="col-sm-12 cell-title-div" style="text-align: left;"><span id = "result4All" class="cell-title">0</span><span>元</span></div>
+					    			<div class="col-sm-12 cell-title-div" style="text-align: left;"><span id = "result4Contact" class="cell-title">0</span><span>元</span></div>					    			
+					    			<div class="col-sm-12 cell-title-div" style="text-align: left;"><span id = "result4Handle" class="cell-title">0</span><span>元</span></div>
+					    			<div class="col-sm-12 cell-title-div" style="text-align: left;"><span id = "result4Repair" class="cell-title">0</span><span>元</span></div>
+					    			<div class="col-sm-12 cell-title-div" style="text-align: left;"><span id = "result4Right" class="cell-title">0</span><span>元</span></div>
+					    		</div>
+					    		<div class="col-sm-2"></div>					    							    						    		
+					    	</div>
+					    </div>
+					  </div>					
+				</nav>
+			</div>
+			<div class="col-sm-1"></div>
+	</div>
+</div>
+
+
+
+	<!--canvas-->
+<div class="container">
+	<div class="row" style="margin:0;width:100%;text-align:center;">
+				<div class="col-sm-3"></div>
+				<div class="col-sm-6" id = "main1" style="width:50%; height: 300px;">
+					
+				</div>
+				<div class="col-sm-3"></div>	
+	</div>	
+</div>
+
+
+<!--footer-->
+	<footer class="container footer_banner">
+		<div class="row">
+			<br /><br /><br />
+		</div>
+		<!--底部导航栏-->
+		<div class="row" style="border-bottom: 2px #A6E1EC;">
+			<ul >
+				<li><a class="footer-link" href="#"><span>关于安家</span></a></li>
+				<li><a class="footer-link" href="#"><span>联系我们</span></a></li>
+				<li><a class="footer-link" href="#"><span>加入我们</span></a></li>
+				<li><a class="footer-link" href="#"><span>隐私申明</span></a></li>				
+			</ul>
+		</div>
+		<div class="row" style="display: inline-block;">
+			<ul style="display: block;">
+				<li><span class="text-muted" style="font-family: '微软雅黑'; font-size: 16px;">客服电话</span></li>
+				<li><span style="font-family: '微软雅黑'; font-size: 16px;color: #FFFFFF;">741-741-74741</span></li>				
+			</ul>			
+		</div>
+	</footer>
+</body>
+
+<script type="text/javascript">
+	$(document).ready(function(){
+		/*公积金还款*/
+		$("#submit1").click(function(){
+			if(document.getElementById("GJJAmount").value == "" )
+			{
+				alert("请输入贷款金额");
+				return;
+			}
+			else if(document.getElementById("GJJPayback").value == "等额还款")
+			{
+				var gjjAmount = document.getElementById("GJJAmount").value;
+				var gjjYear = document.getElementById("GJJYear").value;
+				var gjjRate = document.getElementById("GJJRate").value;
+				var gjjMouthCost =(gjjAmount/(gjjYear*12)+(gjjAmount*gjjRate/12)).toFixed(2);
+				var gjjless = ((gjjMouthCost*10000*gjjRate)/24).toFixed(2);
+				var gjjInterest = (((gjjAmount/(gjjYear*12)+(gjjAmount*gjjRate/12))+(gjjAmount/(gjjYear*12))*(1+gjjRate/12))/2*(gjjYear*12)  - gjjAmount).toFixed(2);
+				document.getElementById("result1Amount").innerText = Number(gjjMouthCost);
+				document.getElementById("result1less").innerText = Number(gjjless);
+				document.getElementById("result1Year").innerText = Number(gjjYear*12);
+				document.getElementById("result1Interest").innerText = Number(gjjInterest);
+				document.getElementById("result1All").innerText = (Number(gjjInterest) + Number(gjjAmount)).toFixed(2);
+				var myChart1 = echarts.init(document.getElementById('main1'));
+				option = {
+					    backgroundColor: '#d0d0d0',					
+				    title : {
+				        text: '公积金贷款本息占比图（等额还款）',
+				        x:'center'
+				    },
+				    tooltip : {
+				        trigger: 'item',
+				        formatter: "{a} <br/>{b} : {c} ({d}%)"
+				    },
+				    legend: {
+				        orient: 'vertical',
+				        left: 'left',
+				        data: ['应还利息','贷款本金']
+				    },
+				    series : [
+				        {
+				            name: '税费占比',
+				            type: 'pie',
+				            radius : '55%',
+				            center: ['50%', '60%'],
+				            data:[
+				                {value:Number(gjjInterest), name:'应还利息'},
+				                {value:Number(gjjAmount), name:'贷款本金'}
+				            ],
+				            itemStyle: {
+				                emphasis: {			                	
+				                    shadowBlur: 10,
+				                    shadowOffsetX: 0,
+				                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+				                }
+				            }
+				        }
+				    ]
+				};
+					 myChart1.setOption(option);
+			}
+			else 
+			{
+				var gjjAmount = document.getElementById("GJJAmount").value;
+				var gjjYear = document.getElementById("GJJYear").value;
+				var gjjRate = document.getElementById("GJJRate").value;
+				var gjjMouthCost =((gjjAmount*(gjjRate/12)*Math.pow((gjjRate/12) + 1, gjjYear*12))/(Math.pow((gjjRate/12) + 1, gjjYear*12)-1)).toFixed(2);
+				var gjjless = 0;
+				var gjjInterest = (gjjMouthCost*(gjjYear*12)-gjjAmount).toFixed(2);
+				document.getElementById("result1Amount").innerText = Number(gjjMouthCost);
+				document.getElementById("result1less").innerText = Number(0);
+				document.getElementById("result1Year").innerText = Number(gjjYear*12);
+				document.getElementById("result1Interest").innerText = Number(gjjInterest);
+				document.getElementById("result1All").innerText = (Number(gjjInterest) + Number(gjjAmount)).toFixed(2);
+				var myChart1 = echarts.init(document.getElementById('main1'));
+				option = {
+					    backgroundColor: '#d0d0d0',					
+				    title : {
+				        text: '公积金贷款本息占比图（等息还款）',
+				        x:'center'
+				    },
+				    tooltip : {
+				        trigger: 'item',
+				        formatter: "{a} <br/>{b} : {c} ({d}%)"
+				    },
+				    legend: {
+				        orient: 'vertical',
+				        left: 'left',
+				        data: ['应还利息','贷款本金']
+				    },
+				    series : [
+				        {
+				            name: '税费占比',
+				            type: 'pie',
+				            radius : '55%',
+				            center: ['50%', '60%'],
+				            data:[
+				                {value:Number(gjjInterest), name:'应还利息'},
+				                {value:Number(gjjAmount), name:'贷款本金'}
+				            ],
+				            itemStyle: {
+				                emphasis: {			                	
+				                    shadowBlur: 10,
+				                    shadowOffsetX: 0,
+				                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+				                }
+				            }
+				        }
+				    ]
+				};
+					 myChart1.setOption(option);				
+			}
+		});
+		
+		
+		/*商业贷款还款*/
+		$("#submit2").click(function(){
+			if(document.getElementById("SYAmount").value == "" )
+			{
+				alert("请输入贷款金额");
+				return;
+			}
+			else if(document.getElementById("SYPayback").value == "等额还款")
+			{
+				var syAmount = document.getElementById("SYAmount").value;
+				var syYear = document.getElementById("SYYear").value;
+				var syRate = document.getElementById("SYRate").value;
+				var syMouthCost =(syAmount/(syYear*12)+(syAmount*syRate/12)).toFixed(2);
+				var syless = ((syMouthCost*10000*syRate)/24).toFixed(2);
+				var syInterest = (((syAmount/(syYear*12)+(syAmount*syRate/12))+(syAmount/(syYear*12))*(1+syRate/12))/2*(syYear*12)  - syAmount).toFixed(2);
+				document.getElementById("result2Amount").innerText = Number(syMouthCost);
+				document.getElementById("result2less").innerText = Number(syless);
+				document.getElementById("result2Year").innerText = Number(syYear*12);
+				document.getElementById("result2Interest").innerText = Number(syInterest);
+				document.getElementById("result2All").innerText = (Number(syInterest) + Number(syAmount)).toFixed(2);
+				var myChart1 = echarts.init(document.getElementById('main1'));
+				option = {
+					    backgroundColor: '#d0d0d0',					
+				    title : {
+				        text: '商业贷款本息占比图（等额还款）',
+				        x:'center'
+				    },
+				    tooltip : {
+				        trigger: 'item',
+				        formatter: "{a} <br/>{b} : {c} ({d}%)"
+				    },
+				    legend: {
+				        orient: 'vertical',
+				        left: 'left',
+				        data: ['应还利息','贷款本金']
+				    },
+				    series : [
+				        {
+				            name: '税费占比',
+				            type: 'pie',
+				            radius : '55%',
+				            center: ['50%', '60%'],
+				            data:[
+				                {value:Number(syInterest), name:'应还利息'},
+				                {value:Number(syAmount), name:'贷款本金'}
+				            ],
+				            itemStyle: {
+				                emphasis: {			                	
+				                    shadowBlur: 10,
+				                    shadowOffsetX: 0,
+				                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+				                }
+				            }
+				        }
+				    ]
+				};
+					 myChart1.setOption(option);
+			}
+			else 
+			{
+				var syAmount = document.getElementById("SYAmount").value;
+				var syYear = document.getElementById("SYYear").value;
+				var syRate = document.getElementById("SYRate").value;
+				var syMouthCost =((syAmount*(syRate/12)*Math.pow((syRate/12) + 1, syYear*12))/(Math.pow((syRate/12) + 1, syYear*12)-1)).toFixed(2);
+				var syless = 0;
+				var syInterest = (syMouthCost*(syYear*12)-syAmount).toFixed(2);
+				document.getElementById("result2Amount").innerText = Number(syMouthCost);
+				document.getElementById("result2less").innerText = Number(0);
+				document.getElementById("result2Year").innerText = Number(syYear*12);
+				document.getElementById("result2Interest").innerText = Number(syInterest);
+				document.getElementById("result2All").innerText = (Number(syInterest) + Number(syAmount)).toFixed(2);
+				var myChart1 = echarts.init(document.getElementById('main1'));
+				option = {
+					    backgroundColor: '#d0d0d0',					
+				    title : {
+				        text: '商业贷款本息占比图（等息还款）',
+				        x:'center'
+				    },
+				    tooltip : {
+				        trigger: 'item',
+				        formatter: "{a} <br/>{b} : {c} ({d}%)"
+				    },
+				    legend: {
+				        orient: 'vertical',
+				        left: 'left',
+				        data: ['应还利息','贷款本金']
+				    },
+				    series : [
+				        {
+				            name: '税费占比',
+				            type: 'pie',
+				            radius : '55%',
+				            center: ['50%', '60%'],
+				            data:[
+				                {value:Number(syInterest), name:'应还利息'},
+				                {value:Number(syAmount), name:'贷款本金'}
+				            ],
+				            itemStyle: {
+				                emphasis: {			                	
+				                    shadowBlur: 10,
+				                    shadowOffsetX: 0,
+				                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+				                }
+				            }
+				        }
+				    ]
+				};
+					 myChart1.setOption(option);				
+			}
+		});
+
+
+		/*组合贷款*/
+		$("#submit3").click(function(){
+			if(document.getElementById("MGAmount").value == "" || document.getElementById("MSAmount").value == "" )
+			{
+				alert("请输入贷款金额");
+				return;
+			}
+			else if(document.getElementById("MixPayback").value == "等额还款")
+			{
+				var mgAmount = document.getElementById("MGAmount").value;
+				var mgYear = document.getElementById("MixYear").value;
+				var mgRate = document.getElementById("MGRate").value;
+				var mgMouthCost =(mgAmount/(mgYear*12)+(mgAmount*mgRate/12)).toFixed(2);
+				var mgless = ((mgMouthCost*10000*mgRate)/24).toFixed(2);
+				var mgInterest = (((mgAmount/(mgYear*12)+(mgAmount*mgRate/12))+(mgAmount/(mgYear*12))*(1+mgRate/12))/2*(mgYear*12)  - mgAmount).toFixed(2);
+				
+				
+				var msAmount = document.getElementById("MSAmount").value;
+				var msYear = document.getElementById("MixYear").value;
+				var msRate = document.getElementById("MSRate").value;
+				var msMouthCost =(msAmount/(msYear*12)+(msAmount*msRate/12)).toFixed(2);
+				var msless = ((msMouthCost*10000*msRate)/24).toFixed(2);
+				var msInterest = (((msAmount/(msYear*12)+(msAmount*msRate/12))+(msAmount/(msYear*12))*(1+msRate/12))/2*(msYear*12)  - msAmount).toFixed(2);
+				document.getElementById("result3Amount").innerText = (Number(mgMouthCost) + Number(msMouthCost)).toFixed(2);
+				document.getElementById("result3less").innerText = (Number(mgless)+Number(msless)).toFixed(2);
+				document.getElementById("result3Year").innerText = Number(msYear*12);
+				document.getElementById("result3Interest").innerText = (Number(mgInterest) + Number(msInterest)).toFixed(2);
+				document.getElementById("result3All").innerText = (Number(mgInterest) + Number(mgAmount)+Number(msInterest) + Number(msAmount)).toFixed(2);
+				var myChart1 = echarts.init(document.getElementById('main1'));
+				option = {
+					    backgroundColor: '#d0d0d0',					
+				    title : {
+				        text: '组合贷款本息占比图（等额还款）',
+				        x:'center'
+				    },
+				    tooltip : {
+				        trigger: 'item',
+				        formatter: "{a} <br/>{b} : {c} ({d}%)"
+				    },
+				    legend: {
+				        orient: 'vertical',
+				        left: 'left',
+				        data: ['商业应还利息','商业贷款本金','公积金应还利息','公积金贷款本金']
+				    },
+				    series : [
+				        {
+				            name: '税费占比',
+				            type: 'pie',
+				            radius : '55%',
+				            center: ['50%', '60%'],
+				            data:[
+				                {value:Number(msInterest), name:'商业应还利息'},
+				                {value:Number(msAmount), name:'商业贷款本金'},
+				                {value:Number(mgInterest), name:'公积金应还利息'},
+				                {value:Number(mgAmount), name:'公积金贷款本金'},
+				            ],
+				            itemStyle: {
+				                emphasis: {			                	
+				                    shadowBlur: 10,
+				                    shadowOffsetX: 0,
+				                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+				                }
+				            }
+				        }
+				    ]
+				};
+					 myChart1.setOption(option);
+			}
+			else 
+			{
+				var mgAmount = document.getElementById("MGAmount").value;
+				var mgYear = document.getElementById("MixYear").value;
+				var mgRate = document.getElementById("MGRate").value;
+				var mgMouthCost =((mgAmount*(mgRate/12)*Math.pow((mgRate/12) + 1, mgYear*12))/(Math.pow((mgRate/12) + 1, mgYear*12)-1)).toFixed(2);
+				var mgless = 0;
+				var mgInterest = (mgMouthCost*(mgYear*12)-mgAmount).toFixed(2);
+				
+				var msAmount = document.getElementById("MSAmount").value;
+				var msYear = document.getElementById("MixYear").value;
+				var msRate = document.getElementById("MSRate").value;
+				var msMouthCost =((msAmount*(msRate/12)*Math.pow((msRate/12) + 1, msYear*12))/(Math.pow((msRate/12) + 1, msYear*12)-1)).toFixed(2);
+				var msless = 0;
+				var msInterest = (msMouthCost*(msYear*12)-msAmount).toFixed(2);
+				
+				document.getElementById("result3Amount").innerText = (Number(mgMouthCost) + Number(msMouthCost)).toFixed(2);
+				document.getElementById("result3less").innerText = 0;
+				document.getElementById("result3Year").innerText = Number(msYear*12);
+				document.getElementById("result3Interest").innerText = (Number(mgInterest) + Number(msInterest)).toFixed(2);
+				document.getElementById("result3All").innerText = (Number(mgInterest) + Number(mgAmount)+Number(msInterest) + Number(msAmount)).toFixed(2);
+				
+				
+				
+				var myChart1 = echarts.init(document.getElementById('main1'));
+				option = {
+					    backgroundColor: '#d0d0d0',					
+				    title : {
+				        text: '组合贷款本息占比图（等息还款）',
+				        x:'center'
+				    },
+				    tooltip : {
+				        trigger: 'item',
+				        formatter: "{a} <br/>{b} : {c} ({d}%)"
+				    },
+				    legend: {
+				        orient: 'vertical',
+				        left: 'left',
+				        data: ['商业应还利息','商业贷款本金','公积金应还利息','公积金贷款本金']
+				    },
+				    series : [
+				        {
+				            name: '税费占比',
+				            type: 'pie',
+				            radius : '55%',
+				            center: ['50%', '60%'],
+				            data:[
+				                {value:Number(msInterest), name:'商业应还利息'},
+				                {value:Number(msAmount), name:'商业贷款本金'},
+				                {value:Number(mgInterest), name:'公积金应还利息'},
+				                {value:Number(mgAmount), name:'公积金贷款本金'},
+				            ],
+				            itemStyle: {
+				                emphasis: {			                	
+				                    shadowBlur: 10,
+				                    shadowOffsetX: 0,
+				                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+				                }
+				            }
+				        }
+				    ]
+				};
+					 myChart1.setOption(option);				
+			}
+		});	
+
+	
+	/*新房税费*/
+	$("#submit4").click(function(){
+		if(document.getElementById("TaxAmount").value == "" || document.getElementById("TaxArea").value == "")
+		{
+			alert("请补全住宅详细数据");
+		}
+		else 
+		{
+			if(document.getElementById("TaxArea").value<=90)
+			{   
+				var taxContact = (document.getElementById("TaxAmount").value * 100).toFixed(2);
+			}
+			else if(document.getElementById("TaxArea").value >= 140 || document.getElementById("TaxHouse").value == "非普通住宅" || document.getElementById("TaxFirst").value == "非首套房")
+			{
+				var taxContact = (document.getElementById("TaxAmount").value * 300).toFixed(2);				
+			}
+			else
+			{
+				var taxContact = (document.getElementById("TaxAmount").value * 150).toFixed(2);								
+			}
+			var taxRepair = (document.getElementById("TaxAmount").value * 300).toFixed(2);
+			var taxHandle = (document.getElementById("TaxArea").value * 3).toFixed(2);
+			document.getElementById("result4All").innerText = (Number(taxContact) + Number(taxHandle) + Number(taxRepair) + 80).toFixed(2);
+			document.getElementById("result4Contact").innerText = Number(taxContact);
+			document.getElementById("result4Repair").innerText = Number(taxRepair);
+			document.getElementById("result4Handle").innerText = Number(taxHandle);
+			document.getElementById("result4Right").innerText = 80;		
+			
+			/*图*/
+				var myChart1 = echarts.init(document.getElementById('main1'));
+				option = {
+					    backgroundColor: '#d0d0d0',					
+				    title : {
+				        text: '税费构成',
+				        x:'center'
+				    },
+				    tooltip : {
+				        trigger: 'item',
+				        formatter: "{a} <br/>{b} : {c} ({d}%)"
+				    },
+				    legend: {
+				        orient: 'vertical',
+				        left: 'left',
+				        data: ['契税','维修费','交易手续费','维权费']
+				    },
+				    series : [
+				        {
+				            name: '税费占比',
+				            type: 'pie',
+				            radius : '55%',
+				            center: ['50%', '60%'],
+				            data:[
+				                {value:Number(taxContact), name:'契税'},
+				                {value:Number(taxRepair), name:'维修费'},
+				                {value:Number(taxHandle), name:'交易手续费'},
+				                {value:80, name:'维权费'}
+				            ],
+				            itemStyle: {
+				                emphasis: {			                	
+				                    shadowBlur: 10,
+				                    shadowOffsetX: 0,
+				                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+				                }
+				            }
+				        }
+				    ]
+				};
+					 myChart1.setOption(option);				
+			
+		}
+	});
+	});
+</script>
+</body>
+</html>

@@ -1,0 +1,91 @@
+/*tag*/
+/*class*/
+.navbar-brand {
+    background-image: url(../img/logo.svg);
+    width: 50px;
+    background-size: 75%;
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+.container
+{
+	/*container有内边距*/
+	width: 100%;
+	margin-left:0px;
+	margin-right:0px;
+	padding-left: 0px;
+	padding-right: 0px;
+}
+.row
+{
+	width: 100%;
+}
+.home_header
+{
+	background: #1a73e8;
+}
+.location_title 
+{
+	background: #fbfbfb;
+	border-radius: 3px;
+}
+.location_title ul li
+{
+	display: inline-block;
+	text-align: center;
+}
+.location_title ul li span
+{
+	font-family: "微软雅黑";
+	color: #000000;
+}
+.location_title ul li span:hover
+{
+	color: #1a73e8;
+}
+.location_area_title
+{
+	background: #fbfbfb;
+	border-radius: 3px;
+}
+.location_area_ul li
+{
+	display: inline-block;
+	text-align: center;
+}
+.location_area_ul li a
+{
+	color:#1a73e8;
+}
+
+/*id*/
+#headerbar{
+	background: rgba(0,0,0,0);
+	border: none;
+}
+#main1
+{
+	height: 300px;
+}
+#main2
+{
+	height: 300px;
+}
+#toggle-checkbox:checked ~ div {
+	display: block !important;
+}
+
+#toggle-label {
+	display: inline-block;
+	position: absolute;
+	right: 15px;
+	top: 13px;
+	font-size: 16px;
+	font-weight: normal;
+	color: #666;
+	display: none;
+}
+
+#toggle-label:hover {
+	color: #333;
+}
