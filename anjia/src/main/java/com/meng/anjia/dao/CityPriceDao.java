@@ -15,10 +15,16 @@ import java.util.List;
 @Component
 public interface CityPriceDao {
 
-    @Select("select * from avg_price where name = #{name} order by year, month")
+    @Select("select * from avg_price where name = #{name} order by year, month ")
     List<CityPrice> getAllCityPrice(String name);
+
+    @Select("select * from avg_price where pid = #{id} order by year, month ")
+    List<CityPrice> getAllCityPriceByID(int id);
 
     @Select("select * from avg_price where name = #{name} order by year desc, month desc limit 1")
     CityPrice getFirstCityPrice(String name);
+
+    @Select("select * from avg_price where id = #{id} order by year desc, month desc limit 1")
+    CityPrice getFirstCityPriceByID(int id);
 
 }

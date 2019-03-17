@@ -25,12 +25,21 @@ public class CityPriceService {
         return cityPrice.getAllCityPrice(name);
     }
 
+    public List<CityPrice> getAllCityPriceByID(int id)
+    {
+        return cityPrice.getAllCityPriceByID(id);
+    }
     /**
      * 查询某区域的最新房价
      */
     public CityPrice getFirstCityPrice(String name)
     {
         return cityPrice.getFirstCityPrice(name);
+    }
+
+    public CityPrice getFirstCityPriceByID(int id)
+    {
+        return cityPrice.getFirstCityPriceByID(id);
     }
 
 }

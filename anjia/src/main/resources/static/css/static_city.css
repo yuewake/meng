@@ -22,7 +22,7 @@
 }
 .home_header
 {
-	background: #3072f6;
+	background: #1a73e8;
 }
 .location_title 
 {
@@ -41,7 +41,7 @@
 }
 .location_title ul li span:hover
 {
-	color: #3072f6;
+	color: #1a73e8;
 }
 .location_area_title
 {
@@ -55,7 +55,7 @@
 }
 .location_area_ul li a
 {
-	color:#3072f6;
+	color:#1a73e8;
 }
 
 /*id*/

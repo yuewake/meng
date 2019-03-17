@@ -149,8 +149,9 @@
             /*点击切换区域*/
             $(document).on("click", "#localarea", function () {
                 var name = this.text;
+                var ID = $(this).find('span').attr('value');
                 $.ajax({
-                    url:'/city/price/'+name,
+                    url:'/city/priceByID/'+ID,
                     type: 'get',
                     dataType:'json',
                     success:function (data) {
@@ -280,7 +281,13 @@
                                 { // For shadow
                                     type: 'bar',
                                     itemStyle: {
-                                        normal: {color: 'rgba(0,0,0,0.05)'}
+                                        normal: {color: 'rgba(0,0,0,0.05)'},
+                                        label:
+											{
+											    show:true,
+												position:'top',
+
+											}
                                     },
                                     barGap:'-100%',
                                     barCategoryGap:'40%',
@@ -289,6 +296,11 @@
                                 {
                                     type: 'bar',
                                     itemStyle: {
+                                        label:
+											{
+                                                show:true,
+                                                position:'top',
+											},
                                         normal: {
                                             color: new echarts.graphic.LinearGradient(
                                                 0, 0, 0, 1,
@@ -338,7 +350,7 @@
                         $(".location_area_ul").append('<li><a href="/city" style="font-family: 微软雅黑;font-weight: 200;color: #000000;width: 55px">'+"全部"+'</a></li> ');
                         for(var i=0;i<json.length;i++)
                         {
-                           $(".location_area_ul").append('<li><a id="localarea" style="font-family: 微软雅黑;font-weight: 200;color: #000000;width: 55px">'+json[i].name+'</a></li> ');
+                           $(".location_area_ul").append('<li><a id="localarea" style="font-family: 微软雅黑;font-weight: 200;color: #000000;width: 55px">'+json[i].name+'<span value = "'+json[i].ID+'"class="hidden">'+'</span>'+'</a>'+'</li> ');
                         }
 					},
 					error: function (errorMsg) {
@@ -513,10 +525,10 @@
                                 }]
                         };
                         myChart2.setOption(option);
-                        window.onresize = function (){
-
-                            myChart2.resize();
-                        }
+                        // window.onresize = function (){
+						//
+                        //     myChart2.resize();
+                        // }
 
                     },
                     error:function () {

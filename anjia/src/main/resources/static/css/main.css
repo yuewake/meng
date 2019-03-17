@@ -8,15 +8,11 @@ b{
 	text-decoration: none;
 	font-family: "微软雅黑";
 	font-size:24px;
-	color:#3072f6;
+	color:#1a73e8;
 
 }
 
 /*class*/
-.i2 a:hover
-{
-	color:#3072f6;
-}
 .navbar-brand {
     background-image: url(../img/logo.svg);
     width: 50px;

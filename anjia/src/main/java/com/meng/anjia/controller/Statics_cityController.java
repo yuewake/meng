@@ -49,6 +49,7 @@ public class Statics_cityController {
         {
             JSONObject area = new JSONObject();
             area.put("name", list.get(i).getName());
+            area.put("ID", list.get(i).getId());
             arealist.add(area);
         }
         citylist.put("CityName",cityname);
@@ -83,6 +84,33 @@ public class Statics_cityController {
         return cityPricelist.toJSONString();
     }
 
+
+    /**
+     * 返回某区域的历史房价json数据
+     */
+    @RequestMapping(value = "/city/priceByID/{id}" , method = RequestMethod.GET)
+    @ResponseBody
+    public String CityPrice(@PathVariable("id")int id)
+    {
+        List<CityPrice> list = cityPriceService.getAllCityPriceByID(id);
+        JSONObject cityPricelist = new JSONObject();
+        JSONArray  pricelist = new JSONArray();
+        for(int i = 0; i<list.size();i++)
+        {
+            JSONObject price = new JSONObject();
+            price.put("price",list.get(i).getPrice());
+            String year = Integer.toString(list.get(i).getYear());
+            String month = Integer.toString(list.get(i).getMonth());
+            price.put("Time",year + '/' + month);
+            pricelist.add(price);
+        }
+        cityPricelist.put("CityID", id);
+        cityPricelist.put("priceList", pricelist);
+
+        return cityPricelist.toJSONString();
+    }
+
+
     /**
      * 返回当前城市的最新房价
      */
@@ -97,6 +125,7 @@ public class Statics_cityController {
         price.put("price", strpirce);
         return price.toJSONString();
     }
+
 
     /**
      * 返回当前城市子区域的最新房价
