@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}"/>
+    <script th:src="@{/js/jquery-3.3.1.js}"  ></script>
+    <script th:src="@{/js/bootstrap.js}"  ></script>
+
+    <style>
+        a.hover-blue {
+            text-decoration: none;
+            color: #000000;
+        }
+        a.hover-blue:hover{
+            color: #00CCFF;
+            text-decoration: none;
+        }
+    </style>
+    <title>主页</title>
+</head>
+<body style="background-color: #eeeeee">
+<header>
+    <div>
+        <div th:include = "wenda/header"></div>
+    </div>
+</header>
+<div class="wenti" style="background-color: white;padding: 20px 400px; margin: 50px 0px 0px 0px">
+    <h3 th:text="${question.title}">日本留学，我能活下来吗</h3>
+    <p th:text="${question.content}">能活的下去吗？？
+
+        本人今年7月生，家里属于特别穷？</p>
+    <a th:if="${isfollow} == 0" id="followQuestion" class="btn btn-primary" href="#" th:onclick="|followQuestion(${question.id})|">关注问题</a>&nbsp;
+    <a th:if="${isfollow} == 1" id="followQuestion" class="btn btn-warning" href="#" th:onclick="|unfollowQuestion(${question.id})|" onmouseover="changeover()" onmouseout="changeout()">已经关注</a>&nbsp;
+
+    <a class="btn btn-default" onclick="showAnswer()"> 写回答</a>&nbsp;
+    <span>9人关注该问题</span>
+</div>
+
+<div id="answer" style="padding: 10px 400px 0px 400px;display: none;">
+    <form th:action="@{/addComment}" method="post">
+        <input type="hidden" name="questionId" th:value="${question.id}">
+        <div class="form-group">
+            <textarea id="summernote" name="content" class="form-control" rows="3"></textarea>
+        </div>
+        <button style="float: right" class="btn btn-primary" type="submit">提交回答</button>
+    </form>
+</div>
+
+<div class="question">
+
+    <div class="about" th:each="vos:${vos}">
+        <h4 th:text="${vos.objs['user'].username}"  style="color: rgba(59,13,11,0.51)">Alan Fang</h4>
+        <p style="margin: 10px 0px" th:text="${vos.objs['comment'].content}">在英国千万别做什么？在英国千万别做什么？在英国千万别做什么？在英国千万别做什么？在英国千万别做什么？在英国千万别做什么？</p>
+        <span th:text="${#dates.format(vos.objs['comment'].createdDate, 'yyyy-MM-dd HH:mm:ss')}" style="color: rgba(59,13,11,0.51)">发布于2019-2-28 10:57</span><br/><br/>
+        <a th:class="${vos.objs['likeStatus'] == 1} ? 'btn btn-success' : 'btn btn-info'" th:id="'comment'+ ${{vos.objs['comment'].id}}" href="javascript:void(0)" th:text="'赞同 ' + ${vos.objs['like']}" th:onclick="|updateUP(${vos.objs['comment'].id})|" ><span class="glyphicon glyphicon-heart"></span> 赞同 3.4K</a>&nbsp;
+        <a th:class="${vos.objs['likeStatus'] == -1} ? 'btn btn-success' : 'btn btn-info'" th:id="'down'+ ${{vos.objs['comment'].id}}" th:onclick="|updateDOWN(${vos.objs['comment'].id})|" href="javascript:void(0)"><span class="glyphicon glyphicon-chevron-down"></span></a>&nbsp;&nbsp;&nbsp;
+        <a href="#" >10 条评论</a>
+    </div>
+
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: #00CCFF">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">提问</h4>
+            </div>
+
+            <form method="post" th:action="@{/question/add}">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <input id="title" name="title" type="text" class="form-control" placeholder="写下你的问题">
+                    </div>
+                    <div class="form-group">
+                        <label>问题说明(可选)：</label>
+                        <textarea id="content" class="form-control" rows="3" name="content"  placeholder="问题背景、条件等详细信息"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="submit" class="btn btn-primary">发布</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+<!-- Modal -->
+
+<script>
+    function showAnswer() {
+        document.getElementById("answer").style.display="";
+    }
+
+    function updateUP(commentId) {
+        var cid = "#comment" + commentId;
+        var downid = "#down" + commentId;
+        $.ajax({
+            type: "get",
+            url: "/like?commentId=" + commentId,
+            contentType: "application/json;charset=utf-8",
+            dataType:"json",
+            success:function (data) {
+                $(cid).html("赞同 " + data.msg);
+                $(cid).attr("class","btn btn-success");
+                $(downid).attr("class","btn btn-info");
+            },
+            error:function (message) {
+                alert("提交失败"+JSON.stringify(message));
+            }
+        });
+    }
+    
+    function updateDOWN(commentId) {
+        var cid = "#comment" + commentId;
+        var downid = "#down" + commentId;
+        $.ajax({
+            type: "get",
+            url: "/dislike?commentId=" + commentId,
+            contentType: "application/json;charset=utf-8",
+            dataType:"json",
+            success:function (data) {
+                $(cid).html("赞同 " + data.msg);
+                $(cid).attr("class","btn btn-info");
+                $(downid).attr("class","btn btn-success");
+            },
+            error:function (message) {
+                alert("提交失败"+JSON.stringify(message));
+            }
+        });
+    }
+    function followQuestion(questionId) {
+        $.ajax({
+            type: "get",
+            url: "/followQuestion?questionId=" + questionId,
+            contentType: "application/json;charset=utf-8",
+            dataType:"json",
+            success:function (data) {
+                if (data.code == 1) {
+                    $("#followQuestion").html("已经关注");
+                    $("#followQuestion").attr("class", "btn btn-warning");
+                    $("#followQuestion").attr("onmouseover","changeover()");
+                    $("#followQuestion").attr("onmouseout","changeout()");
+                    $("#followQuestion").attr("onclick","unfollowQuestion(" + questionId +")")
+                }
+
+            },
+            error:function (message) {
+                alert("提交失败"+JSON.stringify(message));
+            }
+        });
+    }
+    function unfollowQuestion(questionId) {
+        $.ajax({
+            type: "get",
+            url: "/unfollowQuestion?questionId=" + questionId,
+            contentType: "application/json;charset=utf-8",
+            dataType:"json",
+            success:function (data) {
+                if (data.code == 1) {
+                    $("#followQuestion").html("关注问题");
+                    $("#followQuestion").attr("class", "btn btn-primary");
+                    $("#followQuestion").attr("onclick","followQuestion(" + questionId +")");
+                    $("#followQuestion").removeAttr("onmouseover");
+                    $("#followQuestion").removeAttr("onmouseout");
+                }
+
+            },
+            error:function (message) {
+                alert("提交失败"+JSON.stringify(message));
+            }
+        });
+    }
+
+    function changeover() {
+        $("#followQuestion").html("取消关注");
+    }
+
+    function changeout() {
+        $("#followQuestion").html("已经关注");
+    }
+</script>
+</body>
+</html>
