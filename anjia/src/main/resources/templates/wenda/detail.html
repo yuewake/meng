@@ -39,7 +39,8 @@
 
 <div id="answer" style="padding: 10px 400px 0px 400px;display: none;">
     <form th:action="@{/addComment}" method="post">
-        <input type="hidden" name="questionId" th:value="${question.id}">
+        <input type="hidden" name="entityId" th:value="${question.id}">
+        <input type="hidden" name="entityType" value="1">
         <div class="form-group">
             <textarea id="summernote" name="content" class="form-control" rows="3"></textarea>
         </div>

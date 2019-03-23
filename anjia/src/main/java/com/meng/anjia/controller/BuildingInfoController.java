@@ -1,8 +1,13 @@
 package com.meng.anjia.controller;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.meng.anjia.model.Building;
+import com.meng.anjia.model.Comment;
+import com.meng.anjia.model.EntityType;
 import com.meng.anjia.service.BuildingService;
+import com.meng.anjia.service.CommentService;
+import com.meng.anjia.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,6 +15,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.List;
 
 /**
  * @author shine10076
@@ -21,6 +28,11 @@ public class BuildingInfoController {
     @Autowired
     BuildingService buildingService;
 
+    @Autowired
+    CommentService commentService;
+
+    @Autowired
+    UserService userService;
     @RequestMapping("/buildingInfo/{id}")
     public String getBuildingInfoPath(@PathVariable("id")int id, Model model)
     {
@@ -52,6 +64,17 @@ public class BuildingInfoController {
         result.put("MaxArea",building.getMax_area());
         result.put("Tags", building.getTags());
         result.put("AvgPrice",building.getAvg_price());
+        List<Comment> comments = commentService.getCommentsByEntity(id, EntityType.ENTITY_Building);
+        JSONArray array = new JSONArray();
+        for(Comment comment : comments)
+        {
+            JSONObject item = new JSONObject();
+            item.put("content", comment.getContent());
+            item.put("user",userService.getUser(comment.getUserId()).getUsername());
+            item.put("date", comment.getCreatedDate());
+            array.add(item);
+        }
+        result.put("CommentList", array);
         return result.toJSONString();
     }
 }

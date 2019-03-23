@@ -37,27 +37,35 @@ public class CommentController {
     QuestionService questionService;
 
     @RequestMapping(path = "/addComment",method={RequestMethod.POST})
-    public String addComment(@RequestParam("questionId") int questionId,
-                             @RequestParam("content") String content) {
+    public String addComment(@RequestParam("entityId") int entityId,
+                             @RequestParam("content") String content,
+                             @RequestParam("entityType") int entityType) {
         try {
             content = HtmlUtils.htmlEscape(content);
             //TODO 敏感词过滤
 
             Comment comment = new Comment();
             comment.setContent(content);
-            comment.setEntityId(questionId);
-            comment.setEntityType(EntityType.ENTITY_QUESTION);
+            comment.setEntityId(entityId);
+            comment.setEntityType(entityType);
             comment.setCreatedDate(new Date());
             comment.setStatus(0);
             comment.setUserId(hostHolder.getUser().getId());
             commentService.addComment(comment);
             // 更新题目里的评论数量
-            int count = commentService.getCommentCount(comment.getEntityId(), comment.getEntityType());
-            questionService.updateCommentCount(comment.getEntityId(), count);
+            if (entityType == 1) {
+                int count = commentService.getCommentCount(comment.getEntityId(), comment.getEntityType());
+                questionService.updateCommentCount(comment.getEntityId(), count);
+            }
 
         } catch (Exception e) {
-            logger.error("增加评论失败" + e.getMessage());
+            logger.error("增加失败" + e.getMessage());
         }
-        return "redirect:/question/" + String.valueOf(questionId);
+        if(entityType == 1) {
+            return "redirect:/question/" + String.valueOf(entityId);
+        }else{
+            return "redirect:/buildingInformation/" + String.valueOf(entityId);
+        }
+
     }
 }
