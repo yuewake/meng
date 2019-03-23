@@ -22,7 +22,14 @@
 {
 	background: #1a73e8;
 }
-
+.Sort li a
+{
+	text-align: center;
+	text-decoration: none;
+	font-family: "微软雅黑";
+	font-weight: 500;
+	color: #000000;
+}
 /*ID*/
 
 #headerbar{

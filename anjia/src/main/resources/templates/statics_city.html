@@ -10,13 +10,14 @@
 	<link rel="stylesheet" type="text/css" href="css/static_city.css" th:href="@{/css/static_city.css}"/>
 	<link href="css/citystyle.css" th:href="@{/css/citystyle.css}" type="text/css" rel="stylesheet" />
 	<script src="js/echarts.js" th:src="@{/js/echarts.js}"></script>
+	<link th:href="@{/css/footer.css}" type="text/css" rel="stylesheet"/>
 	<body>
 	<!--城市列表-->
 	<div class="selcity" id="allCity" style="display:none;">
-		<table>
+		<table class="cityTable">
 			<tbody>
 			<tr>
-				<td><a class="cur" href="#">苏州</a></td>
+				<td><a href="#">苏州</a></td>
 				<td><a href="#">上海</a></td>
 				<td><a href="#">广州</a></td>
 				<td><a href="#">深圳</a></td>
@@ -47,11 +48,12 @@
 		      <div class="hidden-xs">
 		        <ul class="nav navbar-nav" style="font-family: '微软雅黑';color: #FFFFFF;">
 		          <li><a th:href ="@{/}" style="font-family: '微软雅黑';color: #FFFFFF;font-weight: 600;">首页</a></li>
-		          <li><a href="#" style="font-family: '微软雅黑';color: #FFFFFF;font-weight: 600;">二手房</a></li>
+		          <li><a th:href = "@{/building}" style="font-family: '微软雅黑';color: #FFFFFF;font-weight: 600;">二手房</a></li>
 		          <li><a th:href="@{/city}" style="font-family: '微软雅黑';color: #FFFFFF;font-weight: 600;">历史房价</a></li>
 		          <li><a th:href="@{/calculator}" style="font-family: '微软雅黑';color: #FFFFFF;font-weight: 600;">工具</a></li>
 		          <li><a href="#" style="font-family: '微软雅黑';color: #FFFFFF;font-weight: 600;">问答</a></li>
-				  <li class="i1"><a id = "cityname" value = "苏州" href="#" style="font-family: '微软雅黑';color: #FFFFFF;background: rgba(128,128,128,0.5)">苏州</a> </li>
+					<li class="i1" th:if="${session.CityName} != null"><a id = "cityname" th:text = "${session.CityName}"  href="#" style="font-family: '微软雅黑';color: #FFFFFF;background: rgba(128,128,128,0.5)">苏州</a> </li>
+					<li class="i1" th:if="${session.CityName} == null"><a id = "cityname"  href="#" style="font-family: '微软雅黑';color: #FFFFFF;background: rgba(128,128,128,0.5)">苏州</a> </li>
                   <li class="i2" id="changeCity"><a href="#" style="font-family: '微软雅黑';color: #FFFFFF;font-style: italic;font-size:5px ">[切换城市]</a></li>
 				</ul>
 				  <ul th:if="${user} == null"class="nav navbar-nav navbar-right" th:style = "'margin-right:50px'">
@@ -122,11 +124,50 @@
 			<div class="col-sm-1"></div>
 		</div>
 	</div>
+
+
+
+
+	<footer class="container footer_banner">
+		<div class="row">
+			<br /><br /><br />
+		</div>
+		<!--底部导航栏-->
+		<div class="row" style="border-bottom: 2px #A6E1EC;">
+			<ul >
+				<li><a class="footer-link" href="#"><span>关于安家</span></a></li>
+				<li><a class="footer-link" href="#"><span>联系我们</span></a></li>
+				<li><a class="footer-link" href="#"><span>加入我们</span></a></li>
+				<li><a class="footer-link" href="#"><span>隐私申明</span></a></li>
+			</ul>
+		</div>
+		<div class="row" style="display: inline-block;">
+			<ul style="display: block;">
+				<li><span class="text-muted" style="font-family: '微软雅黑'; font-size: 16px;">客服电话</span></li>
+				<li><span style="font-family: '微软雅黑'; font-size: 16px;color: #FFFFFF;">741-741-74741</span></li>
+			</ul>
+		</div>
+	</footer>
 	</body>
 	
 
     <script type="text/javascript">
         $(function(){
+            /*城市切换*/
+            $(".cityTable tr td a").click(function () {
+                var name = this.text;
+                $.ajax({
+                    url:'/location/'+name,
+                    type:'get',
+                    success: function (data) {
+                        console.log("切换成功");
+                        window.location.reload();
+                    },
+                    error:function () {
+                        alert("切换城市失败！");
+                    }
+                });
+            });
             /*城市切换*/
             $("#changeCity").click(function(a){
                 $("#allCity").slideDown(300);

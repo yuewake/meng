@@ -18,7 +18,7 @@ import java.util.ArrayList;
  *  create by shine10076
  */
 @Controller
-public class Statics_cityController {
+public class StaticsCityController {
 
     @Autowired
     CityService cityService;
@@ -26,7 +26,7 @@ public class Statics_cityController {
     @Autowired
     CityPriceService cityPriceService;
 
-    private static final Logger logger = LoggerFactory.getLogger(Statics_cityController.class);
+    private static final Logger logger = LoggerFactory.getLogger(StaticsCityController.class);
 
     @RequestMapping("/city")
     public String getCityPath()
@@ -54,7 +54,6 @@ public class Statics_cityController {
         }
         citylist.put("CityName",cityname);
         citylist.put("area",arealist);
-        System.out.println(citylist.toJSONString());
         return citylist.toJSONString();
     }
 
@@ -109,6 +108,7 @@ public class Statics_cityController {
 
         return cityPricelist.toJSONString();
     }
+
 
 
     /**

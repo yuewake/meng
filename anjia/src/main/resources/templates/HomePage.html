@@ -18,10 +18,10 @@
 <body>
 <!--城市列表-->
 <div class="selcity" id="allCity" style="display:none;">
-	<table>
-		<tbody>
+	<table >
+		<tbody class="cityTable">
 		<tr>
-			<td><a class="cur" href="#">苏州</a></td>
+			<td><a href="#">苏州</a></td>
 			<td><a href="#">上海</a></td>
 			<td><a href="#">广州</a></td>
 			<td><a href="#">深圳</a></td>
@@ -51,12 +51,13 @@
 			<input class="hidden" id="toggle-checkbox" type="checkbox">
 			<div class="hidden-xs">
 				<ul class="nav navbar-nav" style="font-family: '微软雅黑';color: #FFFFFF;">
-					<li><a href="#" style="font-family: '微软雅黑';color: #FFFFFF;font-weight: 600;">首页</a></li>
-					<li><a href="#" style="font-family: '微软雅黑';color: #FFFFFF;font-weight: 600;">二手房</a></li>
+					<li><a th:href = "@{/}" style="font-family: '微软雅黑';color: #FFFFFF;font-weight: 600;">首页</a></li>
+					<li><a th:href = "@{/building}" style="font-family: '微软雅黑';color: #FFFFFF;font-weight: 600;">二手房</a></li>
 					<li><a th:href="@{/city}" style="font-family: '微软雅黑';color: #FFFFFF;font-weight: 600;">历史房价</a></li>
 					<li><a th:href="@{/calculator}" style="font-family: '微软雅黑';color: #FFFFFF;font-weight: 600;">工具</a></li>
-					<li><a href="#" style="font-family: '微软雅黑';color: #FFFFFF;font-weight: 600;">问答</a></li>
-					<li class="i1"><a id = "cityname" value = "苏州" href="#" style="font-family: '微软雅黑';color: #FFFFFF;background: rgba(128,128,128,0.5)">苏州</a> </li>
+					<li><a th:href="@{/wenda}" style="font-family: '微软雅黑';color: #FFFFFF;font-weight: 600;">问答</a></li>
+					<li class="i1" th:if="${session.CityName} != null"><a id = "cityname" th:text = "${session.CityName}"  href="#" style="font-family: '微软雅黑';color: #FFFFFF;background: rgba(128,128,128,0.5)">苏州</a> </li>
+					<li class="i1" th:if="${session.CityName} == null"><a id = "cityname"  href="#" style="font-family: '微软雅黑';color: #FFFFFF;background: rgba(128,128,128,0.5)">苏州</a> </li>
 					<li class="i2" id="changeCity"><a href="#" style="font-family: '微软雅黑';color: #FFFFFF;font-style: italic;font-size:5px ">[切换城市]</a></li>
 				</ul>
 				<ul th:if="${user} == null"class="nav navbar-nav navbar-right">
@@ -353,6 +354,21 @@
 
         $("#foldin").click(function(){
             $("#allCity").slideUp(300)
+        });
+
+        $(".cityTable tr td a").click(function () {
+            var name = this.text;
+			$.ajax({
+				url:'/location/'+name,
+				type:'get',
+				success: function (data) {
+				console.log("切换成功");
+                window.location.reload();
+            },
+				error:function () {
+					alert("切换城市失败！");
+                }
+			});
         });
     })
 </script>

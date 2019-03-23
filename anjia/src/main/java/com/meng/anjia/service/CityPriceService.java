@@ -42,4 +42,20 @@ public class CityPriceService {
         return cityPrice.getFirstCityPriceByID(id);
     }
 
+    /**
+     * 查询某城市最近半年的房价
+     */
+    public List<CityPrice> getCityPriceHalfYear(String name)
+    {
+        return cityPrice.getCityPriceHalfYear(name);
+    }
+
+    /**
+     * 分页测试
+     */
+    public List<CityPrice> getCityPricePage(String name, int number)
+    {
+        return cityPrice.getAllCityPricePage(name, number);
+    }
+
 }

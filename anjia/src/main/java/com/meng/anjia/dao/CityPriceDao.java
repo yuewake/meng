@@ -2,6 +2,7 @@ package com.meng.anjia.dao;
 
 import com.meng.anjia.model.CityPrice;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Component;
 
@@ -27,4 +28,11 @@ public interface CityPriceDao {
     @Select("select * from avg_price where id = #{id} order by year desc, month desc limit 1")
     CityPrice getFirstCityPriceByID(int id);
 
+    /*选择城市最近半年的房价*/
+    @Select("select * from avg_price where name = #{name} order by year desc, month desc limit 6 ")
+    List<CityPrice> getCityPriceHalfYear(String name);
+
+    /*分页选择数据*/
+    @Select("select * from avg_price where name = #{name} order by year, month limit #{number}, 10 ")
+    List<CityPrice> getAllCityPricePage(@Param("name") String name, @Param("number")int number);
 }
