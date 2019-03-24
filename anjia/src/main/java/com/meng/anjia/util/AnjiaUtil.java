@@ -3,6 +3,7 @@ package com.meng.anjia.util;
 import com.alibaba.fastjson.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.util.HtmlUtils;
 
 import java.security.MessageDigest;
 import java.util.Map;
@@ -11,6 +12,7 @@ import java.util.Map;
  * Created by yue on 2019/2/27
  */
 public class AnjiaUtil {
+
     private static final Logger logger = LoggerFactory.getLogger(AnjiaUtil.class);
     /**
      * {"code":"xxx"}

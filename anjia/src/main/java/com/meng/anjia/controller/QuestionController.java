@@ -78,7 +78,10 @@ public class QuestionController {
         model.addAttribute("isfollow", isf);
         //1获取该问题的所有评论
         List<Comment> comments = commentService.getCommentsByEntity(id, EntityType.ENTITY_QUESTION);
-        //2 遍历评论comments 获取每一条评论的用户信息和点赞数 将其存到viewObject对象中
+        //2获取该评论的关注人数
+        Long numOfFollower = followService.getFollowerCount(EntityType.ENTITY_QUESTION, id);
+        model.addAttribute("numOfFollower", numOfFollower);
+        //3 遍历评论comments 获取每一条评论的用户信息和点赞数 将其存到viewObject对象中
         for (Comment comment: comments) {
             long like = likeService.getLikeCount(EntityType.ENTITY_COMMENT, comment.getId());
             int likeStatus = likeService.getLikeStatus(hostHolder.getUser().getId(), EntityType.ENTITY_COMMENT,comment.getId());

@@ -38,15 +38,15 @@ public class FollowController {
 
     @RequestMapping("/followQuestion")
     @ResponseBody
-    public String followQuestion(String questionId){
+    public String followQuestion(int questionId){
         try {
-            boolean isSuccess = followService.follow(hostHolder.getUser().getId(), EntityType.ENTITY_QUESTION, Integer.parseInt(questionId));
+            boolean isSuccess = followService.follow(hostHolder.getUser().getId(), EntityType.ENTITY_QUESTION, questionId);
+            //关注该问题的人数
+            String msg = followService.getFollowerCount(EntityType.ENTITY_QUESTION, questionId) + "";
             if(isSuccess){
-                System.out.println("成功了");
-                return AnjiaUtil.getJSONString(1);
+                return AnjiaUtil.getJSONString(1,msg);
                 //TODO 关注成功后 需要通知问题的发布者 使用异步队列
             }else{
-                System.out.println("没有成功");
                 return AnjiaUtil.getJSONString(0);
             }
         }catch (Exception e){
@@ -58,15 +58,14 @@ public class FollowController {
 
     @RequestMapping("/unfollowQuestion")
     @ResponseBody
-    public String unfollowQuestion(String questionId){
+    public String unfollowQuestion(int questionId){
         try{
-            boolean isSuccess = followService.unfollow(hostHolder.getUser().getId(),EntityType.ENTITY_QUESTION, Integer.parseInt(questionId));
+            boolean isSuccess = followService.unfollow(hostHolder.getUser().getId(),EntityType.ENTITY_QUESTION, questionId);
+            String msg = followService.getFollowerCount(EntityType.ENTITY_QUESTION, questionId) + "";
             if(isSuccess){
-                System.out.println("成功了");
-                return AnjiaUtil.getJSONString(1);
+                return AnjiaUtil.getJSONString(1,msg);
                 //TODO 取消需要通知问题的发布者 使用异步队列
             }else{
-                System.out.println("没有成功");
                 return AnjiaUtil.getJSONString(0);
             }
         }catch (Exception e){

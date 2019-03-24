@@ -34,15 +34,22 @@
     <a th:if="${isfollow} == 1" id="followQuestion" class="btn btn-warning" href="#" th:onclick="|unfollowQuestion(${question.id})|" onmouseover="changeover()" onmouseout="changeout()">已经关注</a>&nbsp;
 
     <a class="btn btn-default" onclick="showAnswer()"> 写回答</a>&nbsp;
-    <span>9人关注该问题</span>
+    <span id="numOfFollower" th:text = "${numOfFollower} + ' 人关注该问题'">9人关注该问题</span>
 </div>
 
 <div id="answer" style="padding: 10px 400px 0px 400px;display: none;">
     <form th:action="@{/addComment}" method="post">
         <input type="hidden" name="entityId" th:value="${question.id}">
         <input type="hidden" name="entityType" value="1">
-        <div class="form-group">
-            <textarea id="summernote" name="content" class="form-control" rows="3"></textarea>
+
+
+        <div class="form-group" style="display: none">
+             <textarea id="text1" name="content" style="width:100%; height:200px;"></textarea>
+        </div>
+
+
+        <div style="background-color: white">
+            <div th:include = "wenda/editor"></div>
         </div>
         <button style="float: right" class="btn btn-primary" type="submit">提交回答</button>
     </form>
@@ -52,11 +59,10 @@
 
     <div class="about" th:each="vos:${vos}">
         <h4 th:text="${vos.objs['user'].username}"  style="color: rgba(59,13,11,0.51)">Alan Fang</h4>
-        <p style="margin: 10px 0px" th:text="${vos.objs['comment'].content}">在英国千万别做什么？在英国千万别做什么？在英国千万别做什么？在英国千万别做什么？在英国千万别做什么？在英国千万别做什么？</p>
+        <div style="margin: 10px 0px" th:utext="${vos.objs['comment'].content}">在英国千万别做什么？</div>
         <span th:text="${#dates.format(vos.objs['comment'].createdDate, 'yyyy-MM-dd HH:mm:ss')}" style="color: rgba(59,13,11,0.51)">发布于2019-2-28 10:57</span><br/><br/>
         <a th:class="${vos.objs['likeStatus'] == 1} ? 'btn btn-success' : 'btn btn-info'" th:id="'comment'+ ${{vos.objs['comment'].id}}" href="javascript:void(0)" th:text="'赞同 ' + ${vos.objs['like']}" th:onclick="|updateUP(${vos.objs['comment'].id})|" ><span class="glyphicon glyphicon-heart"></span> 赞同 3.4K</a>&nbsp;
-        <a th:class="${vos.objs['likeStatus'] == -1} ? 'btn btn-success' : 'btn btn-info'" th:id="'down'+ ${{vos.objs['comment'].id}}" th:onclick="|updateDOWN(${vos.objs['comment'].id})|" href="javascript:void(0)"><span class="glyphicon glyphicon-chevron-down"></span></a>&nbsp;&nbsp;&nbsp;
-        <a href="#" >10 条评论</a>
+        <a th:class="${vos.objs['likeStatus'] == -1} ? 'btn btn-success' : 'btn btn-info'" th:id="'down'+ ${{vos.objs['comment'].id}}" th:onclick="|updateDOWN(${vos.objs['comment'].id})|" href="javascript:void(0)"><span class="glyphicon glyphicon-chevron-down"></span></a>
     </div>
 
 </div>
@@ -92,8 +98,15 @@
 <!-- Modal -->
 
 <script>
+    var isQuestionShow = false;
     function showAnswer() {
-        document.getElementById("answer").style.display="";
+        if(isQuestionShow){
+            document.getElementById("answer").style.display = "none";
+            isQuestionShow = false;
+        }else {
+            document.getElementById("answer").style.display = "";
+            isQuestionShow = true;
+        }
     }
 
     function updateUP(commentId) {
@@ -145,7 +158,8 @@
                     $("#followQuestion").attr("class", "btn btn-warning");
                     $("#followQuestion").attr("onmouseover","changeover()");
                     $("#followQuestion").attr("onmouseout","changeout()");
-                    $("#followQuestion").attr("onclick","unfollowQuestion(" + questionId +")")
+                    $("#followQuestion").attr("onclick","unfollowQuestion(" + questionId +")");
+                    $("#numOfFollower").html(data.msg + " 人关注该问题");
                 }
 
             },
@@ -167,6 +181,7 @@
                     $("#followQuestion").attr("onclick","followQuestion(" + questionId +")");
                     $("#followQuestion").removeAttr("onmouseover");
                     $("#followQuestion").removeAttr("onmouseout");
+                    $("#numOfFollower").html(data.msg + " 人关注该问题");
                 }
 
             },
@@ -183,6 +198,8 @@
     function changeout() {
         $("#followQuestion").html("已经关注");
     }
+
+
 </script>
 </body>
 </html>

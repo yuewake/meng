@@ -41,7 +41,7 @@ public class CommentController {
                              @RequestParam("content") String content,
                              @RequestParam("entityType") int entityType) {
         try {
-            content = HtmlUtils.htmlEscape(content);
+            //content = HtmlUtils.htmlEscape(content);
             //TODO 敏感词过滤
 
             Comment comment = new Comment();

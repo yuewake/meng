@@ -3,6 +3,7 @@ package com.meng.anjia.util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
@@ -21,13 +22,20 @@ public class JedisAdapter implements InitializingBean {
     private static final Logger logger = LoggerFactory.getLogger(JedisAdapter.class);
     private JedisPool pool;
 
+    @Value("${redis.host}")
+    private String host;
+    @Value("${redis.password}")
+    private String password;
+    @Value("${redis.port}")
+    private Integer port;
+
     @Override
     public void afterPropertiesSet() throws Exception {
         JedisPoolConfig poolConfig = new JedisPoolConfig();
         poolConfig.setMaxTotal(50);// 最大连接数，连接全部用完，进行等待
         poolConfig.setMinIdle(10); // 最小空余数
         poolConfig.setMaxIdle(30); // 最大空余数
-        pool = new JedisPool(poolConfig,"yueredis.redis.cache.chinacloudapi.cn", 6379, 3000, "w6sJkfQkH6lEBfhfpCyaWWeZudbQ4TDsyCec24e63HE=");
+        pool = new JedisPool(poolConfig,host, port, 3000, password);
     }
 
     public Jedis getJedis() {
