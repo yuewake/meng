@@ -5,7 +5,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -26,7 +25,7 @@ public class HomePageController {
 		return MAP;
 	}
 
-	@RequestMapping(value = "/location/{cityName}", method = RequestMethod.GET)
+	@GetMapping(value = "/location/{cityName}")
 	public String location(Model model, HttpServletRequest request, @PathVariable("cityName")String cityName)
 	{
 		request.getSession().setAttribute("CityName",cityName);

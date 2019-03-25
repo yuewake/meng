@@ -8,10 +8,7 @@ import com.meng.anjia.service.CityPriceService;
 import com.meng.anjia.service.CityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,7 +49,7 @@ public class StaticsCityController {
     /**
      * 返回某市的区域json数据
      */
-    @RequestMapping(value="/city/{cityName}", method = RequestMethod.GET)
+    @GetMapping(value="/city/{cityName}")
     @ResponseBody
     public String  uid(@PathVariable("cityName") String cityName)
     {
@@ -76,7 +73,7 @@ public class StaticsCityController {
     /**
      * 返回某区域的历史房价json数据
      */
-    @RequestMapping(value = "/city/price/{name}" , method = RequestMethod.GET)
+    @GetMapping(value = "/city/price/{name}" )
     @ResponseBody
     public String cityPrice(@PathVariable("name")String name)
     {
@@ -102,7 +99,7 @@ public class StaticsCityController {
     /**
      * 返回某区域的历史房价json数据
      */
-    @RequestMapping(value = "/city/priceByID/{id}" , method = RequestMethod.GET)
+    @GetMapping(value = "/city/priceByID/{id}")
     @ResponseBody
     public String cityPrice(@PathVariable("id")int id)
     {
@@ -129,7 +126,7 @@ public class StaticsCityController {
     /**
      * 返回当前城市的最新房价,还未用到
      */
-    @RequestMapping(value = "/city/firstPrice/{name}", method = RequestMethod.GET)
+    @GetMapping(value = "/city/firstPrice/{name}")
     @ResponseBody
     public String firstCityPrice(@PathVariable("name")String name)
     {
@@ -142,7 +139,7 @@ public class StaticsCityController {
     /**
      * 返回当前城市子区域的最新房价
      */
-    @RequestMapping(value = "/city/FirstPriceList/{name}", method = RequestMethod.GET)
+    @GetMapping(value = "/city/FirstPriceList/{name}")
     @ResponseBody
     public String firstPriceList(@PathVariable("name") String name)
     {

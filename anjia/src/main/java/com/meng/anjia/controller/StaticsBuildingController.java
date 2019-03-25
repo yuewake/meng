@@ -9,10 +9,7 @@ import com.meng.anjia.service.CityPriceService;
 import com.meng.anjia.service.CityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -47,7 +44,7 @@ public class StaticsBuildingController {
     /**
      * 返回某城市最近半年房价的json数据
      */
-    @RequestMapping(value = "/building/cityPrice/{name}", method = RequestMethod.GET)
+    @GetMapping(value = "/building/cityPrice/{name}")
     @ResponseBody
     public String cityPrice(@PathVariable("name")String name)
     {
@@ -72,7 +69,7 @@ public class StaticsBuildingController {
      * 返回Paginator参数
      * 分页数据测试
      */
-    @RequestMapping(value = "/building/PageParam/{cityName}", method = RequestMethod.GET)
+    @GetMapping(value = "/building/PageParam/{cityName}")
     @ResponseBody
     public String pageParam(@PathVariable("cityName") String cityName)
     {
@@ -88,7 +85,7 @@ public class StaticsBuildingController {
     /**
      * 按页数返回小区信息
      */
-    @RequestMapping(value = "/building/Page/{page}&{cityname}", method = RequestMethod.GET)
+    @GetMapping(value = "/building/Page/{page}&{cityname}")
     @ResponseBody
     public String pageData(@PathVariable("page")int page, @PathVariable("cityname")String cityname)
     {
@@ -127,7 +124,7 @@ public class StaticsBuildingController {
      * @param maxPrice
      * @return
      */
-    @RequestMapping(value = "/buildingFind/{area}&{minPrice}&{maxPrice}&{type}&{status}&{page}", method = RequestMethod.GET)
+    @GetMapping(value = "/buildingFind/{area}&{minPrice}&{maxPrice}&{type}&{status}&{page}")
     @ResponseBody
     public String findBuildingByCondition(@PathVariable("area")String area, @PathVariable("minPrice")int minPrice, @PathVariable("maxPrice")int maxPrice,@PathVariable("type")String type,@PathVariable("status")String status,@PathVariable("page")int page)
     {
@@ -168,7 +165,6 @@ public class StaticsBuildingController {
             item.put("tags",list.get(i).getTags());
             item.put("maxArea", list.get(i).getMaxArea());
             item.put("imgUrl",list.get(i).getUrl());
-            item.put("tags",list.get(i).getTags());
             array.add(item);
         }
         result.put("BuildingList", array);
