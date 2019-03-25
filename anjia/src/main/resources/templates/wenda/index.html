@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta charset="utf-8">
+		<link rel="stylesheet" th:href="@{css/style.css}" />
+		<link rel="stylesheet" th:href="@{css/bootstrap.css}"/>
+		<script th:src="@{js/jquery-3.3.1.js}" ></script>
+		<script th:src="@{js/bootstrap.js}" ></script>
+		<style>
+			a.hover-blue {
+				text-decoration: none;
+				color: #000000;
+			}
+			a.hover-blue:hover{
+				color: #00CCFF;
+				text-decoration: none;
+			}
+		</style>
+		<title>主页</title>
+	</head>
+	<body style="background-color: #eeeeee">
+		<header>
+			<div>
+				<div th:include = "wenda/header"></div>
+			</div>
+		</header>
+
+		<div class="question">
+
+			<div class="about" th:each="vos:${vos}">
+				<a class="hover-blue" th:href="@{/question/{qid}(qid = ${vos.objs['question'].id})}"><h3 th:text="${vos.objs['question'].title}">在英国千万别做什么？</h3></a>
+				<span th:text="${vos.objs['user'].username} + ' | '">Alan Fang,</span>
+				<span th:text="${#dates.format(vos.objs['question'].createdDate, 'yyyy-MM-dd HH:mm:ss')}">2019-2-28 10:57</span>
+				<p style="margin: 10px 0px" th:text="${vos.objs['question'].content}">在英国千万别做什么？在英国千万别做什么？在英国千万别做什么？在英国千万别做什么？在英国千万别做什么？在英国千万别做什么？</p>
+
+				<a href="#"><span class="glyphicon glyphicon-plus"></span>&nbsp;关注问题</a>&nbsp;&nbsp;&nbsp;
+				<a href="#" th:text="${vos.objs['question'].commentCount} + ' 条评论'">10 条评论</a>
+			</div>
+		
+		</div>
+
+		<!-- Modal -->
+		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header" style="background-color: #00CCFF">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" id="myModalLabel">提问</h4>
+					</div>
+
+					<form method="post" th:action="@{/question/add}">
+					<div class="modal-body">
+						<div class="form-group">
+							<input id="title" name="title" type="text" class="form-control" placeholder="写下你的问题">
+						</div>
+						<div class="form-group">
+							<label>问题说明(可选)：</label>
+							<textarea id="content" class="form-control" rows="3" name="content"  placeholder="问题背景、条件等详细信息"></textarea>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+						<button type="submit" class="btn btn-primary">发布</button>
+					</div>
+					</form>
+
+				</div>
+			</div>
+		</div>
+		<!-- Modal -->
+	<script>
+		function sendQuestion() {
+			var title = $("#title").val();
+			var content = $("#content").val();
+			var param = '{"title": '+title+',"content":'+content+'}';
+			$.ajax({
+				type: "post",
+				url: "/question/in",
+				contentType: "application/json;charset=utf-8",
+				data:JSON.stringify({"title" : title, "content" : content}),
+				dataType:"json",
+				success:function (data) {
+					$("#myModal").modal("hide");
+					$('.modal-backdrop').remove();
+				},
+				error:function (message) {
+					alert("提交失败"+JSON.stringify(message));
+				}
+			});
+		}
+	</script>
+	</body>
+</html>

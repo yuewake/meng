@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="referrer" content="no-referrer"/>
+    <title>楼盘显示</title>
+</head>
+<script src="js/jquery-2.1.1.min.js" th:src="@{/js/jquery-2.1.1.min.js}"></script>
+<script src="js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}" type="text/javascript" charset="utf-8"></script>
+<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}"/>
+<link href="css/citystyle.css" th:href="@{/css/citystyle.css}" type="text/css" rel="stylesheet" />
+<link href="css/static_building.css" th:href="@{/css/static_building.css}" type="text/css" rel="stylesheet" />
+<link href="css/headbar.css" th:href="@{/css/headbar.css}" type="text/css" rel="stylesheet" />
+<script src="js/echarts.js" th:src="@{/js/echarts.js}"></script>
+<script src="js/bootstrap-paginator.js" th:src="@{/js/bootstrap-paginator.js}"></script>
+<link th:href="@{/css/footer.css}" type="text/css" rel="stylesheet"/>
+<link th:href="@{/css/chooseStyle.css}" type="text/css" rel="stylesheet"/>
+<body>
+<!--城市列表-->
+<div class="selcity" id="allCity" style="display:none;">
+    <table class="cityTable">
+        <tbody>
+        <tr>
+            <td><a  href="#">苏州</a></td>
+            <td><a href="#">上海</a></td>
+            <td><a href="#">广州</a></td>
+            <td><a href="#">深圳</a></td>
+            <td><a href="#">重庆</a></td>
+            <td><a href="#">西安</a></td>
+        </tr>
+        <tr>
+            <td><a href="#">北京</a></td>
+            <td><a href="#">南京</a></td>
+            <td><a href="#">成都</a></td>
+            <td><a href="#">武汉</a></td>
+            <td><a href="#">杭州</a></td>
+            <td><a href="#">济南</a></td>
+        </tr>
+        </tbody>
+    </table>
+    <div class="none"><a id="foldin" href="#">收起</a></div>
+</div>
+<!--导航栏-->
+<div class="container home_header">
+    <div  id="headerbar" class="navbar navbar-default">
+        <div class="container">
+            <div class="navbar-header" style="margin-left: 100px;">
+                <a href="#" class="navbar-brand"></a>
+            </div>
+            <label id="toggle-label" class="visible-xs-inline-block" for="toggle-checkbox">MENU</label>
+            <input class="hidden" id="toggle-checkbox" type="checkbox">
+            <div class="hidden-xs">
+                <ul class="nav navbar-nav" style="font-family: '微软雅黑';color: #FFFFFF;">
+                    <li><a th:href ="@{/}" style="font-family: '微软雅黑';color: #FFFFFF;font-weight: 600;">首页</a></li>
+                    <li><a th:href = "@{/building}" style="font-family: '微软雅黑';color: #FFFFFF;font-weight: 600;">二手房</a></li>
+                    <li><a th:href="@{/city}" style="font-family: '微软雅黑';color: #FFFFFF;font-weight: 600;">历史房价</a></li>
+                    <li><a th:href="@{/calculator}" style="font-family: '微软雅黑';color: #FFFFFF;font-weight: 600;">工具</a></li>
+                    <li><a href="#" style="font-family: '微软雅黑';color: #FFFFFF;font-weight: 600;">问答</a></li>
+                    <li class="i1" th:if="${session.CityName} != null"><a id = "cityname" th:text = "${session.CityName}"  href="#" style="font-family: '微软雅黑';color: #FFFFFF;background: rgba(128,128,128,0.5)">苏州</a> </li>
+                    <li class="i1" th:if="${session.CityName} == null"><a id = "cityname"  href="#" style="font-family: '微软雅黑';color: #FFFFFF;background: rgba(128,128,128,0.5)">苏州</a> </li>
+                    <li class="i2" id="changeCity"><a href="#" style="font-family: '微软雅黑';color: #FFFFFF;font-style: italic;font-size:5px ">[切换城市]</a></li>
+                </ul>
+                <ul th:if="${user} == null"class="nav navbar-nav navbar-right" th:style = "'margin-right:50px'">
+                    <li><a th:href="@{/loginwin}" style="font-family: '微软雅黑';color: #FFFFFF;">登录</a></li>
+                    <li><a th:href="@{/loginwin}" style="font-family: '微软雅黑';color: #FFFFFF;">注册</a></li>
+                </ul>
+                <ul th:if="${user} != null"class="nav navbar-nav navbar-right" th:style = "'margin-right:50px'">
+                    <li><a th:text = "'您好,' + ${user.username}" style="font-family: '微软雅黑';color: #FFFFFF;"></a></li>
+                    <li><a th:href="@{/logout}" style="font-family: '微软雅黑';color: #FFFFFF;">退出</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--&lt;!&ndash;网页标题&ndash;&gt;-->
+
+<!--<div class="container" >-->
+    <!--<div class="row"style="margin:0;width:100%;text-align: center;">-->
+        <!--<div class=" jumbotron">-->
+            <!--<h2>二手房</h2>-->
+            <!--<h5 style="color:#D8BFD8;">纵览小区恋上这座城</h5>-->
+        <!--</div>-->
+    <!--</div>-->
+<!--</div>-->
+
+<!--区域分类-->
+<div class="container">
+    <!--location-->
+    <div class="row" >
+        <div class="col-sm-1"></div>
+        <div class = "col-sm-10 location_title">
+            <ul class="select row">
+                <li class="select-list">
+                    <dl id="select1">
+                        <dt>小区类型:</dt>
+                        <dd class="select-all selected"><a href="#">全部</a></dd>
+                        <dd><a href="#">商业</a></dd>
+                        <dd><a href="#">住宅</a></dd>
+                        <dd><a href="#">写字楼</a></dd>
+                        <dd><a href="#">别墅</a></dd>
+                        <dd><a href="#">酒店式公寓</a></dd>
+                    </dl>
+                </li>
+                <li class="select-list">
+                    <dl id="select2">
+                        <dt>小区状态:</dt>
+                        <dd class="select-all selected"><a href="#">全部</a></dd>
+                        <dd><a href="#">在售</a></dd>
+                        <dd><a href="#">售罄</a></dd>
+                        <dd><a href="#">下期待开</a></dd>
+                        <dd><a href="#">未开盘</a></dd>
+                    </dl>
+                </li>
+                <li class="select-list">
+                    <dl id="select3">
+                        <dt>楼盘售价:</dt>
+                        <dd class="select-all selected"><a href="#">全部</a></dd>
+                        <dd><a href="#">1万以下</a></dd>
+                        <dd><a href="#">1万到2万</a></dd>
+                        <dd><a href="#">2万到3万</a></dd>
+                        <dd><a href="#">3万到5万</a></dd>
+                        <dd><a href="#">5万到10万</a></dd>
+                        <dd><a href="#">10万以上</a></dd>
+                    </dl>
+                </li>
+                <li class="select-list">
+                    <dl id="select4">
+                        <dt id = "select-area">区域:</dt>
+                        <dd class="select-all selected"><a href="#">全部</a></dd>
+                    </dl>
+                </li>
+                <li class="select-result" >
+                    <div class="row">
+                        <dl class="condition-result">
+                            <dt>已选条件:</dt>
+                        </dl>
+                        <!--<span class="btn text-muted removeCondition">清空条件</span>-->
+                        <button id = "submit" class="btn" style="background:#1a73e8;color: #FFFFFF;">开始筛选</button>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="col-sm-1"></div>
+    </div>
+    <!--价格区间-->
+    <div class="row" >
+        <div class="col-sm-1"></div>
+        <div class = "col-sm-10 price_title">
+            <ul class="price_ul">
+            </ul>
+        </div>
+        <div class="col-sm-1"></div>
+    </div>
+</div>
+
+
+
+<!--小区浏览-->
+<div class="container">
+    <div class="row">
+        <!--小区浏览-->
+        <div class="col-sm-1"></div>
+            <div class="col-sm-7" id = "buildingShow">
+                <nav class="nav-bar navbar-default">
+                    <ul class="nav nav-tabs Sort" role = "tablist">
+                        <li role="presentation" class="active"><a class="cal-tab-pane" aria-controls="MR" role="tab" data-toggle="tab">默认排序</a></li>
+                        <!--<li role="presentation"><a class="cal-tab-pane"  aria-controls="FJ" role="tab" data-toggle="tab">按房价</a></li>-->
+                        <!--<li role="presentation"><a class="cal-tab-pane" aria-controls="MC" role="tab" data-toggle="tab">按名称</a></li>-->
+                    </ul>
+                </nav>
+                <ul class="buildingInfo">
+                    
+                </ul>
+                <ul class="page-info" style="text-align: right"></ul>
+            </div>
+            <div class="col-sm-4">
+                <div id = "main1" style="height: 250px"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<footer class="container footer_banner">
+    <div class="row">
+        <br /><br /><br />
+    </div>
+    <!--底部导航栏-->
+    <div class="row" style="border-bottom: 2px #A6E1EC;">
+        <ul >
+            <li><a class="footer-link" href="#"><span>关于安家</span></a></li>
+            <li><a class="footer-link" href="#"><span>联系我们</span></a></li>
+            <li><a class="footer-link" href="#"><span>加入我们</span></a></li>
+            <li><a class="footer-link" href="#"><span>隐私申明</span></a></li>
+        </ul>
+    </div>
+    <div class="row" style="display: inline-block;">
+        <ul style="display: block;">
+            <li><span class="text-muted" style="font-family: '微软雅黑'; font-size: 16px;">客服电话</span></li>
+            <li><span style="font-family: '微软雅黑'; font-size: 16px;color: #FFFFFF;">741-741-74741</span></li>
+        </ul>
+    </div>
+</footer>
+
+
+</body>
+
+
+<script type="text/javascript">
+    $(function(){
+        /*选择城市*/
+        $(".cityTable tr td a").click(function () {
+            var name = this.text;
+            $.ajax({
+                url:'/location/'+name,
+                type:'get',
+                success: function (data) {
+                    console.log("切换成功");
+                    window.location.reload();
+                },
+                error:function () {
+                    alert("切换城市失败！");
+                }
+            });
+        });
+        /*城市切换*/
+        $("#changeCity").click(function(a){
+            $("#allCity").slideDown(300);
+            a.stopPropagation();
+            $(this).blur()
+        });
+
+        $("#allCity").click(function(a){
+            a.stopPropagation()
+        });
+
+        $(document).click(function(a){
+            a.button!=2&&$("#allCity").slideUp(300)
+        });
+
+        $("#foldin").click(function(){
+            $("#allCity").slideUp(300)
+        });
+
+        /*区域列表*/
+        $(document).ready(function () {
+            var cityname = $("#cityname").text();
+            $.ajax({
+                url: '/city/'+cityname,
+                type:'get',
+                dataType:'json',
+                success: function (data){
+                    var json = data.area;
+                    for(var i=0;i<json.length;i++)
+                    {
+                        $("#select4").append('<dd><a href="#">'+json[i].name+'</a></dd> ');
+                    }
+                },
+                error: function (errorMsg) {
+                    alert("请求失败");
+                }
+            })
+        });
+        /*房价半年走势图*/
+        $(document).ready(function () {
+           var name = $("#cityname").text();
+           $.ajax({
+               url: '/building/cityPrice/'+name,
+               type:'get',
+               dataType:'json',
+               success: function (data) {
+                   var json = data.priceList;
+                   console.log(json);
+                   var price = [];
+                   var time = [];
+                   for(var i = json.length-1; i >= 0; i-- )
+                   {
+                       price.push(json[i].price);
+                       time.push(json[i].time);
+                   }
+
+                   var myChart1 = echarts.init(document.getElementById('main1'));
+                   option = {
+                       title:
+                           {
+                             text: name + "房价半年走势图",
+                              x:'center'
+                           },
+                       xAxis: {
+                           type: 'category',
+                           data: time
+                       },
+                       yAxis: {
+                           type: 'value'
+                       },
+                       series: [{
+                           data: price,
+                           type: 'line',
+                           itemStyle : { normal: {label : {show: true}}}
+                       }]
+                   };
+                   myChart1.setOption(option);
+                   window.onresize = function (){
+
+                       myChart1.resize();
+                   }
+               },
+               error:function (errorMsg) {
+                   alert("房价请求失败");
+               }
+            });
+        });
+        /*往后台发送分页请求*/
+        $(document).ready(function () {
+            var cityname = $("#cityname").text();
+            $.ajax({
+               url:'/building/PageParam/'+cityname,
+                type:'get',
+                dataType:'json',
+                success:function (data) {
+                    var result = data;
+                    //请求加载数据
+                    $.ajax({
+                        url: "/building/Page/"+1+'&'+cityname,
+                        dataType:'json',
+                        type:'get',
+                        success: function (data) {
+                            var json = data.BuildingList;
+                            console.log(json);
+                            $(".buildingInfo").empty();
+                            for(var i = 0; i< json.length;++i)
+                            {
+                                /*插入项目*/
+                                $(".buildingInfo").append('<li style="display:block;padding: 10px;border-bottom: 1px solid #00FFFF">' +
+                                    '<div class="container">' +
+                                    '<div class="col-sm-5"><img style="height: 174px;;border-radius:2px" src='+json[i].imgUrl+'></div>' +
+                                    '<div class="col-sm-7">' +
+                                    '<div class="col-sm-12" style="text-align: left"><a href="/buildingInfo/'+json[i].ID+'"style="font-family: 微软雅黑;font-weight: 600;color: #000000;font-size: 22px">'+json[i].Name+'<span class="label label-primary" style="font-size: 5px">'+json[i].status+'</span><span class="label label-success" style="font-size: 5px">'+json[i].type+'</span></a></div>' +
+                                    '<div class="col-sm-12" style="text-align: right"><h3 style="color:#D2691E;font-weight: 600">'+json[i].avgPrice+'</h3><small style="color:#D2691E;font-weight: 600">'+json[i].Unit+'</small></div>'+
+                                    '<div class="col-sm-12" style="text-align: left"><img src="img/location_building.png"/><span class="text-muted">'+json[i].location+'</span></div>'+
+                                    '<div class="col-sm-12" style="text-align: left"><img src="img/star.png"/><span class="text-muted">'+json[i].area+'/'+json[i].subarea+'/'+json[i].rooms+'</span></div>'+
+                                    '<div class="col-sm-12" style="text-align: left"><img src="img/tags.png"/><span class="text-muted">'+json[i].tags+'</span></div>'+
+                                    '</div>' +
+                                    '</div>'
+                                    +'</li> ');
+                            }
+                        },
+                        error:function () {
+                            alert("数据请求失败");
+                        }
+                    });
+                    var options = {
+                        bootstrapMajorVersion:3,
+                        currentPage: result.curPage,          //设置当前页
+                        numberOfPages: result.numberOfPage,		 //设置可以点击到的页数范围
+                        totalPages:result.totalPages,
+                        itemTexts: function(type, page, current) { //修改显示文字
+                            switch (type) {
+                                case "first":
+                                    return "首页";
+                                case "prev":
+                                    return "上一页";
+                                case "next":
+                                    return "下一页";
+                                case "last":
+                                    return "尾页";
+                                case "page":
+                                    return page;
+                            }
+                        }, onPageClicked: function (event, originalEvent, type, page) { //异步换页
+                            //请求加载数据
+                            $.ajax({
+                               url: "/building/Page/"+page+'&'+cityname,
+                               dataType:'json',
+                               type:'get',
+                               success: function (data) {
+                                   var json = data.BuildingList;
+                                   console.log(json);
+                                   $(".buildingInfo").empty();
+                                   for(var i = 0; i< json.length;++i)
+                                   {
+                                       /*插入项目*/
+                                       $(".buildingInfo").append('<li style="display:block;padding: 10px;border-bottom: 1px solid #00FFFF">' +
+                                       '<div class="container">' +
+                                           '<div class="col-sm-5"><img style="height: 174px;;border-radius:2px" src='+json[i].imgUrl+'></div>' +
+                                           '<div class="col-sm-7">' +
+                                           '<div class="col-sm-12" style="text-align: left"><a href="/buildingInfo/'+json[i].ID+'" style="font-family: 微软雅黑;font-weight: 600;color: #000000;font-size: 22px">'+json[i].Name+'<span class="label label-primary" style="font-size: 5px">'+json[i].status+'</span><span class="label label-success" style="font-size: 5px">'+json[i].type+'</span></a></div>' +
+                                            '<div class="col-sm-12" style="text-align: right"><h4 style="color:#D2691E;font-weight: 600">'+json[i].avgPrice+json[i].Unit+'</h4></div>'+
+                                           '<div class="col-sm-12" style="text-align: left"><img src="img/location_building.png"/><span class="text-muted">'+json[i].location+'</span></div>'+
+                                           '<div class="col-sm-12" style="text-align: left"><img src="img/star.png"/><span class="text-muted">'+json[i].area+'/'+json[i].subarea+'/'+json[i].rooms+'</span></div>'+
+                                           '<div class="col-sm-12" style="text-align: left"><img src="img/tags.png"/><span class="text-muted">'+json[i].tags+'</span></div>'+
+                                           '</div>' +
+                                       '</div>'
+                                           +'</li> ');
+                                   }
+                               },
+                               error:function () {
+                                   alert("数据请求失败");
+                               }
+                            });
+                        }
+                    }
+                    $(".page-info").bootstrapPaginator(options);
+                }
+            });
+        })
+
+
+
+        /*多条件选择框*/
+        $(document).ready(function(){
+            $("#select1 dd").click(function () {
+                $(this).addClass("selected").siblings().removeClass("selected");
+                if ($(this).hasClass("select-all")) {
+                    $("#selectA").remove();
+                } else {
+                    var copyThisA = $(this).clone();
+                    if ($("#selectA").length > 0) {
+                        $("#selectA a").html($(this).text());
+                    } else {
+                        $(".select-result dl").append(copyThisA.attr("id", "selectA"));
+                    }
+                }
+            });
+
+            $("#select2 dd").click(function () {
+                $(this).addClass("selected").siblings().removeClass("selected");
+                if ($(this).hasClass("select-all")) {
+                    $("#selectB").remove();
+                } else {
+                    var copyThisB = $(this).clone();
+                    if ($("#selectB").length > 0) {
+                        $("#selectB a").html($(this).text());
+                    } else {
+                        $(".select-result dl").append(copyThisB.attr("id", "selectB"));
+                    }
+                }
+            });
+
+            $("#select3 dd").click(function () {
+                $(this).addClass("selected").siblings().removeClass("selected");
+                if ($(this).hasClass("select-all")) {
+                    $("#selectC").remove();
+                } else {
+                    var copyThisC = $(this).clone();
+                    if ($("#selectC").length > 0) {
+                        $("#selectC a").html($(this).text());
+                    } else {
+                        $(".select-result dl").append(copyThisC.attr("id", "selectC"));
+                    }
+                }
+            });
+
+            $(document).on("click","#select4 dd",function () {
+                $(this).addClass("selected").siblings().removeClass("selected");
+                if ($(this).hasClass("select-all")) {
+                    $("#selectD").remove();
+                } else {
+                    var copyThisA = $(this).clone();
+                    if ($("#selectD").length > 0) {
+                        $("#selectD a").html($(this).text());
+                    } else {
+                        $(".select-result dl").append(copyThisA.attr("id", "selectD"));
+                    }
+                }
+            });
+
+            $(document).on("click","#selectA", function(){
+                $(this).remove();
+                $("#select1 .select-all").addClass("selected").siblings().removeClass("selected");
+            });
+
+            $(document).on("click","#selectB",function(){
+                $(this).remove();
+                $("#select2 .select-all").addClass("selected").siblings().removeClass("selected");
+            });
+
+            $(document).on("click","#selectC",function(){
+                $(this).remove();
+                $("#select3 .select-all").addClass("selected").siblings().removeClass("selected");
+            });
+
+            $(document).on("click","#selectD",function(){
+                $(this).remove();
+                $("#select4 .select-all").addClass("selected").siblings().removeClass("selected");
+            });
+
+            /*提交筛选条件*/
+            $("#submit").click(function(){
+                var type = $("#selectA a").text();
+                var status = $("#selectB a").text();
+                var price = $("#selectC a").text();
+                var area = $("#selectD a").text();
+                var minprice = 0;
+                var maxprice = 0;
+                if(price =="1万以下")
+                {
+                     minprice = 0;
+                     maxprice = 10000;
+                }
+                else if(price =="1万到2万")
+                {
+                     minprice = 10000;
+                     maxprice = 20000;
+                }
+                else if(price == "2万到3万")
+                {
+                     minprice = 20000;
+                     maxprice = 30000;
+                }
+                else if(price == "3万到5万")
+                {
+                     minprice =30000;
+                     maxprice =50000;
+                }
+                else if(price == "5万到10万")
+                {
+                     minprice = 50000;
+                     maxprice = 100000;
+                }
+                else if(price == "10万以上")
+                {
+                     minprice = 100000;
+                     maxprice = 0;
+                }
+                else
+                {
+                     minprice = 0;
+                     maxprice = 0;
+                }
+                /*条件查询初始化页面*/
+                $.ajax({
+                    url:'/buildingFind/'+area+'&'+ minprice+'&'+maxprice+'&'+type+'&'+status + '&'+ 1,
+                    type:'get',
+                    dataType:'json',
+                    success:function (data) {
+                        var json = data.BuildingList;
+                        $(".buildingInfo").empty();
+                        for(var i = 0; i< json.length;++i)
+                        {
+                            /*插入项目*/
+                            $(".buildingInfo").append('<li style="display:block;padding: 10px;border-bottom: 1px solid #00FFFF">' +
+                                '<div class="container">' +
+                                '<div class="col-sm-5"><img style="height: 174px;;border-radius:2px" src='+json[i].imgUrl+'></div>' +
+                                '<div class="col-sm-7">' +
+                                '<div class="col-sm-12" style="text-align: left"><a href="/buildingInfo/'+json[i].ID+'" style="font-family: 微软雅黑;font-weight: 600;color: #000000;font-size: 22px">'+json[i].Name+'<span class="label label-primary" style="font-size: 5px">'+json[i].status+'</span><span class="label label-success" style="font-size: 5px">'+json[i].type+'</span></a></div>' +
+                                '<div class="col-sm-12" style="text-align: right"><h4 style="color:#D2691E;font-weight: 600">'+json[i].avgPrice+json[i].Unit+'</h4></div>'+
+                                '<div class="col-sm-12" style="text-align: left"><img src="img/location_building.png"/><span class="text-muted">'+json[i].location+'</span></div>'+
+                                '<div class="col-sm-12" style="text-align: left"><img src="img/star.png"/><span class="text-muted">'+json[i].area+'/'+json[i].subarea+'/'+json[i].rooms+'</span></div>'+
+                                '<div class="col-sm-12" style="text-align: left"><img src="img/tags.png"/><span class="text-muted">'+json[i].tags+'</span></div>'+
+                                '</div>' +
+                                '</div>'
+                                +'</li> ');
+                        }
+                        /*设置分页参数*/
+                        var option2 = {
+                            bootstrapMajorVersion:3,
+                            currentPage: 1,          //设置当前页
+                            numberOfPages: 8,		 //设置可以点击到的页数范围
+                            totalPages:data.totalPage,
+                            itemTexts: function(type, page, current) { //修改显示文字
+                                switch (type) {
+                                    case "first":
+                                        return "首页";
+                                    case "prev":
+                                        return "上一页";
+                                    case "next":
+                                        return "下一页";
+                                    case "last":
+                                        return "尾页";
+                                    case "page":
+                                        return page;
+                                }
+                            },
+                            onPageClicked: function (event, originalEvent, type, page) { //异步换页
+                                //请求加载数据
+
+                                var type = $("#selectA a").text();
+                                var status = $("#selectB a").text();
+                                var price = $("#selectC a").text();
+                                var area = $("#selectD a").text();
+                                var minprice = 0;
+                                var maxprice = 0;
+                                if(price =="1万以下")
+                                {
+                                    minprice = 0;
+                                    maxprice = 10000;
+                                }
+                                else if(price =="1万到2万")
+                                {
+                                    minprice = 10000;
+                                    maxprice = 20000;
+                                }
+                                else if(price == "2万到3万")
+                                {
+                                    minprice = 20000;
+                                    maxprice = 30000;
+                                }
+                                else if(price == "3万到5万")
+                                {
+                                    minprice =30000;
+                                    maxprice =50000;
+                                }
+                                else if(price == "5万到10万")
+                                {
+                                    minprice = 50000;
+                                    maxprice = 100000;
+                                }
+                                else if(price == "10万以上")
+                                {
+                                    minprice = 100000;
+                                    maxprice = 0;
+                                }
+                                else
+                                {
+                                    minprice = 0;
+                                    maxprice = 0;
+                                }
+                                $.ajax({
+                                    url:'/buildingFind/'+area+'&'+ minprice+'&'+maxprice+'&'+type+'&'+status + '&'+ page,
+                                    dataType:'json',
+                                    type:'get',
+                                    success: function (data) {
+                                        var json = data.BuildingList;
+                                        console.log(json);
+                                        $(".buildingInfo").empty();
+                                        for(var i = 0; i< json.length;++i)
+                                        {
+                                            /*插入项目*/
+                                            $(".buildingInfo").append('<li style="display:block;padding: 10px;border-bottom: 1px solid #00FFFF">' +
+                                                '<div class="container">' +
+                                                '<div class="col-sm-5"><img style="height: 174px;;border-radius:2px" src='+json[i].imgUrl+'></div>' +
+                                                '<div class="col-sm-7">' +
+                                                '<div class="col-sm-12" style="text-align: left"><a href="/buildingInfo/'+json[i].ID+'" style="font-family: 微软雅黑;font-weight: 600;color: #000000;font-size: 22px">'+json[i].Name+'<span class="label label-primary" style="font-size: 5px">'+json[i].status+'</span><span class="label label-success" style="font-size: 5px">'+json[i].type+'</span></a></div>' +
+                                                '<div class="col-sm-12" style="text-align: right"><h4 style="color:#D2691E;font-weight: 600">'+json[i].avgPrice+json[i].Unit+'</h4></div>'+
+                                                '<div class="col-sm-12" style="text-align: left"><img src="img/location_building.png"/><span class="text-muted">'+json[i].location+'</span></div>'+
+                                                '<div class="col-sm-12" style="text-align: left"><img src="img/star.png"/><span class="text-muted">'+json[i].area+'/'+json[i].subarea+'/'+json[i].rooms+'</span></div>'+
+                                                '<div class="col-sm-12" style="text-align: left"><img src="img/tags.png"/><span class="text-muted">'+json[i].tags+'</span></div>'+
+                                                '</div>' +
+                                                '</div>'
+                                                +'</li> ');
+                                        }
+                                    },
+                                    error:function () {
+                                        alert("数据请求失败");
+                                    }
+                                });
+                            }
+                        }
+                        console.log("分页参数重新设置");
+                        $(".pagination").remove();
+                        $(".page-info").remove();
+                        $("#buildingShow").append('<ul class="page-info" style="text-align: right"></ul>');
+                        $(".page-info").bootstrapPaginator(option2);
+                    },
+                    error:function () {
+                        alert("请求失败");
+                    }
+                })
+            });
+
+
+        });
+
+    })
+</script>
+</html>

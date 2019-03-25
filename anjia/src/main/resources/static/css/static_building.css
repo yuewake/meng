@@ -1,0 +1,45 @@
+
+
+
+.buildingInfo li
+{
+    list-style-type: none;
+    padding: 10px;
+}
+.buildingInfo li a
+{
+    text-decoration: none;
+}
+.location_title
+{
+    background: #fbfbfb;
+    border-radius: 3px;
+}
+.location_title ul li
+{
+    display: inline-block;
+    text-align: center;
+}
+.location_title ul li span
+{
+    font-family: "微软雅黑";
+    color: #000000;
+}
+.location_title ul li span:hover
+{
+    color: #0066ff;
+}
+.location_area_title
+{
+    background: #fbfbfb;
+    border-radius: 3px;
+}
+.location_area_ul li
+{
+    display: inline-block;
+    text-align: center;
+}
+.location_area_ul li a
+{
+    color:#0066ff;
+}

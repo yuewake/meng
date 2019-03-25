@@ -1,0 +1,38 @@
+.navbar-brand {
+    background-image: url(../img/logo.svg);
+    width: 50px;
+    background-size: 75%;
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+.container
+{
+	/*container有内边距*/
+	width: 100%;
+	margin-left:0px;
+	margin-right:0px;
+	padding-left: 0px;
+	padding-right: 0px;
+}
+.row
+{
+	width: 100%;
+}
+.home_header
+{
+	background: #1a73e8;
+}
+.Sort li a
+{
+	text-align: center;
+	text-decoration: none;
+	font-family: "微软雅黑";
+	font-weight: 500;
+	color: #000000;
+}
+/*ID*/
+
+#headerbar{
+	background: rgba(0,0,0,0);
+	border: none;
+}

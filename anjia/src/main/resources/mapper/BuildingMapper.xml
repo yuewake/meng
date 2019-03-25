@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.meng.anjia.dao.BuildingDao">
+
+    <!--多条件关联查询-->
+    <select id="findBuildingByCondition" parameterType="map" resultType="com.meng.anjia.model.Building">
+          select * from property
+          <where>
+              <if test="area != null">
+                 and area = #{area}
+              </if>
+              <if test="minPrice != null">
+                  and avgPrice &gt;= #{minPrice}
+              </if>
+              <if test="maxPrice != null ">
+                  and avgPrice &lt;= #{maxPrice}
+              </if>
+              <if test="type != null">
+                  and type = #{type}
+              </if>
+              <if test="status != null">
+                   and status = #{status}
+              </if>
+              <if   test="maxArea != null">
+                  and maxArea >= #{maxArea}
+              </if>
+              <if test="minArea != null">
+                  and minArea &lt;= #{minArea}
+              </if>
+          </where>
+          limit #{number},10
+    </select>
+
+    <!--多条件关联查询-->
+    <select id="findBuildingByConditionCount" parameterType="map" resultType="int">
+        select count(*) from property
+        <where>
+            <if test="area != null">
+                and area = #{area}
+            </if>
+            <if test="minPrice != null">
+                and avgPrice &gt;= #{minPrice}
+            </if>
+            <if test="maxPrice != null ">
+                and avgPrice &lt;= #{maxPrice}
+            </if>
+            <if test="type != null">
+                and type = #{type}
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+            <if   test="maxArea != null">
+                and maxArea >= #{maxArea}
+            </if>
+            <if test="minArea != null">
+                and minArea &lt;= #{minArea}
+            </if>
+        </where>
+    </select>
+
+
+</mapper>

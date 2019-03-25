@@ -8,19 +8,11 @@ b{
 	text-decoration: none;
 	font-family: "微软雅黑";
 	font-size:24px;
-	color:#9ACD32;	
-}
-h2:hover
-{
-	color: blue;
-	font-weight: 900;
+	color:#1a73e8;
+
 }
 
 /*class*/
-.i2 a:hover
-{
-	color:#3072f6;
-}
 .navbar-brand {
     background-image: url(../img/logo.svg);
     width: 50px;
@@ -30,7 +22,7 @@ h2:hover
 }
 .home_header{
 	width: 100%;	
-	background-image: url(../img/home_page_1.jpg);
+	background-image: url(../img/home_page_2.jpg);
 	background-position: center center;
 	background-repeat: no-repeat;
 	background-size: 100%;
@@ -128,7 +120,7 @@ h2:hover
 .footer_banner
 {
 	width: 100%;
-	background:#394043;
+	background:#06266F;
 }
 .footer_banner ul
 {

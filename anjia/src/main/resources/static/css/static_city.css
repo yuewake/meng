@@ -22,7 +22,7 @@
 }
 .home_header
 {
-	background: #3072f6;
+	background: #0066ff;
 }
 .location_title 
 {
@@ -41,7 +41,7 @@
 }
 .location_title ul li span:hover
 {
-	color: #3072f6;
+	color: #0066ff;
 }
 .location_area_title
 {
@@ -55,7 +55,7 @@
 }
 .location_area_ul li a
 {
-	color:#3072f6;
+	color: #0066ff;
 }
 
 /*id*/
@@ -66,4 +66,26 @@
 #main1
 {
 	height: 300px;
+}
+#main2
+{
+	height: 300px;
+}
+#toggle-checkbox:checked ~ div {
+	display: block !important;
+}
+
+#toggle-label {
+	display: inline-block;
+	position: absolute;
+	right: 15px;
+	top: 13px;
+	font-size: 16px;
+	font-weight: normal;
+	color: #666;
+	display: none;
+}
+
+#toggle-label:hover {
+	color: #333;
 }

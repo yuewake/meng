@@ -97,7 +97,7 @@
 	.footer_banner
 {
 	width: 100%;
-	background:#394043;
+	background:#06266F;
 }
 .footer_banner ul
 {
@@ -129,13 +129,31 @@
 }
 .home_header
 {
-	background: #3072f6;
+	background: #1a73e8;
 }
 
 /*id*/
 #headerbar{
 	background: rgba(0,0,0,0);
 	border: none;
+}
+	#toggle-checkbox:checked ~ div {
+		display: block !important;
+	}
+
+#toggle-label {
+	display: inline-block;
+	position: absolute;
+	right: 15px;
+	top: 13px;
+	font-size: 16px;
+	font-weight: normal;
+	color: #666;
+	display: none;
+}
+
+#toggle-label:hover {
+	color: #333;
 }
 	</style>
 	
@@ -145,7 +163,7 @@
 	<div class="container home_header" style="background: ;">
 		<div  id="headerbar" class="navbar navbar-default">
 		    <div class="container">
-		      <div class="navbar-header">
+		      <div class="navbar-header" style="margin-left: 100px;">
 		        <a href="#" class="navbar-brand"></a>
 		      </div>
 		      <label id="toggle-label" class="visible-xs-inline-block" for="toggle-checkbox">MENU</label>
@@ -153,7 +171,7 @@
 		      <div class="hidden-xs">
 		        <ul class="nav navbar-nav" style="font-family: '微软雅黑';color: #FFFFFF;">
 		          <li><a th:href ="@{/}" style="font-family: '微软雅黑';color: #FFFFFF;font-weight: 600;">首页</a></li>
-		          <li><a href="#" style="font-family: '微软雅黑';color: #FFFFFF;font-weight: 600;">二手房</a></li>
+		          <li><a th:href ="@{/building}" style="font-family: '微软雅黑';color: #FFFFFF;font-weight: 600;">二手房</a></li>
 		          <li><a th:href ="@{/city}" style="font-family: '微软雅黑';color: #FFFFFF;font-weight: 600;">历史房价</a></li>
 		          <li><a th:href ="@{/calculator}" style="font-family: '微软雅黑';color: #FFFFFF;font-weight: 600;">工具</a></li>
 		          <li><a href="#" style="font-family: '微软雅黑';color: #FFFFFF;font-weight: 600;">问答</a></li>
@@ -187,7 +205,7 @@
 	<div class="row"style="margin:0;width:100%;text-align: center;">
 			<div class="col-sm-1"></div>
 			<div class="col-sm-10">
-				<nav class="navbar navbar-default ">
+				<nav class="nav-bar navbar-default ">
 				<!--输入面板-->
 					  <ul class="nav nav-tabs" role="tablist">
 					    <li role="presentation" class="active"><a class="cal-tab-pane" href="#GJJ" aria-controls="GJJ" role="tab" data-toggle="tab">公积金贷款</a></li>
