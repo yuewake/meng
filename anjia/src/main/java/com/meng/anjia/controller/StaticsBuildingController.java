@@ -7,7 +7,6 @@ import com.meng.anjia.model.CityPrice;
 import com.meng.anjia.service.BuildingService;
 import com.meng.anjia.service.CityPriceService;
 import com.meng.anjia.service.CityService;
-import freemarker.ext.beans.HashAdapter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -37,10 +36,12 @@ public class StaticsBuildingController {
      *
      * @return 跳转到显示小区页面
      */
+
+    public static final String BUILDING = "statics_building";
     @RequestMapping("/building")
     public String getBuildingPath()
     {
-        return "statics_building";
+        return BUILDING;
     }
 
     /**
@@ -73,7 +74,7 @@ public class StaticsBuildingController {
      */
     @RequestMapping(value = "/building/PageParam/{cityName}", method = RequestMethod.GET)
     @ResponseBody
-    public String PageParam(@PathVariable("cityName") String cityName)
+    public String pageParam(@PathVariable("cityName") String cityName)
     {
         int pageNumber = buildingService.getPageNumber(cityName);
         int page = pageNumber/10;
@@ -89,7 +90,7 @@ public class StaticsBuildingController {
      */
     @RequestMapping(value = "/building/Page/{page}&{cityname}", method = RequestMethod.GET)
     @ResponseBody
-    public String PageData(@PathVariable("page")int page, @PathVariable("cityname")String cityname)
+    public String pageData(@PathVariable("page")int page, @PathVariable("cityname")String cityname)
     {
         int number = (page-1)*10;
         List<Building> list = buildingService.getBuildingByNumber(number,cityname);
@@ -106,12 +107,12 @@ public class StaticsBuildingController {
             item.put("area", list.get(i).getArea());
             item.put("subarea",list.get(i).getSubarea());
             item.put("Unit",list.get(i).getUnit());
-            item.put("avgPrice",list.get(i).getAvg_price());
+            item.put("avgPrice",list.get(i).getAvgPrice());
             item.put("rooms", list.get(i).getRooms());
-            item.put("minArea",list.get(i).getMin_area());
+            item.put("minArea",list.get(i).getMinArea());
             item.put("tags",list.get(i).getTags());
-            item.put("maxArea", list.get(i).getMax_area());
-            item.put("imgUrl",list.get(i).getImg_url());
+            item.put("maxArea", list.get(i).getMaxArea());
+            item.put("imgUrl",list.get(i).getUrl());
             array.add(item);
         }
             result.put("Page", page);
@@ -131,28 +132,22 @@ public class StaticsBuildingController {
     public String findBuildingByCondition(@PathVariable("area")String area, @PathVariable("minPrice")int minPrice, @PathVariable("maxPrice")int maxPrice,@PathVariable("type")String type,@PathVariable("status")String status,@PathVariable("page")int page)
     {
         Map<String, Object> map = new HashMap<>();
-        System.out.println(area);
-        if(!area.equals(""))
+        if(!"".equals(area))
         {map.put("area", area);}
         if(minPrice != 0)
         {map.put("minPrice",minPrice);}
         if(maxPrice!=0)
         {map.put("maxPrice",maxPrice);}
-        if(!type.equals(""))
+        if(!"".equals(type))
         {map.put("type",type);}
-        if(!status.equals(""))
+        if(!"".equals(status))
         {map.put("status",status);}
         int number = (page-1)*10;
-        System.out.println(number);
         map.put("number",number);
 
         //得到小区总数量
         int count  = buildingService.findBuildingByConditionCount(map);
-        int totalPage = 0;
-        if(count%10 == 0)  totalPage = count/10;
-        else  totalPage = count/10+1;
-//        if(minArea != 0) map.put("minArea",minArea);
-//        if(maxArea != 0) map.put("maxArea",maxArea);
+        int totalPage = count%10 ==0 ? count/10 : count/10 + 1;
         List<Building> list = buildingService.findBuildingByCondition(map);
         JSONObject result = new JSONObject();
         JSONArray array = new JSONArray();
@@ -163,16 +158,16 @@ public class StaticsBuildingController {
             item.put("ID", list.get(i).getId());
             item.put("type",list.get(i).getType());
             item.put("location", list.get(i).getLocation());
-            item.put("status", list.get(i).getStatus());
+            item.put("Status", list.get(i).getStatus());
             item.put("Unit",list.get(i).getUnit());
             item.put("area", list.get(i).getArea());
             item.put("subarea",list.get(i).getSubarea());
-            item.put("avgPrice",list.get(i).getAvg_price());
+            item.put("avgPrice",list.get(i).getAvgPrice());
             item.put("rooms", list.get(i).getRooms());
-            item.put("minArea",list.get(i).getMin_area());
+            item.put("minArea",list.get(i).getMinArea());
             item.put("tags",list.get(i).getTags());
-            item.put("maxArea", list.get(i).getMax_area());
-            item.put("imgUrl",list.get(i).getImg_url());
+            item.put("maxArea", list.get(i).getMaxArea());
+            item.put("imgUrl",list.get(i).getUrl());
             item.put("tags",list.get(i).getTags());
             array.add(item);
         }
@@ -182,26 +177,5 @@ public class StaticsBuildingController {
         result.put("numberOfPage",4);
          return result.toJSONString();
     }
-//    /**
-//     * 分页测试
-//     */
-//    @RequestMapping(value = "/building/Page/{name}/{number}", method = RequestMethod.GET)
-//    @ResponseBody
-//    public String PageData(@PathVariable("name")String name, @PathVariable("number")int number)
-//    {
-//        List<CityPrice> list = cityPriceService.getCityPricePage(name, number);
-//        JSONObject result = new JSONObject();
-//        JSONArray pageArray = new JSONArray();
-//        for(int i = 0; i<list.size();++i)
-//        {
-//            JSONObject item = new JSONObject();
-//            item.put("price", list.get(i).getPrice());
-//            String year = Integer.toString(list.get(i).getYear());
-//            String month = Integer.toString(list.get(i).getMonth());
-//            item.put("time", year+'/'+month);
-//            pageArray.add(item);
-//        }
-//        return pageArray.toJSONString();
-//    }
 
 }

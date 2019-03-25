@@ -2,70 +2,66 @@
 <html xmlns:th="http://www.w3.org/1999/xhtml">
 	<head>
 		<meta charset="utf-8">
-		<link rel="stylesheet" th:href="@{css/bootstrap.css}"/>
-		<script th:src="@{js/jquery-3.3.1.js}" ></script>
-		<script th:src="@{js/bootstrap.js}" ></script>
+		<link href="css/headbar.css" th:href="@{/css/headbar.css}" type="text/css" rel="stylesheet" />
+		<link href="css/citystyle.css" th:href="@{/css/citystyle.css}" type="text/css" rel="stylesheet" />
 		<title>头部导航栏</title>
 	</head>
 	<body>
-		<nav id="nav" class="navbar navbar-default navbar-fixed-top " role="navigation" >
-			<div class="container-fluid">
-				<!-- Brand and toggle get grouped for better mobile display -->
-				<div class="navbar-header ">
-					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
-					 aria-expanded="false">
-						<span class="sr-only">Toggle navigation</span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-					</button>
-					<a class="navbar-brand" th:href="@{/}">安家</a>
+	<!--城市列表-->
+	<div class="selcity" id="allCity" style="display:none;">
+		<table class="cityTable">
+			<tbody>
+			<tr>
+				<td><a  href="#">苏州</a></td>
+				<td><a href="#">上海</a></td>
+				<td><a href="#">广州</a></td>
+				<td><a href="#">深圳</a></td>
+				<td><a href="#">重庆</a></td>
+				<td><a href="#">西安</a></td>
+			</tr>
+			<tr>
+				<td><a href="#">北京</a></td>
+				<td><a href="#">南京</a></td>
+				<td><a href="#">成都</a></td>
+				<td><a href="#">武汉</a></td>
+				<td><a href="#">杭州</a></td>
+				<td><a href="#">济南</a></td>
+			</tr>
+			</tbody>
+		</table>
+		<div class="none"><a id="foldin" href="#">收起</a></div>
+	</div>
+	<!--导航栏-->
+	<div class="container home_header">
+		<div  id="headerbar" class="navbar navbar-default">
+			<div class="container">
+				<div class="navbar-header" style="margin-left: 100px;">
+					<a href="#" class="navbar-brand"></a>
 				</div>
-
-				<!-- Collect the nav links, forms, and other content for toggling -->
-				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-					<ul class="nav navbar-nav">
-						<li><a href="#">发现</a></li>
-						<li><a href="#">消息</a></li>
-						<li class="dropdown">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown
-								<span class="caret"></span></a>
-							<ul class="dropdown-menu">
-								<li><a href="#">Action</a></li>
-								<li><a href="#">Another action</a></li>
-								<li><a href="#">Something else here</a></li>
-								<li role="separator" class="divider"></li>
-								<li><a href="#">Separated link</a></li>
-								<li role="separator" class="divider"></li>
-								<li><a href="#">One more separated link</a></li>
-							</ul>
-						</li>
+				<label id="toggle-label" class="visible-xs-inline-block" for="toggle-checkbox">MENU</label>
+				<input class="hidden" id="toggle-checkbox" type="checkbox">
+				<div class="hidden-xs">
+					<ul class="nav navbar-nav" style="font-family: '微软雅黑';color: #FFFFFF;">
+						<li><a th:href ="@{/}" style="font-family: '微软雅黑';color: #FFFFFF;font-weight: 600;">首页</a></li>
+						<li><a th:href = "@{/building}" style="font-family: '微软雅黑';color: #FFFFFF;font-weight: 600;">二手房</a></li>
+						<li><a th:href="@{/city}" style="font-family: '微软雅黑';color: #FFFFFF;font-weight: 600;">历史房价</a></li>
+						<li><a th:href="@{/calculator}" style="font-family: '微软雅黑';color: #FFFFFF;font-weight: 600;">工具</a></li>
+						<li><a th:href="@{/wenda}" style="font-family: '微软雅黑';color: #FFFFFF;font-weight: 600;">问答</a></li>
+						<li class="i1" th:if="${session.CityName} != null"><a id = "cityname" th:text = "${session.CityName}"  href="#" style="font-family: '微软雅黑';color: #FFFFFF;background: rgba(128,128,128,0.5)">苏州</a> </li>
+						<li class="i1" th:if="${session.CityName} == null"><a id = "cityname"  href="#" style="font-family: '微软雅黑';color: #FFFFFF;background: rgba(128,128,128,0.5)">苏州</a> </li>
+						<li class="i2" id="changeCity"><a href="#" style="font-family: '微软雅黑';color: #FFFFFF;font-style: italic;font-size:5px ">[切换城市]</a></li>
 					</ul>
-
-
-					<form class="navbar-form navbar-left">
-						<div class="form-group">
-							<input type="text" class="form-control" placeholder="搜索你感兴趣的问题">
-						</div>
-						<button type="submit" class="btn btn-default"> <span class="glyphicon glyphicon-search"></span> 查询</button>
-					</form>
-					<div th:if="${user} != null">
-						<!-- 按钮触发模态框 -->
-						<button class="btn btn-primary navbar-btn navbar-right" data-toggle="modal" data-target="#myModal">提问</button>
-
-						<ul class="nav navbar-nav navbar-right">
-							<li><a href="#" th:text="'您好，' + ${user.username}"></a></li>
-							<li><a th:href="@{/logout}">退出</a></li>
-						</ul>
-					</div>
-
-
-					<ul th:if="${user} == null" class="nav navbar-nav navbar-right">
-						<li><a th:href="@{/toRegist}"><span class="glyphicon glyphicon-user"></span> 注册</a></li>
-						<li><a th:href="@{/toLogin}"><span class="glyphicon glyphicon-log-in"></span> 登录</a></li>
+					<ul th:if="${user} == null"class="nav navbar-nav navbar-right" th:style = "'margin-right:50px'">
+						<li><a th:href="@{/loginwin}" style="font-family: '微软雅黑';color: #FFFFFF;">登录</a></li>
+						<li><a th:href="@{/loginwin}" style="font-family: '微软雅黑';color: #FFFFFF;">注册</a></li>
 					</ul>
-				</div><!-- /.navbar-collapse -->
-			</div><!-- /.container-fluid -->
-		</nav>
+					<ul th:if="${user} != null"class="nav navbar-nav navbar-right" th:style = "'margin-right:50px'">
+						<li><a th:text = "'您好,' + ${user.username}" style="font-family: '微软雅黑';color: #FFFFFF;"></a></li>
+						<li><a th:href="@{/logout}" style="font-family: '微软雅黑';color: #FFFFFF;">退出</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
 	</body>
 </html>

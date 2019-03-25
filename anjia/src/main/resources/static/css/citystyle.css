@@ -1,7 +1,7 @@
 @charset "utf-8";
 table{border-collapse:collapse;border-spacing:0;}
 /* selcity */
-.selcity{padding:2px 0 4px 0;z-index:10;background:#1a73e8;position:relative;}
+.selcity{padding:2px 0 4px 0;z-index:10;background:#0066ff;position:relative;}
 .selcity .none{left:47.5%;bottom:-18px;position:absolute}
 .selcity .none a{display:block;width:68px;text-indent:-3000px;height:21px;text-decoration:none}
 .selcity .none a:hover{display:block;text-indent:-3000px;height:21px;text-decoration:none}

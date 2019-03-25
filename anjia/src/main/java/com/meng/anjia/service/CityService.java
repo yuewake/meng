@@ -12,7 +12,7 @@ public class CityService {
     @Autowired
     CityDao cityDao;
 
-    public List<City> CityList(int uid)
+    public List<City> cityList(int uid)
     {
         return cityDao.getAllCity(uid);
     }

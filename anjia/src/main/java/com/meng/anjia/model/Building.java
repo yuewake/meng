@@ -7,27 +7,26 @@ package com.meng.anjia.model;
  */
 public class Building {
 
-    public int id;
+    private int id;
 
 
-    public String name;
-    public String type;
-    public String status;
-    public String area;
-    public String subarea;
-    public String location;
-    public String rooms;
-    public int minArea;
-    public int maxArea;
-    public String tags;
-    public int avgPrice;
-    public String unit;
+    private String name;
+    private String type;
+    private String status;
+    private String area;
+    private String subarea;
+    private String location;
+    private String rooms;
+    private int minArea;
+    private int maxArea;
+    private String tags;
+    private int avgPrice;
+    private String unit;
     /*起步总价*/
-    public int sumPrice;
-    public String url;
+    private int sumPrice;
+    private String url;
     private double lng;
     private double lat;
-
     public int getId() {
         return id;
     }
@@ -124,28 +123,36 @@ public class Building {
         this.tags = tags;
     }
 
-    public int getAvg_price() {
+    public int getAvgPrice() {
         return avgPrice;
     }
 
-    public void setAvg_price(int avg_price) {
-        this.avgPrice = avg_price;
+    public void setAvgPrice(int avgPrice) {
+        this.avgPrice = avgPrice;
     }
 
-    public int getSum_price() {
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }
+
+    public int getSumPrice() {
         return sumPrice;
     }
 
-    public void setSum_price(int sum_price) {
-        this.sumPrice = sum_price;
+    public void setSumPrice(int sumPrice) {
+        this.sumPrice = sumPrice;
     }
 
-    public String getImg_url() {
+    public String getUrl() {
         return url;
     }
 
-    public void setImg_url(String img_url) {
-        this.url = img_url;
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     public double getLng() {

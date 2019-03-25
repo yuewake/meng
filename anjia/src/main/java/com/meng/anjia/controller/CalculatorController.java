@@ -5,10 +5,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class CalculatorController {
-	
+
+	public static final  String  CALCULATOR = "calculator";
 	@RequestMapping("/calculator")
 	public String showCalculatorPath()
 	{
-		return "calculator";
+		return CALCULATOR;
 	}
 }

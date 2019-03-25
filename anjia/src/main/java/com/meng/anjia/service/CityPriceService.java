@@ -12,7 +12,7 @@ import java.util.List;
  * @date 2019/3/13 14:25
  */
 @Service
-public class CityPriceService {
+public class    CityPriceService {
 
 
     @Autowired

@@ -11,10 +11,20 @@
     </style>
     <script type="text/javascript" src="http://api.map.baidu.com/library/Heatmap/2.0/src/Heatmap_min.js"></script>
     <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=GLi1qh8qq38xQZuCCQ7bIUhbXln3HgiN"></script>
+    <script src="js/jquery-2.1.1.min.js" th:src="@{/js/jquery-2.1.1.min.js}"></script>
+    <script src="js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}" type="text/javascript" charset="utf-8"></script>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}"/>
+    <link href="css/citystyle.css" th:href="@{/css/citystyle.css}" type="text/css" rel="stylesheet" />
     <title>房价地图</title>
 
 </head>
 <body>
+<!--引用头部文件-->
+<header>
+    <div>
+        <div th:include = "wenda/header"></div>
+    </div>
+</header>
 <div id="allmap"></div>
 </body>
 </html>

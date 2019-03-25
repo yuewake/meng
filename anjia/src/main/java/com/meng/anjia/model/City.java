@@ -1,7 +1,7 @@
 package com.meng.anjia.model;
 
 public class City {
-    public int id;
+    private int id;
 
     int level;
     String name;
@@ -26,15 +26,6 @@ public class City {
                 ", lat=" + lat +
                 ", uid=" + uid +
                 '}';
-    }
-
-    public City(int id, int level, String name, double lng, double lat, int uid) {
-        this.id = id;
-        this.level = level;
-        this.name = name;
-        this.lng = lng;
-        this.lat = lat;
-        this.uid = uid;
     }
 
 
