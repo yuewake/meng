@@ -1,7 +1,6 @@
 package com.meng.anjia.controller;
 
 import com.meng.anjia.model.Comment;
-import com.meng.anjia.model.EntityType;
 import com.meng.anjia.model.HostHolder;
 import com.meng.anjia.service.CommentService;
 import com.meng.anjia.service.QuestionService;
@@ -13,7 +12,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.util.HtmlUtils;
 
 import java.util.Date;
 
@@ -41,7 +39,6 @@ public class CommentController {
                              @RequestParam("content") String content,
                              @RequestParam("entityType") int entityType) {
         try {
-            //content = HtmlUtils.htmlEscape(content);
             //TODO 敏感词过滤
 
             Comment comment = new Comment();
@@ -62,9 +59,9 @@ public class CommentController {
             logger.error("增加失败" + e.getMessage());
         }
         if(entityType == 1) {
-            return "redirect:/question/" + String.valueOf(entityId);
+            return "redirect:/question/" + entityId;
         }else{
-            return "redirect:/buildingInformation/" + String.valueOf(entityId);
+            return "redirect:/buildingInformation/" + entityId;
         }
 
     }

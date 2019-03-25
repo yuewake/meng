@@ -29,7 +29,7 @@ public class LikeHandler implements EventHandler {
 
     @Override
     public List<EventType> getSupportEventTypes() {
-        List<EventType> le = new LinkedList<EventType>();
+        List<EventType> le = new LinkedList<>();
         le.add(EventType.LIKE);
         le.add(EventType.DISLIKE);
         return le;

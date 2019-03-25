@@ -23,11 +23,7 @@ public class QuestionService {
     public int addQuestion(Question question) {
         question.setTitle(HtmlUtils.htmlEscape(question.getTitle()));
         question.setContent(HtmlUtils.htmlEscape(question.getContent()));
-        // TODO 敏感词过滤
-
         int num = questionDao.addQuestion(question);
-        System.out.println("=====================================" + num);
-
         return num > 0 ? question.getId() : 0;
     }
 

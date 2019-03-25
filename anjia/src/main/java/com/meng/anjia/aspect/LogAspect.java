@@ -19,8 +19,6 @@ import java.util.Date;
 public class LogAspect {
     private static final Logger logger = LoggerFactory.getLogger(LogAspect.class);
 
-    @Pointcut("execution(* com.meng.anjia.controller.*Controller.*(..))")
-    public void pointcut(){}
 
     @Before("execution(* com.meng.anjia.controller.*Controller.*(..))")
     public void beforeMethod(JoinPoint joinPoint) {
@@ -31,7 +29,7 @@ public class LogAspect {
         logger.info("before method:" + sb.toString());
     }
 
-    @After("pointcut()")
+    @After("execution(* com.meng.anjia.controller.*Controller.*(..))")
     public void afterMethod() {
         logger.info("after method" + new Date());
     }

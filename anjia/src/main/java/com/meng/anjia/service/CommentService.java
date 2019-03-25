@@ -4,7 +4,6 @@ import com.meng.anjia.dao.CommentDao;
 import com.meng.anjia.model.Comment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.util.HtmlUtils;
 
 import java.util.List;
 
@@ -17,9 +16,7 @@ public class CommentService {
     CommentDao commentDao;
 
     public List<Comment> getCommentsByEntity(int entityId, int entityType) {
-        List<Comment> comments = commentDao.selectByEntity(entityId, entityType);
-
-        return comments;
+        return commentDao.selectByEntity(entityId, entityType);
     }
 
     public int addComment(Comment comment) {

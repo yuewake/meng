@@ -25,7 +25,8 @@ public class UserController {
 	HostHolder hostHolder;
 
 	private static final Logger logger = LoggerFactory.getLogger(UserController.class);
-
+	private static final String TICKET = "ticket";
+	private static final String LOGINWIN = "loginwin";
 	/**
 	 * 登陆
 	 *
@@ -35,21 +36,20 @@ public class UserController {
 	public String login(User user, Model model, HttpServletResponse response) {
 		try {
 			Map<String,Object> map = userService.login(user);
-			if(map.containsKey("ticket")){
-				Cookie c = new Cookie("ticket", map.get("ticket").toString());
+			if(map.containsKey(TICKET)){
+				Cookie c = new Cookie(TICKET, map.get(TICKET).toString());
 				c.setPath("/");
 				c.setMaxAge(3600*24*5);//过期时间设置为5天；
 				response.addCookie(c);
 				//TODO 如果next不为空， 就跳到next的页面。
 				return "redirect:/";
 			}else {
-				System.out.println(map.get("msg"));
 				model.addAttribute("msg", map.get("msg"));
-				return "loginwin";//返回到登陆页面
+				return LOGINWIN;//返回到登陆页面
 			}
 		}catch(Exception e){
 			logger.error("登陆异常:" + e.getMessage());
-			return "loginwin";
+			return LOGINWIN;
 		}
 
 	}
@@ -79,20 +79,19 @@ public class UserController {
 			Map<String, Object> map = userService.regist(user);
 			if(map.isEmpty()){
 				Map<String, Object> maps = userService.login(u);
-				Cookie c = new Cookie("ticket", maps.get("ticket").toString());
+				Cookie c = new Cookie(TICKET, maps.get(TICKET).toString());
 				c.setPath("/");
 				c.setMaxAge(3600*24*5);//过期时间设置为5天；
 				response.addCookie(c);
 				return "redirect:/";
 			}else{
-				System.out.println(map.get("msg"));
 				model.addAttribute("msg",map.get("msg"));
-				return "loginwin";
+				return LOGINWIN;
 			}
 		}catch (Exception e){
 			logger.error("注册异常" + e.getMessage());
 			model.addAttribute("msg", "服务器错误");
-			return "loginwin";
+			return LOGINWIN;
 		}
 	}
 
@@ -103,7 +102,7 @@ public class UserController {
 	@RequestMapping("/loginwin")
 	public String getLoginwinPath()
 	{
-		return "loginwin";
+		return LOGINWIN;
 	}
 
 }

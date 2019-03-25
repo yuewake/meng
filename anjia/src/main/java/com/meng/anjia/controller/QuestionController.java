@@ -44,7 +44,7 @@ public class QuestionController {
      * @param content 问题描述
      * @return
      */
-    @RequestMapping(value = "/add", method = {RequestMethod.POST})
+    @PostMapping(value = "/add")
     @ResponseBody
     public String addQuestion(@RequestParam("title") String title, @RequestParam("content") String content) {
         try {
@@ -67,7 +67,7 @@ public class QuestionController {
      * 问题的详细信息
      * @return
      */
-    @RequestMapping(value = "/{qid}", method = RequestMethod.GET)
+    @GetMapping(value = "/{qid}")
     public String questionDtail(@PathVariable("qid") int id, Model model){
         Question q = questionService.getById(id);
         model.addAttribute("question",q);
