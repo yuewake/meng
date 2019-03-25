@@ -59,11 +59,11 @@ public class BuildingInfoController {
         result.put("SubArea", building.getSubarea());
         result.put("Location", building.getLocation());
         result.put("Rooms", building.getRooms());
-        result.put("ImgUrl", building.getImg_url());
-        result.put("MinArea",building.getMin_area());
-        result.put("MaxArea",building.getMax_area());
+        result.put("ImgUrl", building.getUrl());
+        result.put("MinArea",building.getMinArea());
+        result.put("MaxArea",building.getMaxArea());
         result.put("Tags", building.getTags());
-        result.put("AvgPrice",building.getAvg_price());
+        result.put("AvgPrice",building.getAvgPrice());
         List<Comment> comments = commentService.getCommentsByEntity(id, EntityType.ENTITY_Building);
         JSONArray array = new JSONArray();
         for(Comment comment : comments)

@@ -1,7 +1,6 @@
 package com.meng.anjia.controller;
 
 import com.meng.anjia.model.Comment;
-import com.meng.anjia.model.EntityType;
 import com.meng.anjia.model.HostHolder;
 import com.meng.anjia.service.CommentService;
 import com.meng.anjia.service.QuestionService;
@@ -13,7 +12,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.util.HtmlUtils;
 
 import java.util.Date;
 

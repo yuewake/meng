@@ -11,22 +11,24 @@ import javax.servlet.http.HttpServletRequest;
 
 @Controller
 public class HomePageController {
-	
+
+	public static final  String  HOMEPAGE = "HomePage";
+	public static final String MAP = "map";
+
 	@RequestMapping("/")
 	public String getHomePagePath()
 	{
-		return"HomePage";
+		return HOMEPAGE;
 	}
 
 	@GetMapping(value = "/map")
-	public String map(){
-		return "map";
+	public String getMapPath(){
+		return MAP;
 	}
 
 	@RequestMapping(value = "/location/{cityName}", method = RequestMethod.GET)
 	public String location(Model model, HttpServletRequest request, @PathVariable("cityName")String cityName)
 	{
-		System.out.println(cityName);
 		request.getSession().setAttribute("CityName",cityName);
 		return "redirect:/";
 	}
