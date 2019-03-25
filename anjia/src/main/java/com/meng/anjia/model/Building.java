@@ -27,6 +27,7 @@ public class Building {
     private String url;
     private double lng;
     private double lat;
+
     public int getId() {
         return id;
     }
@@ -87,32 +88,24 @@ public class Building {
         return rooms;
     }
 
-    public String getUnit() {
-        return unit;
-    }
-
-    public void setUnit(String unit) {
-        this.unit = unit;
-    }
-
     public void setRooms(String rooms) {
         this.rooms = rooms;
     }
 
-    public int getMin_area() {
+    public int getMinArea() {
         return minArea;
     }
 
-    public void setMin_area(int min_area) {
-        this.minArea = min_area;
+    public void setMinArea(int minArea) {
+        this.minArea = minArea;
     }
 
-    public int getMax_area() {
+    public int getMaxArea() {
         return maxArea;
     }
 
-    public void setMax_area(int max_area) {
-        this.maxArea = max_area;
+    public void setMaxArea(int maxArea) {
+        this.maxArea = maxArea;
     }
 
     public String getTags() {
@@ -170,25 +163,4 @@ public class Building {
     public void setLat(double lat) {
         this.lat = lat;
     }
-
-    @Override
-    public String toString() {
-        return "Building{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", type='" + type + '\'' +
-                ", status='" + status + '\'' +
-                ", area='" + area + '\'' +
-                ", subarea='" + subarea + '\'' +
-                ", location='" + location + '\'' +
-                ", rooms='" + rooms + '\'' +
-                ", min_area=" + minArea +
-                ", max_area=" + maxArea +
-                ", tags='" + tags + '\'' +
-                ", avg_price=" + avgPrice +
-                ", sum_price=" + sumPrice +
-                ", img_url='" + url + '\'' +
-                '}';
-    }
-
 }
