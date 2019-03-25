@@ -5,6 +5,8 @@
     <meta name="referrer" content="no-referrer"/>
     <title>楼盘显示</title>
 </head>
+<style>p{margin-left:5px; font-size:14px;font-family:"微软雅黑";}</style>
+
 <script src="js/jquery-2.1.1.min.js" th:src="@{/js/jquery-2.1.1.min.js}"></script>
 <script src="js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}" type="text/javascript" charset="utf-8"></script>
 <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}"/>
@@ -12,6 +14,7 @@
 <link href="css/static_building.css" th:href="@{/css/static_building.css}" type="text/css" rel="stylesheet" />
 <link href="css/headbar.css" th:href="@{/css/headbar.css}" type="text/css" rel="stylesheet" />
 <script src="js/echarts.js" th:src="@{/js/echarts.js}"></script>
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=GLi1qh8qq38xQZuCCQ7bIUhbXln3HgiN"></script>
 <script src="js/bootstrap-paginator.js" th:src="@{/js/bootstrap-paginator.js}"></script>
 <link th:href="@{/css/footer.css}" type="text/css" rel="stylesheet"/>
 <body>
@@ -117,6 +120,7 @@
                 </div>
                 <div class="col-sm-2"></div>
             </div>
+            <div class = "col-sm-12" id = "allmap" style="height: 300px"></div>
         </div>
         <div class="col-sm-1"></div>
     </div>
@@ -196,6 +200,11 @@
                 success:function (data) {
                     var json = data;
                     console.log(json);
+                    var map = new BMap.Map("allmap");
+                    var point = new BMap.Point(data.lng, data.lat);//初始位置
+                    map.centerAndZoom(point, 16);
+                    var property = new PropertyOverlay(new BMap.Point(json.lng, json.lat),json.Name);
+                    map.addOverlay(property);
                     $("#buildingName").append('<h2 style="font-family: 微软雅黑;font-size: 30px;color: #000000;font-weight: 600">'+json.Name+'<span class="label label-primary" style="font-size: 15px">'+json.Status+'</span><span class="label label-success" style="font-size: 15px">'+json.Type+'</span></h2>');
                     $("#buildingImg").append('<img style="width:100%" src="'+json.ImgUrl+'"/>');
                     $("#buildingPrice").append('<span style="color:#000000;font-weight: 300;font-size:25px">'+'价格：'+json.AvgPrice+'</span><span style="color:#000000;font-weight: 300;font-size:15px">'+json.Unit+'</span>');
@@ -205,6 +214,65 @@
                 }
             });
         })
+        function PropertyOverlay(point, text){
+            this._point = point;
+            this._text = text;
+        }
+        PropertyOverlay.prototype = new BMap.Overlay();
+        PropertyOverlay.prototype.initialize = function(map){
+            this._map = map;
+            var div = this._div = document.createElement("div");
+            div.style.position = "absolute";
+            div.style.zIndex = BMap.Overlay.getZIndex(this._point.lat);
+            div.style.backgroundColor = "#EE5D5B";
+            div.style.border = "1px solid #BC3B3A";
+            div.style.color = "white";
+            div.style.zIndex = "2";
+            div.style.height = "18px";
+            div.style.padding = "2px";
+            div.style.lineHeight = "18px";
+            div.style.whiteSpace = "nowrap";
+            div.style.MozUserSelect = "none";
+            div.style.fontSize = "12px";
+            var span = this._span = document.createElement("span");
+            div.appendChild(span);
+            span.appendChild(document.createTextNode(this._text));
+            var that = this;
+
+            var arrow = this._arrow = document.createElement("div");
+            arrow.style.background = "url(http://map.baidu.com/fwmap/upload/r/map/fwmap/static/house/images/label.png) no-repeat";
+            arrow.style.position = "absolute";
+            arrow.style.width = "11px";
+            arrow.style.height = "10px";
+            arrow.style.top = "22px";
+            arrow.style.left = "10px";
+            arrow.style.overflow = "hidden";
+            div.appendChild(arrow);
+
+            div.onmouseover = function(){
+                this.style.backgroundColor = "#6BADCA";
+                this.style.borderColor = "#0000ff";
+                div.style.zIndex = "6";
+                arrow.style.backgroundPosition = "0px -20px";
+            }
+
+            div.onmouseout = function(){
+                this.style.backgroundColor = "#EE5D5B";
+                this.style.borderColor = "#BC3B3A";
+                div.style.zIndex = "2";
+                arrow.style.backgroundPosition = "0px 0px";
+            }
+
+            map.getPanes().labelPane.appendChild(div);
+
+            return div;
+        }
+        PropertyOverlay.prototype.draw = function(){
+            var map = this._map;
+            var pixel = map.pointToOverlayPixel(this._point);
+            this._div.style.left = pixel.x - parseInt(this._arrow.style.left) + "px";
+            this._div.style.top  = pixel.y - 30 + "px";
+        }
     })
 </script>
 </html>

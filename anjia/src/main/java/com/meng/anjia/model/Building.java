@@ -25,6 +25,8 @@ public class Building {
     /*起步总价*/
     public int sumPrice;
     public String url;
+    private double lng;
+    private double lat;
 
     public int getId() {
         return id;
@@ -144,6 +146,22 @@ public class Building {
 
     public void setImg_url(String img_url) {
         this.url = img_url;
+    }
+
+    public double getLng() {
+        return lng;
+    }
+
+    public void setLng(double lng) {
+        this.lng = lng;
+    }
+
+    public double getLat() {
+        return lat;
+    }
+
+    public void setLat(double lat) {
+        this.lat = lat;
     }
 
     @Override
