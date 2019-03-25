@@ -7,24 +7,26 @@ package com.meng.anjia.model;
  */
 public class Building {
 
-    public int id;
+    private int id;
 
 
-    public String name;
-    public String type;
-    public String status;
-    public String area;
-    public String subarea;
-    public String location;
-    public String rooms;
-    public int minArea;
-    public int maxArea;
-    public String tags;
-    public int avgPrice;
-    public String unit;
+    private String name;
+    private String type;
+    private String status;
+    private String area;
+    private String subarea;
+    private String location;
+    private String rooms;
+    private int minArea;
+    private int maxArea;
+    private String tags;
+    private int avgPrice;
+    private String unit;
     /*起步总价*/
-    public int sumPrice;
-    public String url;
+    private int sumPrice;
+    private String url;
+    private double lng;
+    private double lat;
 
     public int getId() {
         return id;
@@ -86,32 +88,24 @@ public class Building {
         return rooms;
     }
 
-    public String getUnit() {
-        return unit;
-    }
-
-    public void setUnit(String unit) {
-        this.unit = unit;
-    }
-
     public void setRooms(String rooms) {
         this.rooms = rooms;
     }
 
-    public int getMin_area() {
+    public int getMinArea() {
         return minArea;
     }
 
-    public void setMin_area(int min_area) {
-        this.minArea = min_area;
+    public void setMinArea(int minArea) {
+        this.minArea = minArea;
     }
 
-    public int getMax_area() {
+    public int getMaxArea() {
         return maxArea;
     }
 
-    public void setMax_area(int max_area) {
-        this.maxArea = max_area;
+    public void setMaxArea(int maxArea) {
+        this.maxArea = maxArea;
     }
 
     public String getTags() {
@@ -122,48 +116,51 @@ public class Building {
         this.tags = tags;
     }
 
-    public int getAvg_price() {
+    public int getAvgPrice() {
         return avgPrice;
     }
 
-    public void setAvg_price(int avg_price) {
-        this.avgPrice = avg_price;
+    public void setAvgPrice(int avgPrice) {
+        this.avgPrice = avgPrice;
     }
 
-    public int getSum_price() {
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }
+
+    public int getSumPrice() {
         return sumPrice;
     }
 
-    public void setSum_price(int sum_price) {
-        this.sumPrice = sum_price;
+    public void setSumPrice(int sumPrice) {
+        this.sumPrice = sumPrice;
     }
 
-    public String getImg_url() {
+    public String getUrl() {
         return url;
     }
 
-    public void setImg_url(String img_url) {
-        this.url = img_url;
+    public void setUrl(String url) {
+        this.url = url;
     }
 
-    @Override
-    public String toString() {
-        return "Building{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", type='" + type + '\'' +
-                ", status='" + status + '\'' +
-                ", area='" + area + '\'' +
-                ", subarea='" + subarea + '\'' +
-                ", location='" + location + '\'' +
-                ", rooms='" + rooms + '\'' +
-                ", min_area=" + minArea +
-                ", max_area=" + maxArea +
-                ", tags='" + tags + '\'' +
-                ", avg_price=" + avgPrice +
-                ", sum_price=" + sumPrice +
-                ", img_url='" + url + '\'' +
-                '}';
+    public double getLng() {
+        return lng;
     }
 
+    public void setLng(double lng) {
+        this.lng = lng;
+    }
+
+    public double getLat() {
+        return lat;
+    }
+
+    public void setLat(double lat) {
+        this.lat = lat;
+    }
 }

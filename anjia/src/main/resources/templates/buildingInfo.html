@@ -5,6 +5,8 @@
     <meta name="referrer" content="no-referrer"/>
     <title>楼盘显示</title>
 </head>
+<style>p{margin-left:5px; font-size:14px;font-family:"微软雅黑";}</style>
+
 <script src="js/jquery-2.1.1.min.js" th:src="@{/js/jquery-2.1.1.min.js}"></script>
 <script src="js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}" type="text/javascript" charset="utf-8"></script>
 <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}"/>
@@ -12,65 +14,16 @@
 <link href="css/static_building.css" th:href="@{/css/static_building.css}" type="text/css" rel="stylesheet" />
 <link href="css/headbar.css" th:href="@{/css/headbar.css}" type="text/css" rel="stylesheet" />
 <script src="js/echarts.js" th:src="@{/js/echarts.js}"></script>
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=GLi1qh8qq38xQZuCCQ7bIUhbXln3HgiN"></script>
 <script src="js/bootstrap-paginator.js" th:src="@{/js/bootstrap-paginator.js}"></script>
 <link th:href="@{/css/footer.css}" type="text/css" rel="stylesheet"/>
 <body>
-<!--城市列表-->
-<div class="selcity" id="allCity" style="display:none;">
-    <table class="cityTable">
-        <tbody>
-        <tr>
-            <td><a  href="#">苏州</a></td>
-            <td><a href="#">上海</a></td>
-            <td><a href="#">广州</a></td>
-            <td><a href="#">深圳</a></td>
-            <td><a href="#">重庆</a></td>
-            <td><a href="#">西安</a></td>
-        </tr>
-        <tr>
-            <td><a href="#">北京</a></td>
-            <td><a href="#">南京</a></td>
-            <td><a href="#">成都</a></td>
-            <td><a href="#">武汉</a></td>
-            <td><a href="#">杭州</a></td>
-            <td><a href="#">济南</a></td>
-        </tr>
-        </tbody>
-    </table>
-    <div class="none"><a id="foldin" href="#">收起</a></div>
-</div>
-<!--导航栏-->
-<div class="container home_header">
-    <div  id="headerbar" class="navbar navbar-default">
-        <div class="container">
-            <div class="navbar-header" style="margin-left: 100px;">
-                <a href="#" class="navbar-brand"></a>
-            </div>
-            <label id="toggle-label" class="visible-xs-inline-block" for="toggle-checkbox">MENU</label>
-            <input class="hidden" id="toggle-checkbox" type="checkbox">
-            <div class="hidden-xs">
-                <ul class="nav navbar-nav" style="font-family: '微软雅黑';color: #FFFFFF;">
-                    <li><a th:href ="@{/}" style="font-family: '微软雅黑';color: #FFFFFF;font-weight: 600;">首页</a></li>
-                    <li><a th:href = "@{/building}" style="font-family: '微软雅黑';color: #FFFFFF;font-weight: 600;">二手房</a></li>
-                    <li><a th:href="@{/city}" style="font-family: '微软雅黑';color: #FFFFFF;font-weight: 600;">历史房价</a></li>
-                    <li><a th:href="@{/calculator}" style="font-family: '微软雅黑';color: #FFFFFF;font-weight: 600;">工具</a></li>
-                    <li><a href="#" style="font-family: '微软雅黑';color: #FFFFFF;font-weight: 600;">问答</a></li>
-                    <li class="i1" th:if="${session.CityName} != null"><a id = "cityname" th:text = "${session.CityName}"  href="#" style="font-family: '微软雅黑';color: #FFFFFF;background: rgba(128,128,128,0.5)">苏州</a> </li>
-                    <li class="i1" th:if="${session.CityName} == null"><a id = "cityname"  href="#" style="font-family: '微软雅黑';color: #FFFFFF;background: rgba(128,128,128,0.5)">苏州</a> </li>
-                    <li class="i2" id="changeCity"><a href="#" style="font-family: '微软雅黑';color: #FFFFFF;font-style: italic;font-size:5px ">[切换城市]</a></li>
-                </ul>
-                <ul th:if="${user} == null"class="nav navbar-nav navbar-right" th:style = "'margin-right:50px'">
-                    <li><a th:href="@{/loginwin}" style="font-family: '微软雅黑';color: #FFFFFF;">登录</a></li>
-                    <li><a th:href="@{/loginwin}" style="font-family: '微软雅黑';color: #FFFFFF;">注册</a></li>
-                </ul>
-                <ul th:if="${user} != null"class="nav navbar-nav navbar-right" th:style = "'margin-right:50px'">
-                    <li><a th:text = "'您好,' + ${user.username}" style="font-family: '微软雅黑';color: #FFFFFF;"></a></li>
-                    <li><a th:href="@{/logout}" style="font-family: '微软雅黑';color: #FFFFFF;">退出</a></li>
-                </ul>
-            </div>
-        </div>
+<!--引用头部文件-->
+<header>
+    <div>
+        <div th:include = "wenda/header"></div>
     </div>
-</div>
+</header>
 
 <!--网页标题-->
 
@@ -117,12 +70,34 @@
                 </div>
                 <div class="col-sm-2"></div>
             </div>
+            <div class = "col-sm-12" id = "allmap" style="height: 300px"></div>
         </div>
         <div class="col-sm-1"></div>
     </div>
 </div>
 
+<!--评论栏-->
+<div class="container">
+    <div class="row">
+        <br/><br/><br/>
+        <div class="col-sm-2"></div>
+        <div class="col-sm-8"> <h4>用户评论</h4></div>
+        <div class="col-sm-2"></div>
 
+    </div>
+    <div class="row">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-8">
+            <div class="comment-box" style="width: 100%">
+                <textarea style="width: 100%">
+
+                </textarea>
+            </div>
+            <button class="btn btn-warning">发表评论</button>
+        </div>
+        <div class="col-sm-2"></div>
+    </div>
+</div>
 
 
 
@@ -196,6 +171,11 @@
                 success:function (data) {
                     var json = data;
                     console.log(json);
+                    var map = new BMap.Map("allmap");
+                    var point = new BMap.Point(data.lng, data.lat);//初始位置
+                    map.centerAndZoom(point, 16);
+                    var property = new PropertyOverlay(new BMap.Point(json.lng, json.lat),json.Name);
+                    map.addOverlay(property);
                     $("#buildingName").append('<h2 style="font-family: 微软雅黑;font-size: 30px;color: #000000;font-weight: 600">'+json.Name+'<span class="label label-primary" style="font-size: 15px">'+json.Status+'</span><span class="label label-success" style="font-size: 15px">'+json.Type+'</span></h2>');
                     $("#buildingImg").append('<img style="width:100%" src="'+json.ImgUrl+'"/>');
                     $("#buildingPrice").append('<span style="color:#000000;font-weight: 300;font-size:25px">'+'价格：'+json.AvgPrice+'</span><span style="color:#000000;font-weight: 300;font-size:15px">'+json.Unit+'</span>');
@@ -205,6 +185,65 @@
                 }
             });
         })
+        function PropertyOverlay(point, text){
+            this._point = point;
+            this._text = text;
+        }
+        PropertyOverlay.prototype = new BMap.Overlay();
+        PropertyOverlay.prototype.initialize = function(map){
+            this._map = map;
+            var div = this._div = document.createElement("div");
+            div.style.position = "absolute";
+            div.style.zIndex = BMap.Overlay.getZIndex(this._point.lat);
+            div.style.backgroundColor = "#EE5D5B";
+            div.style.border = "1px solid #BC3B3A";
+            div.style.color = "white";
+            div.style.zIndex = "2";
+            div.style.height = "24px";
+            div.style.padding = "2px";
+            div.style.lineHeight = "18px";
+            div.style.whiteSpace = "nowrap";
+            div.style.MozUserSelect = "none";
+            div.style.fontSize = "14px";
+            var span = this._span = document.createElement("span");
+            div.appendChild(span);
+            span.appendChild(document.createTextNode(this._text));
+            var that = this;
+
+            var arrow = this._arrow = document.createElement("div");
+            arrow.style.background = "url(http://map.baidu.com/fwmap/upload/r/map/fwmap/static/house/images/label.png) no-repeat";
+            arrow.style.position = "absolute";
+            arrow.style.width = "11px";
+            arrow.style.height = "10px";
+            arrow.style.top = "22px";
+            arrow.style.left = "10px";
+            arrow.style.overflow = "hidden";
+            div.appendChild(arrow);
+
+            div.onmouseover = function(){
+                this.style.backgroundColor = "#6BADCA";
+                this.style.borderColor = "#0000ff";
+                div.style.zIndex = "6";
+                arrow.style.backgroundPosition = "0px -20px";
+            }
+
+            div.onmouseout = function(){
+                this.style.backgroundColor = "#EE5D5B";
+                this.style.borderColor = "#BC3B3A";
+                div.style.zIndex = "2";
+                arrow.style.backgroundPosition = "0px 0px";
+            }
+
+            map.getPanes().labelPane.appendChild(div);
+
+            return div;
+        }
+        PropertyOverlay.prototype.draw = function(){
+            var map = this._map;
+            var pixel = map.pointToOverlayPixel(this._point);
+            this._div.style.left = pixel.x - parseInt(this._arrow.style.left) + "px";
+            this._div.style.top  = pixel.y - 30 + "px";
+        }
     })
 </script>
 </html>

@@ -1,32 +1,25 @@
-package com.meng.anjia.model;
+package com.meng.anjia.pojo;
 
-public class City {
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import javax.persistence.*;
+
+@Entity
+@Table(name = "property")
+@JsonIgnoreProperties({ "handler","hibernateLazyInitializer" })
+public class Property {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private int id;
 
     int level;
     String name;
+    String type;
     double lng;
     double lat;
-    int uid;
 
-    public City(int id, int level, String name, int uid) {
-        this.id = id;
-        this.level = level;
-        this.name = name;
-        this.uid = uid;
-    }
-
-    @Override
-    public String toString() {
-        return "City{" +
-                "id=" + id +
-                ", level=" + level +
-                ", name='" + name + '\'' +
-                ", lng=" + lng +
-                ", lat=" + lat +
-                ", uid=" + uid +
-                '}';
-    }
+    int avgPrice;
 
 
 
@@ -70,11 +63,12 @@ public class City {
         this.lat = lat;
     }
 
-    public int getUid() {
-        return uid;
+    public int getAvgPrice() {
+        return avgPrice;
     }
 
-    public void setUid(int uid) {
-        this.uid = uid;
+    public void setAvgPrice(int avgPrice) {
+        this.avgPrice = avgPrice;
     }
+
 }

@@ -16,73 +16,13 @@
 <link th:href="@{/css/footer.css}" type="text/css" rel="stylesheet"/>
 <link th:href="@{/css/chooseStyle.css}" type="text/css" rel="stylesheet"/>
 <body>
-<!--城市列表-->
-<div class="selcity" id="allCity" style="display:none;">
-    <table class="cityTable">
-        <tbody>
-        <tr>
-            <td><a  href="#">苏州</a></td>
-            <td><a href="#">上海</a></td>
-            <td><a href="#">广州</a></td>
-            <td><a href="#">深圳</a></td>
-            <td><a href="#">重庆</a></td>
-            <td><a href="#">西安</a></td>
-        </tr>
-        <tr>
-            <td><a href="#">北京</a></td>
-            <td><a href="#">南京</a></td>
-            <td><a href="#">成都</a></td>
-            <td><a href="#">武汉</a></td>
-            <td><a href="#">杭州</a></td>
-            <td><a href="#">济南</a></td>
-        </tr>
-        </tbody>
-    </table>
-    <div class="none"><a id="foldin" href="#">收起</a></div>
-</div>
-<!--导航栏-->
-<div class="container home_header">
-    <div  id="headerbar" class="navbar navbar-default">
-        <div class="container">
-            <div class="navbar-header" style="margin-left: 100px;">
-                <a href="#" class="navbar-brand"></a>
-            </div>
-            <label id="toggle-label" class="visible-xs-inline-block" for="toggle-checkbox">MENU</label>
-            <input class="hidden" id="toggle-checkbox" type="checkbox">
-            <div class="hidden-xs">
-                <ul class="nav navbar-nav" style="font-family: '微软雅黑';color: #FFFFFF;">
-                    <li><a th:href ="@{/}" style="font-family: '微软雅黑';color: #FFFFFF;font-weight: 600;">首页</a></li>
-                    <li><a th:href = "@{/building}" style="font-family: '微软雅黑';color: #FFFFFF;font-weight: 600;">二手房</a></li>
-                    <li><a th:href="@{/city}" style="font-family: '微软雅黑';color: #FFFFFF;font-weight: 600;">历史房价</a></li>
-                    <li><a th:href="@{/calculator}" style="font-family: '微软雅黑';color: #FFFFFF;font-weight: 600;">工具</a></li>
-                    <li><a href="#" style="font-family: '微软雅黑';color: #FFFFFF;font-weight: 600;">问答</a></li>
-                    <li class="i1" th:if="${session.CityName} != null"><a id = "cityname" th:text = "${session.CityName}"  href="#" style="font-family: '微软雅黑';color: #FFFFFF;background: rgba(128,128,128,0.5)">苏州</a> </li>
-                    <li class="i1" th:if="${session.CityName} == null"><a id = "cityname"  href="#" style="font-family: '微软雅黑';color: #FFFFFF;background: rgba(128,128,128,0.5)">苏州</a> </li>
-                    <li class="i2" id="changeCity"><a href="#" style="font-family: '微软雅黑';color: #FFFFFF;font-style: italic;font-size:5px ">[切换城市]</a></li>
-                </ul>
-                <ul th:if="${user} == null"class="nav navbar-nav navbar-right" th:style = "'margin-right:50px'">
-                    <li><a th:href="@{/loginwin}" style="font-family: '微软雅黑';color: #FFFFFF;">登录</a></li>
-                    <li><a th:href="@{/loginwin}" style="font-family: '微软雅黑';color: #FFFFFF;">注册</a></li>
-                </ul>
-                <ul th:if="${user} != null"class="nav navbar-nav navbar-right" th:style = "'margin-right:50px'">
-                    <li><a th:text = "'您好,' + ${user.username}" style="font-family: '微软雅黑';color: #FFFFFF;"></a></li>
-                    <li><a th:href="@{/logout}" style="font-family: '微软雅黑';color: #FFFFFF;">退出</a></li>
-                </ul>
-            </div>
-        </div>
+<!--引用头部文件-->
+<header>
+    <div>
+        <div th:include = "wenda/header"></div>
     </div>
-</div>
+</header>
 
-<!--&lt;!&ndash;网页标题&ndash;&gt;-->
-
-<!--<div class="container" >-->
-    <!--<div class="row"style="margin:0;width:100%;text-align: center;">-->
-        <!--<div class=" jumbotron">-->
-            <!--<h2>二手房</h2>-->
-            <!--<h5 style="color:#D8BFD8;">纵览小区恋上这座城</h5>-->
-        <!--</div>-->
-    <!--</div>-->
-<!--</div>-->
 
 <!--区域分类-->
 <div class="container">
@@ -180,25 +120,6 @@
         </div>
     </div>
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -566,7 +487,7 @@
                                 '<div class="container">' +
                                 '<div class="col-sm-5"><img style="height: 174px;;border-radius:2px" src='+json[i].imgUrl+'></div>' +
                                 '<div class="col-sm-7">' +
-                                '<div class="col-sm-12" style="text-align: left"><a href="/buildingInfo/'+json[i].ID+'" style="font-family: 微软雅黑;font-weight: 600;color: #000000;font-size: 22px">'+json[i].Name+'<span class="label label-primary" style="font-size: 5px">'+json[i].status+'</span><span class="label label-success" style="font-size: 5px">'+json[i].type+'</span></a></div>' +
+                                '<div class="col-sm-12" style="text-align: left"><a href="/buildingInfo/'+json[i].ID+'" style="font-family: 微软雅黑;font-weight: 600;color: #000000;font-size: 22px">'+json[i].Name+'<span class="label label-primary" style="font-size: 5px">'+json[i].Status+'</span><span class="label label-success" style="font-size: 5px">'+json[i].type+'</span></a></div>' +
                                 '<div class="col-sm-12" style="text-align: right"><h4 style="color:#D2691E;font-weight: 600">'+json[i].avgPrice+json[i].Unit+'</h4></div>'+
                                 '<div class="col-sm-12" style="text-align: left"><img src="img/location_building.png"/><span class="text-muted">'+json[i].location+'</span></div>'+
                                 '<div class="col-sm-12" style="text-align: left"><img src="img/star.png"/><span class="text-muted">'+json[i].area+'/'+json[i].subarea+'/'+json[i].rooms+'</span></div>'+
@@ -654,7 +575,7 @@
                                                 '<div class="container">' +
                                                 '<div class="col-sm-5"><img style="height: 174px;;border-radius:2px" src='+json[i].imgUrl+'></div>' +
                                                 '<div class="col-sm-7">' +
-                                                '<div class="col-sm-12" style="text-align: left"><a href="/buildingInfo/'+json[i].ID+'" style="font-family: 微软雅黑;font-weight: 600;color: #000000;font-size: 22px">'+json[i].Name+'<span class="label label-primary" style="font-size: 5px">'+json[i].status+'</span><span class="label label-success" style="font-size: 5px">'+json[i].type+'</span></a></div>' +
+                                                '<div class="col-sm-12" style="text-align: left"><a href="/buildingInfo/'+json[i].ID+'" style="font-family: 微软雅黑;font-weight: 600;color: #000000;font-size: 22px">'+json[i].Name+'<span class="label label-primary" style="font-size: 5px">'+json[i].Status+'</span><span class="label label-success" style="font-size: 5px">'+json[i].type+'</span></a></div>' +
                                                 '<div class="col-sm-12" style="text-align: right"><h4 style="color:#D2691E;font-weight: 600">'+json[i].avgPrice+json[i].Unit+'</h4></div>'+
                                                 '<div class="col-sm-12" style="text-align: left"><img src="img/location_building.png"/><span class="text-muted">'+json[i].location+'</span></div>'+
                                                 '<div class="col-sm-12" style="text-align: left"><img src="img/star.png"/><span class="text-muted">'+json[i].area+'/'+json[i].subarea+'/'+json[i].rooms+'</span></div>'+

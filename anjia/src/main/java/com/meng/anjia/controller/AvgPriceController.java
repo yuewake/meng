@@ -15,12 +15,12 @@ public class AvgPriceController {
     AvgPriceService avgPriceService;
 
     @GetMapping("/avgprice")
-    public List<AvgPrice> list() throws Exception{
+    public List<AvgPrice> list(){
         return avgPriceService.list();
     }
 
     @GetMapping("/places/{pid}/avgprice")
-    public List<AvgPrice> list(@PathVariable("pid") int pid) throws Exception {
+    public List<AvgPrice> list(@PathVariable("pid") int pid) {
         return avgPriceService.list(pid);
     }
 }
