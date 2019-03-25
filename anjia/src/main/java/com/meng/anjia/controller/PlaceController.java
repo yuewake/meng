@@ -14,7 +14,7 @@ public class PlaceController {
     PlaceService placeService;
 
     @GetMapping("/places")
-    public List<Place> list() throws Exception{
+    public List<Place> list(){
         return placeService.list();
     }
 }
