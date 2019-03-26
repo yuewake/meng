@@ -235,11 +235,13 @@
                            data: time
                        },
                        yAxis: {
-                           type: 'value'
+                           type: 'value',
+                           min: 'dataMin'
                        },
                        series: [{
                            data: price,
                            type: 'line',
+                           smooth: true,
                            itemStyle : { normal: {label : {show: true}}}
                        }]
                    };
