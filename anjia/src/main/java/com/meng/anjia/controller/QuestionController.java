@@ -1,5 +1,6 @@
 package com.meng.anjia.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.meng.anjia.model.*;
 import com.meng.anjia.service.*;
 import com.meng.anjia.util.AnjiaUtil;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by yue on 2019/3/18
@@ -22,29 +24,30 @@ import java.util.List;
 public class QuestionController {
     private static final Logger logger = LoggerFactory.getLogger(QuestionController.class);
     @Autowired
-    QuestionService questionService;
+    private QuestionService questionService;
 
     @Autowired
-    HostHolder hostHolder;
+    private HostHolder hostHolder;
 
     @Autowired
-    UserService userService;
+    private UserService userService;
 
     @Autowired
-    CommentService commentService;
+    private CommentService commentService;
 
     @Autowired
-    LikeService likeService;
+    private LikeService likeService;
 
     @Autowired
-    FollowService followService;
+    private FollowService followService;
+
     /**
      * 提问 必须登陆才能提问
      * @param title 问题标题
      * @param content 问题描述
      * @return
      */
-    @RequestMapping(value = "/add", method = {RequestMethod.POST})
+    @PostMapping(value = "/add")
     @ResponseBody
     public String addQuestion(@RequestParam("title") String title, @RequestParam("content") String content) {
         try {
@@ -67,7 +70,7 @@ public class QuestionController {
      * 问题的详细信息
      * @return
      */
-    @RequestMapping(value = "/{qid}", method = RequestMethod.GET)
+    @GetMapping(value = "/{qid}")
     public String questionDtail(@PathVariable("qid") int id, Model model){
         Question q = questionService.getById(id);
         model.addAttribute("question",q);
@@ -96,4 +99,6 @@ public class QuestionController {
         model.addAttribute("vos", vos);
         return "wenda/detail";
     }
+
+
 }

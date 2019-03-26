@@ -14,7 +14,7 @@ public class PropertyController {
     PropertyService propertyService;
 
     @GetMapping("/properties")
-    public List<Property> list() throws Exception{
+    public List<Property> list(){
         return propertyService.list();
     }
 }

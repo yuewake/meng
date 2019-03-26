@@ -3,7 +3,6 @@ package com.meng.anjia.util;
 import com.alibaba.fastjson.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.util.HtmlUtils;
 
 import java.security.MessageDigest;
 import java.util.Map;
@@ -12,6 +11,8 @@ import java.util.Map;
  * Created by yue on 2019/2/27
  */
 public class AnjiaUtil {
+    private AnjiaUtil() {
+    }
 
     private static final Logger logger = LoggerFactory.getLogger(AnjiaUtil.class);
     /**
@@ -48,7 +49,7 @@ public class AnjiaUtil {
         return json.toJSONString();
     }
     public static String MD5(String key) {
-        char hexDigits[] = {
+        char[] hexDigits = {
                 '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'
         };
         try {
@@ -61,7 +62,7 @@ public class AnjiaUtil {
             byte[] md = mdInst.digest();
             // 把密文转换成十六进制的字符串形式
             int j = md.length;
-            char str[] = new char[j * 2];
+            char[] str = new char[j * 2];
             int k = 0;
             for (int i = 0; i < j; i++) {
                 byte byte0 = md[i];

@@ -39,7 +39,6 @@ public class CommentController {
                              @RequestParam("content") String content,
                              @RequestParam("entityType") int entityType) {
         try {
-            //content = HtmlUtils.htmlEscape(content);
             //TODO 敏感词过滤
 
             Comment comment = new Comment();
@@ -60,9 +59,9 @@ public class CommentController {
             logger.error("增加失败" + e.getMessage());
         }
         if(entityType == 1) {
-            return "redirect:/question/" + String.valueOf(entityId);
+            return "redirect:/question/" + entityId;
         }else{
-            return "redirect:/buildingInformation/" + String.valueOf(entityId);
+            return "redirect:/buildingInformation/" + entityId;
         }
 
     }

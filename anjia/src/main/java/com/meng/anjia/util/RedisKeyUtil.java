@@ -1,21 +1,22 @@
 package com.meng.anjia.util;
 
-import org.springframework.stereotype.Component;
-
 /**
  * Created by yue on 2019/3/18
  */
 public class RedisKeyUtil {
-    private static String SPLIT = ":";
-    private static String BIZ_LIKE = "LIKE";
-    private static String BIZ_DISLIKE = "DISLIKE";
-    private static String BIZ_EVENTQUEUE = "EVENT_QUEUE";
-    // 获取粉丝
-    private static String BIZ_FOLLOWER = "FOLLOWER";
-    // 关注对象
-    private static String BIZ_FOLLOWEE = "FOLLOWEE";
+    private RedisKeyUtil() {
+    }
 
-    private static String BIZ_TIMELINE = "TIMELINE";
+    private static final String SPLIT = ":";
+    private static final String BIZ_LIKE = "LIKE";
+    private static final String BIZ_DISLIKE = "DISLIKE";
+    private static final String BIZ_EVENTQUEUE = "EVENT_QUEUE";
+    // 获取粉丝
+    private static final String BIZ_FOLLOWER = "FOLLOWER";
+    // 关注对象
+    private static final String BIZ_FOLLOWEE = "FOLLOWEE";
+
+    private static final String BIZ_TIMELINE = "TIMELINE";
     /**
      * LIKE:entityType:entityId
      * @param entityType

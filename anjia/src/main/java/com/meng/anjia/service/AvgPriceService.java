@@ -21,8 +21,7 @@ public class AvgPriceService {
 
     public List<AvgPrice> list(int pid) {
         Place place = placeService.get(pid);
-        List<AvgPrice> avgPrice = avgPriceDAO.findByPlaceAndYearAndMonth(place, 2019, 3);
-        return avgPrice;
+        return avgPriceDAO.findByPlaceAndYearAndMonth(place, 2019, 3);
     }
 
 }

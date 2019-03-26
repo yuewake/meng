@@ -7,14 +7,21 @@ import java.util.Date;
 /**
  * Created by yue on 2019/3/18
  */
+
+
 public class Question {
+
+
     private int id;
-    @Field(value="title")
+    @Field(value = "title")
     private String title;
-    @Field(value="content")
+    @Field(value = "content")
     private String content;
+
     private Date createdDate;
+
     private int userId;
+
     private int commentCount;
 
     public int getId() {

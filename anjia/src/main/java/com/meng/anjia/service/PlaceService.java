@@ -14,11 +14,9 @@ public class PlaceService {
     PlaceDAO placeDAO;
 
     public List<Place> list(){
-        //Sort sort = new Sort(Sort.Direction.DESC, "id");
         return placeDAO.findAll();
     }
     public Place get(int id) {
-        Place c= placeDAO.findById(id).get();
-        return c;
+        return placeDAO.findById(id).isPresent() ? placeDAO.findById(id).get() : null;
     }
 }

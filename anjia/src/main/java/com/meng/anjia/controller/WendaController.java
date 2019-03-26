@@ -47,7 +47,6 @@ public class WendaController {
 
     @RequestMapping("/wenda")
     public String index(Model model){
-        //TODO 要不要分成两个部分 一部分显示所有问题， 一部分显示自己提出的问题
         model.addAttribute("vos", getQuestions(0, 0, 10));
         return "wenda/index";
     }
