@@ -13,7 +13,7 @@ import java.util.List;
 @Component
 public interface QuestionDao {
     String TABLE_NAME = " question ";
-    String INSERT_FIELDS = " title, content, created_date, user_id, comment_count ";
+    String INSERT_FIELDS = " title, content, createdDate, userId, commentCount ";
     String SELECT_FIELDS = " id, " + INSERT_FIELDS;
 
     @Insert({"insert into ", TABLE_NAME, "(", INSERT_FIELDS,

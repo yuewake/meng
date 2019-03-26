@@ -1,5 +1,6 @@
 package com.meng.anjia.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.meng.anjia.model.*;
 import com.meng.anjia.service.*;
 import com.meng.anjia.util.AnjiaUtil;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by yue on 2019/3/18
@@ -22,22 +24,23 @@ import java.util.List;
 public class QuestionController {
     private static final Logger logger = LoggerFactory.getLogger(QuestionController.class);
     @Autowired
-    QuestionService questionService;
+    private QuestionService questionService;
 
     @Autowired
-    HostHolder hostHolder;
+    private HostHolder hostHolder;
 
     @Autowired
-    UserService userService;
+    private UserService userService;
 
     @Autowired
-    CommentService commentService;
+    private CommentService commentService;
 
     @Autowired
-    LikeService likeService;
+    private LikeService likeService;
 
     @Autowired
-    FollowService followService;
+    private FollowService followService;
+
     /**
      * 提问 必须登陆才能提问
      * @param title 问题标题
@@ -96,4 +99,6 @@ public class QuestionController {
         model.addAttribute("vos", vos);
         return "wenda/detail";
     }
+
+
 }
