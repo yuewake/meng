@@ -4,7 +4,6 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.meng.anjia.model.Building;
 import com.meng.anjia.model.CityPrice;
-import com.meng.anjia.model.Question;
 import com.meng.anjia.service.BuildingService;
 import com.meng.anjia.service.CityPriceService;
 import com.meng.anjia.service.CityService;
@@ -13,12 +12,9 @@ import org.apache.solr.client.solrj.response.QueryResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -107,27 +103,8 @@ public class StaticsBuildingController {
         List<Building> list = buildingService.getBuildingByNumber(number,cityname);
         JSONObject result = new JSONObject();
         JSONArray array = new JSONArray();
-        for (int i = 0; i < list.size();++i)
-        {
-            JSONObject item  = new JSONObject();
-            item.put("Name", list.get(i).getName());
-            item.put("ID", list.get(i).getId());
-            item.put("type",list.get(i).getType());
-            item.put("location", list.get(i).getLocation());
-            item.put("status", list.get(i).getStatus());
-            item.put("area", list.get(i).getArea());
-            item.put("subarea",list.get(i).getSubarea());
-            item.put("Unit",list.get(i).getUnit());
-            item.put("avgPrice",list.get(i).getAvgPrice());
-            item.put("rooms", list.get(i).getRooms());
-            item.put("minArea",list.get(i).getMinArea());
-            item.put("tags",list.get(i).getTags());
-            item.put("maxArea", list.get(i).getMaxArea());
-            item.put("imgUrl",list.get(i).getUrl());
-            array.add(item);
-        }
-            result.put("Page", page);
-            result.put("BuildingList", array);
+        result.put("Page", page);
+           result.put("BuildingList", list);
         return result.toJSONString();
     }
 
@@ -162,39 +139,19 @@ public class StaticsBuildingController {
         List<Building> list = buildingService.findBuildingByCondition(map);
         JSONObject result = new JSONObject();
         JSONArray array = new JSONArray();
-        for (int i = 0; i < list.size();++i)
-        {
-            JSONObject item  = new JSONObject();
-            item.put("Name", list.get(i).getName());
-            item.put("ID", list.get(i).getId());
-            item.put("type",list.get(i).getType());
-            item.put("location", list.get(i).getLocation());
-            item.put("Status", list.get(i).getStatus());
-            item.put("Unit",list.get(i).getUnit());
-            item.put("area", list.get(i).getArea());
-            item.put("subarea",list.get(i).getSubarea());
-            item.put("avgPrice",list.get(i).getAvgPrice());
-            item.put("rooms", list.get(i).getRooms());
-            item.put("minArea",list.get(i).getMinArea());
-            item.put("tags",list.get(i).getTags());
-            item.put("maxArea", list.get(i).getMaxArea());
-            item.put("imgUrl",list.get(i).getUrl());
-            array.add(item);
-        }
-        result.put("BuildingList", array);
+        result.put("BuildingList", list);
         result.put("totalPage", totalPage);
         result.put("curPage", 1);
         result.put("numberOfPage",4);
          return result.toJSONString();
     }
 
-    @RequestMapping("selectBuild")
+    @RequestMapping("selectBuild/{name}/{page}")
     @ResponseBody
-    public String selectBuild(@RequestParam("name") String q, @RequestParam("page") Integer offset){
-        offset--;
+    public String selectBuild(@PathVariable("name") String q, @PathVariable("page") Integer offset){
         JSONObject json = new JSONObject();
         try {
-            QueryResponse queryResponse = solrAdapter.search("build",q,"name",offset * size, size);
+            QueryResponse queryResponse = solrAdapter.search("build",q,"name",(offset-1) * size, size);
             long total = queryResponse.getResults().getNumFound();
             List<Building> buildings = queryResponse.getBeans(Building.class);
             if(total % size == 0)
@@ -209,5 +166,6 @@ public class StaticsBuildingController {
         }
         return json.toJSONString();
     }
+
 
 }

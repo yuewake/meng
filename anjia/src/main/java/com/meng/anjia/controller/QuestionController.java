@@ -108,13 +108,12 @@ public class QuestionController {
         return "wenda/detail";
     }
 
-    @GetMapping("/selectQuestion")
+    @GetMapping("/selectQuestion/{name}/{page}")
     @ResponseBody
-    public String select(@RequestParam("name") String q, @RequestParam("page") Integer offset) {
-        offset--;
+    public String select(@PathVariable("name") String q, @PathVariable("page") Integer offset) {
         JSONObject json = new JSONObject();
         try {
-            QueryResponse queryResponse = solrAdapter.search("question",q,"title",offset * size,size);
+            QueryResponse queryResponse = solrAdapter.search("question",q,"title",(offset-1) * size,size);
             // 数量，分页用
             long total = queryResponse.getResults().getNumFound();
             if(total % size == 0)
@@ -131,4 +130,11 @@ public class QuestionController {
         return json.toJSONString();
     }
 
+
+    @GetMapping(value = "/questionResult/{question}")
+    public String questionResult(Model model, @PathVariable("question")String question)
+    {
+        model.addAttribute("Question",question);
+        return "searchQuestion";
+    }
 }

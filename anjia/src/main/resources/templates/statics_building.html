@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <meta name="referrer" content="no-referrer"/>
+
     <title>楼盘显示</title>
 </head>
 <script src="js/jquery-2.1.1.min.js" th:src="@{/js/jquery-2.1.1.min.js}"></script>
@@ -279,10 +279,10 @@
                                 /*插入项目*/
                                 $(".buildingInfo").append('<li style="display:block;padding: 10px;border-bottom: 1px solid #00FFFF">' +
                                     '<div class="container">' +
-                                    '<div class="col-sm-5"><img style="height: 174px;;border-radius:2px" src='+json[i].imgUrl+'></div>' +
+                                    '<div class="col-sm-5"><img style="height: 174px;;border-radius:2px" src='+json[i].url+'></div>' +
                                     '<div class="col-sm-7">' +
-                                    '<div class="col-sm-12" style="text-align: left"><a href="/buildingInfo/'+json[i].ID+'"style="font-family: 微软雅黑;font-weight: 600;color: #000000;font-size: 22px">'+json[i].Name+'<span class="label label-primary" style="font-size: 5px">'+json[i].status+'</span><span class="label label-success" style="font-size: 5px">'+json[i].type+'</span></a></div>' +
-                                    '<div class="col-sm-12" style="text-align: right"><h3 style="color:#D2691E;font-weight: 600">'+json[i].avgPrice+'</h3><small style="color:#D2691E;font-weight: 600">'+json[i].Unit+'</small></div>'+
+                                    '<div class="col-sm-12" style="text-align: left"><a href="/buildingInfo/'+json[i].id+'"style="font-family: 微软雅黑;font-weight: 600;color: #000000;font-size: 22px">'+json[i].name+'<span class="label label-primary" style="font-size: 5px">'+json[i].status+'</span><span class="label label-success" style="font-size: 5px">'+json[i].type+'</span></a></div>' +
+                                    '<div class="col-sm-12" style="text-align: right"><h3 style="color:#D2691E;font-weight: 600">'+json[i].avgPrice+'</h3><small style="color:#D2691E;font-weight: 600">'+json[i].unit+'</small></div>'+
                                     '<div class="col-sm-12" style="text-align: left"><img src="img/location_building.png"/><span class="text-muted">'+json[i].location+'</span></div>'+
                                     '<div class="col-sm-12" style="text-align: left"><img src="img/star.png"/><span class="text-muted">'+json[i].area+'/'+json[i].subarea+'/'+json[i].rooms+'</span></div>'+
                                     '<div class="col-sm-12" style="text-align: left"><img src="img/tags.png"/><span class="text-muted">'+json[i].tags+'</span></div>'+
@@ -328,10 +328,10 @@
                                        /*插入项目*/
                                        $(".buildingInfo").append('<li style="display:block;padding: 10px;border-bottom: 1px solid #00FFFF">' +
                                        '<div class="container">' +
-                                           '<div class="col-sm-5"><img style="height: 174px;;border-radius:2px" src='+json[i].imgUrl+'></div>' +
+                                           '<div class="col-sm-5"><img style="height: 174px;;border-radius:2px" src='+json[i].url+'></div>' +
                                            '<div class="col-sm-7">' +
-                                           '<div class="col-sm-12" style="text-align: left"><a href="/buildingInfo/'+json[i].ID+'" style="font-family: 微软雅黑;font-weight: 600;color: #000000;font-size: 22px">'+json[i].Name+'<span class="label label-primary" style="font-size: 5px">'+json[i].status+'</span><span class="label label-success" style="font-size: 5px">'+json[i].type+'</span></a></div>' +
-                                            '<div class="col-sm-12" style="text-align: right"><h4 style="color:#D2691E;font-weight: 600">'+json[i].avgPrice+json[i].Unit+'</h4></div>'+
+                                           '<div class="col-sm-12" style="text-align: left"><a href="/buildingInfo/'+json[i].id+'" style="font-family: 微软雅黑;font-weight: 600;color: #000000;font-size: 22px">'+json[i].name+'<span class="label label-primary" style="font-size: 5px">'+json[i].status+'</span><span class="label label-success" style="font-size: 5px">'+json[i].type+'</span></a></div>' +
+                                            '<div class="col-sm-12" style="text-align: right"><h4 style="color:#D2691E;font-weight: 600">'+json[i].avgPrice+json[i].unit+'</h4></div>'+
                                            '<div class="col-sm-12" style="text-align: left"><img src="img/location_building.png"/><span class="text-muted">'+json[i].location+'</span></div>'+
                                            '<div class="col-sm-12" style="text-align: left"><img src="img/star.png"/><span class="text-muted">'+json[i].area+'/'+json[i].subarea+'/'+json[i].rooms+'</span></div>'+
                                            '<div class="col-sm-12" style="text-align: left"><img src="img/tags.png"/><span class="text-muted">'+json[i].tags+'</span></div>'+
@@ -487,10 +487,10 @@
                             /*插入项目*/
                             $(".buildingInfo").append('<li style="display:block;padding: 10px;border-bottom: 1px solid #00FFFF">' +
                                 '<div class="container">' +
-                                '<div class="col-sm-5"><img style="height: 174px;;border-radius:2px" src='+json[i].imgUrl+'></div>' +
+                                '<div class="col-sm-5"><img style="height: 174px;;border-radius:2px" src='+json[i].url+'></div>' +
                                 '<div class="col-sm-7">' +
-                                '<div class="col-sm-12" style="text-align: left"><a href="/buildingInfo/'+json[i].ID+'" style="font-family: 微软雅黑;font-weight: 600;color: #000000;font-size: 22px">'+json[i].Name+'<span class="label label-primary" style="font-size: 5px">'+json[i].Status+'</span><span class="label label-success" style="font-size: 5px">'+json[i].type+'</span></a></div>' +
-                                '<div class="col-sm-12" style="text-align: right"><h4 style="color:#D2691E;font-weight: 600">'+json[i].avgPrice+json[i].Unit+'</h4></div>'+
+                                '<div class="col-sm-12" style="text-align: left"><a href="/buildingInfo/'+json[i].id+'" style="font-family: 微软雅黑;font-weight: 600;color: #000000;font-size: 22px">'+json[i].name+'<span class="label label-primary" style="font-size: 5px">'+json[i].status+'</span><span class="label label-success" style="font-size: 5px">'+json[i].type+'</span></a></div>' +
+                                '<div class="col-sm-12" style="text-align: right"><h4 style="color:#D2691E;font-weight: 600">'+json[i].avgPrice+json[i].unit+'</h4></div>'+
                                 '<div class="col-sm-12" style="text-align: left"><img src="img/location_building.png"/><span class="text-muted">'+json[i].location+'</span></div>'+
                                 '<div class="col-sm-12" style="text-align: left"><img src="img/star.png"/><span class="text-muted">'+json[i].area+'/'+json[i].subarea+'/'+json[i].rooms+'</span></div>'+
                                 '<div class="col-sm-12" style="text-align: left"><img src="img/tags.png"/><span class="text-muted">'+json[i].tags+'</span></div>'+
@@ -575,10 +575,10 @@
                                             /*插入项目*/
                                             $(".buildingInfo").append('<li style="display:block;padding: 10px;border-bottom: 1px solid #00FFFF">' +
                                                 '<div class="container">' +
-                                                '<div class="col-sm-5"><img style="height: 174px;;border-radius:2px" src='+json[i].imgUrl+'></div>' +
+                                                '<div class="col-sm-5"><img style="height: 174px;;border-radius:2px" src='+json[i].url+'></div>' +
                                                 '<div class="col-sm-7">' +
-                                                '<div class="col-sm-12" style="text-align: left"><a href="/buildingInfo/'+json[i].ID+'" style="font-family: 微软雅黑;font-weight: 600;color: #000000;font-size: 22px">'+json[i].Name+'<span class="label label-primary" style="font-size: 5px">'+json[i].Status+'</span><span class="label label-success" style="font-size: 5px">'+json[i].type+'</span></a></div>' +
-                                                '<div class="col-sm-12" style="text-align: right"><h4 style="color:#D2691E;font-weight: 600">'+json[i].avgPrice+json[i].Unit+'</h4></div>'+
+                                                '<div class="col-sm-12" style="text-align: left"><a href="/buildingInfo/'+json[i].id+'" style="font-family: 微软雅黑;font-weight: 600;color: #000000;font-size: 22px">'+json[i].name+'<span class="label label-primary" style="font-size: 5px">'+json[i].status+'</span><span class="label label-success" style="font-size: 5px">'+json[i].type+'</span></a></div>' +
+                                                '<div class="col-sm-12" style="text-align: right"><h4 style="color:#D2691E;font-weight: 600">'+json[i].avgPrice+json[i].unit+'</h4></div>'+
                                                 '<div class="col-sm-12" style="text-align: left"><img src="img/location_building.png"/><span class="text-muted">'+json[i].location+'</span></div>'+
                                                 '<div class="col-sm-12" style="text-align: left"><img src="img/star.png"/><span class="text-muted">'+json[i].area+'/'+json[i].subarea+'/'+json[i].rooms+'</span></div>'+
                                                 '<div class="col-sm-12" style="text-align: left"><img src="img/tags.png"/><span class="text-muted">'+json[i].tags+'</span></div>'+
