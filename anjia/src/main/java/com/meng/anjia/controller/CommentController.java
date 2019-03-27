@@ -39,8 +39,6 @@ public class CommentController {
                              @RequestParam("content") String content,
                              @RequestParam("entityType") int entityType) {
         try {
-            //TODO 敏感词过滤
-
             Comment comment = new Comment();
             comment.setContent(content);
             comment.setEntityId(entityId);
