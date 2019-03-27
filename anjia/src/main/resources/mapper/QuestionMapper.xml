@@ -20,4 +20,13 @@
         LIMIT #{offset},#{limit}
     </select>
 
+
+    <select id="getCountOfQuestion" resultType="java.lang.Integer">
+        SELECT count(*)
+        FROM question
+        <if test="userId != 0">
+            WHERE user_id = #{userId}
+        </if>
+    </select>
+
 </mapper>

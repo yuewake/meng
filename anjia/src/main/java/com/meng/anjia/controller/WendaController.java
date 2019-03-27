@@ -18,6 +18,8 @@ import java.util.List;
 @Controller
 public class WendaController {
 
+    private static final int size = 5;
+
     @Autowired
     UserService userService;
 
@@ -26,7 +28,7 @@ public class WendaController {
 
     /**
      * 根据userId 获取某userId提出的问题（目前获取方式是 问题按时间排序 取前几）
-     * 去过userId为0 那么获取所有问题
+     * 如果userId为0 那么获取所有问题(这里先默认为0)
      * @param userId
      * @param offset
      * @param limit
@@ -46,8 +48,15 @@ public class WendaController {
     }
 
     @RequestMapping("/wenda")
-    public String index(Model model){
-        model.addAttribute("vos", getQuestions(0, 0, 10));
+    public String index(Model model,int offset){
+        model.addAttribute("vos", getQuestions(0, offset * size, size));
+        int total = questionService.getCountOfQuestion(0);
+        if(total % size == 0)
+            total = total / size;
+        else
+            total = (total / size) + 1;
+        model.addAttribute("total",total);
+        model.addAttribute("offset",offset);
         return "wenda/index";
     }
 }

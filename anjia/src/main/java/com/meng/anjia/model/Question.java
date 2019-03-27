@@ -11,7 +11,6 @@ import java.util.Date;
 
 public class Question {
 
-
     private int id;
     @Field(value = "title")
     private String title;
