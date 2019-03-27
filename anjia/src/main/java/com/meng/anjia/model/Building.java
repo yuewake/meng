@@ -1,31 +1,50 @@
 package com.meng.anjia.model;
 
 
+import org.apache.solr.client.solrj.beans.Field;
+
 /**
  * @author shine10076
  * @date 2019/3/19 15:19
  */
 public class Building {
 
+    @Field(value ="id")
     private int id;
-
-
+    @Field(value = "name")
     private String name;
+    @Field(value = "type")
     private String type;
+    @Field(value = "status")
     private String status;
+    @Field(value = "city")
+    private String city;
+    @Field(value = "area")
     private String area;
+    @Field(value = "subarea")
     private String subarea;
+    @Field(value = "location")
     private String location;
+    @Field(value = "rooms")
     private String rooms;
+
     private int minArea;
     private int maxArea;
+    @Field(value = "tags")
     private String tags;
+    @Field(value = "avgPrice")
     private int avgPrice;
+    @Field(value = "unit")
     private String unit;
+
     /*起步总价*/
+    @Field(value = "sumPrice")
     private int sumPrice;
+    @Field(value = "url")
     private String url;
+    @Field(value = "lng")
     private double lng;
+    @Field(value = "lat")
     private double lat;
 
     public int getId() {
@@ -162,5 +181,36 @@ public class Building {
 
     public void setLat(double lat) {
         this.lat = lat;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    @Override
+    public String toString() {
+        return "Building{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", type='" + type + '\'' +
+                ", status='" + status + '\'' +
+                ", area='" + area + '\'' +
+                ", subarea='" + subarea + '\'' +
+                ", location='" + location + '\'' +
+                ", rooms='" + rooms + '\'' +
+                ", minArea=" + minArea +
+                ", maxArea=" + maxArea +
+                ", tags='" + tags + '\'' +
+                ", avgPrice=" + avgPrice +
+                ", unit='" + unit + '\'' +
+                ", sumPrice=" + sumPrice +
+                ", url='" + url + '\'' +
+                ", lng=" + lng +
+                ", lat=" + lat +
+                '}';
     }
 }

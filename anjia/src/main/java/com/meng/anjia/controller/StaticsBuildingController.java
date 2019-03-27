@@ -4,13 +4,21 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.meng.anjia.model.Building;
 import com.meng.anjia.model.CityPrice;
+import com.meng.anjia.model.Question;
 import com.meng.anjia.service.BuildingService;
 import com.meng.anjia.service.CityPriceService;
 import com.meng.anjia.service.CityService;
+import com.meng.anjia.util.SolrAdapter;
+import org.apache.solr.client.solrj.response.QueryResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,6 +29,9 @@ import java.util.Map;
  */
 @Controller
 public class StaticsBuildingController {
+    private static final Logger logger = LoggerFactory.getLogger(StaticsBuildingController.class);
+    private static final int size = 10;
+
     @Autowired
     CityService cityService;
 
@@ -29,6 +40,9 @@ public class StaticsBuildingController {
 
     @Autowired
     BuildingService buildingService;
+
+    @Autowired
+    SolrAdapter solrAdapter;
     /**
      *
      * @return 跳转到显示小区页面
@@ -172,6 +186,28 @@ public class StaticsBuildingController {
         result.put("curPage", 1);
         result.put("numberOfPage",4);
          return result.toJSONString();
+    }
+
+    @RequestMapping("selectBuild")
+    @ResponseBody
+    public String selectBuild(@RequestParam("name") String q, @RequestParam("page") Integer offset){
+        offset--;
+        JSONObject json = new JSONObject();
+        try {
+            QueryResponse queryResponse = solrAdapter.search("build",q,"name",offset * size, size);
+            long total = queryResponse.getResults().getNumFound();
+            List<Building> buildings = queryResponse.getBeans(Building.class);
+            if(total % size == 0)
+                total = total / size;
+            else
+                total = (total / size) + 1;
+            json.put("curPage",offset);
+            json.put("totalPage",total);
+            json.put("BuildingList",buildings);
+        }catch (Exception e){
+            logger.error("发生错误：" + e.getMessage());
+        }
+        return json.toJSONString();
     }
 
 }
