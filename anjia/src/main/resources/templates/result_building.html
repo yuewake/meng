@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="referrer" content="no-referrer"/>
+    <title>查询结果</title>
+</head>
+<script src="js/jquery-2.1.1.min.js" th:src="@{/js/jquery-2.1.1.min.js}"></script>
+<script src="js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}" type="text/javascript" charset="utf-8"></script>
+<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}"/>
+<script src="js/bootstrap-paginator.js" th:src="@{/js/bootstrap-paginator.js}"></script>
+<link href="css/citystyle.css" th:href="@{/css/citystyle.css}" type="text/css" rel="stylesheet" />
+<link href="css/headbar.css" th:href="@{/css/headbar.css}" type="text/css" rel="stylesheet" />
+<script src="js/echarts.js" th:src="@{/js/echarts.js}"></script>
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=llcu6GxcI6KoM04DyQ8WOhWH1To9dgh6"></script>
+<link href="css/footer.css" th:href="@{/css/footer.css}" type="text/css" rel="stylesheet" />
+<body>
+<!--引用头部文件-->
+<header>
+    <div>
+        <div th:include = "wenda/header"></div>
+    </div>
+</header>
+
+<!--第二层-->
+<div class="container" >
+    <div class="row"style="margin:0;width:100%;text-align: center;">
+        <div class=" jumbotron">
+            <h2>查询结果</h2>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <span id="content" class="hidden" th:text ="${Content}"></span>
+    </div>
+</div>
+<!--小区浏览-->
+<div class="container">
+    <div class="row">
+        <!--小区浏览-->
+        <div class="col-sm-1"></div>
+        <div class="col-sm-7" id = "buildingShow">
+            <nav class="nav-bar navbar-default">
+                <ul class="nav nav-tabs Sort" role = "tablist">
+                    <li role="presentation" class="active"><a class="cal-tab-pane" aria-controls="MR" role="tab" data-toggle="tab">默认排序</a></li>
+                    <!--<li role="presentation"><a class="cal-tab-pane"  aria-controls="FJ" role="tab" data-toggle="tab">按房价</a></li>-->
+                    <!--<li role="presentation"><a class="cal-tab-pane" aria-controls="MC" role="tab" data-toggle="tab">按名称</a></li>-->
+                </ul>
+            </nav>
+            <ul class="buildingInfo">
+
+            </ul>
+            <ul class="page-info" style="text-align: right"></ul>
+        </div>
+        <div class="col-sm-4">
+            <div id = "main1" style="height: 250px"></div>
+        </div>
+    </div>
+</div>
+</div>
+
+</body>
+
+<script type="text/javascript">
+    $(function() {
+        /*选择城市*/
+        $(".cityTable tr td a").click(function () {
+            var name = this.text;
+            $.ajax({
+                url: '/location/' + name,
+                type: 'get',
+                success: function (data) {
+                    console.log("切换成功");
+                    window.location.reload();
+                },
+                error: function () {
+                    alert("切换城市失败！");
+                }
+            });
+        });
+        /*城市切换*/
+        $("#changeCity").click(function (a) {
+            $("#allCity").slideDown(300);
+            a.stopPropagation();
+            $(this).blur()
+        });
+
+        $("#allCity").click(function (a) {
+            a.stopPropagation()
+        });
+
+        $(document).click(function (a) {
+            a.button != 2 && $("#allCity").slideUp(300)
+        });
+
+        $("#foldin").click(function () {
+            $("#allCity").slideUp(300)
+        });
+    })
+
+    /*房价半年走势图*/
+    $(document).ready(function () {
+        var name = $("#cityname").text();
+        $.ajax({
+            url: '/building/cityPrice/'+name,
+            type:'get',
+            dataType:'json',
+            success: function (data) {
+                var json = data.priceList;
+                console.log(json);
+                var price = [];
+                var time = [];
+                for(var i = json.length-1; i >= 0; i-- )
+                {
+                    price.push(json[i].price);
+                    time.push(json[i].time);
+                }
+
+                var myChart1 = echarts.init(document.getElementById('main1'));
+                option = {
+                    title:
+                        {
+                            text: name + "房价半年走势图",
+                            x:'center'
+                        },
+                    xAxis: {
+                        type: 'category',
+                        data: time
+                    },
+                    yAxis: {
+                        type: 'value',
+                        min: 'dataMin'
+                    },
+                    series: [{
+                        data: price,
+                        type: 'line',
+                        smooth: true,
+                        itemStyle : { normal: {label : {show: true}}}
+                    }]
+                };
+                myChart1.setOption(option);
+                window.onresize = function (){
+
+                    myChart1.resize();
+                }
+            },
+            error:function (errorMsg) {
+                alert("房价请求失败");
+            }
+        });
+    });
+
+    /*往后台发送查询结果*/
+    $(document).ready(function () {
+        var content = $("#content").text();
+        $.ajax({
+            url: "/selectBuild/"+content+'/'+1,
+            dataType:'json',
+            type:'get',
+            success: function (data) {
+                var json = data.BuildingList;
+                console.log(data);
+                $(".buildingInfo").empty();
+                for(var i = 0; i< json.length;++i)
+                {
+                    /*插入项目*/
+                    $(".buildingInfo").append('<li style="display:block;padding: 10px;border-bottom: 1px solid #00FFFF">' +
+                        '<div class="container">' +
+                        '<div class="col-sm-5"><img style="height: 174px;;border-radius:2px" src='+json[i].url+'></div>' +
+                        '<div class="col-sm-7">' +
+                        '<div class="col-sm-12" style="text-align: left"><a href="/buildingInfo/'+json[i].id+'"style="font-family: 微软雅黑;font-weight: 600;color: #000000;font-size: 22px">'+json[i].name+'<span class="label label-primary" style="font-size: 5px">'+json[i].status+'</span><span class="label label-success" style="font-size: 5px">'+json[i].type+'</span></a></div>' +
+                        '<div class="col-sm-12" style="text-align: right"><h3 style="color:#D2691E;font-weight: 600">'+json[i].avgPrice+'</h3><small style="color:#D2691E;font-weight: 600">'+json[i].unit+'</small></div>'+
+                        '<div class="col-sm-12" style="text-align: left"><img src="img/location_building.png"/><span class="text-muted">'+json[i].location+'</span></div>'+
+                        '<div class="col-sm-12" style="text-align: left"><img src="img/star.png"/><span class="text-muted">'+json[i].area+'/'+json[i].subarea+'/'+json[i].rooms+'</span></div>'+
+                        '<div class="col-sm-12" style="text-align: left"><img src="img/tags.png"/><span class="text-muted">'+json[i].tags+'</span></div>'+
+                        '</div>' +
+                        '</div>'
+                        +'</li> ');
+                }
+                            var options = {
+                                bootstrapMajorVersion:3,
+                                currentPage: data.curPage,          //设置当前页
+                                numberOfPages: 4,		 //设置可以点击到的页数范围
+                                totalPages:data.totalPage,
+                                itemTexts: function(type, page, current) { //修改显示文字
+                                    switch (type) {
+                                        case "first":
+                                            return "首页";
+                                        case "prev":
+                                            return "上一页";
+                                        case "next":
+                                            return "下一页";
+                                        case "last":
+                                            return "尾页";
+                                        case "page":
+                                            return page;
+                                    }
+                                }, onPageClicked: function (event, originalEvent, type, page) { //异步换页
+                                    //请求加载数据
+                                    $.ajax({
+                                        url:  "/selectBuild/"+content+'/'+ page,
+                                        dataType:'json',
+                                        type:'get',
+                                        success: function (data) {
+                                            var json = data.BuildingList;
+                                            console.log(json);
+                                            $(".buildingInfo").empty();
+                                            for(var i = 0; i< json.length;++i)
+                                            {
+                                                /*插入项目*/
+                                                $(".buildingInfo").append('<li style="display:block;padding: 10px;border-bottom: 1px solid #00FFFF">' +
+                                                    '<div class="container">' +
+                                                    '<div class="col-sm-5"><img style="height: 174px;;border-radius:2px" src='+json[i].url+'></div>' +
+                                                    '<div class="col-sm-7">' +
+                                                    '<div class="col-sm-12" style="text-align: left"><a href="/buildingInfo/'+json[i].id+'" style="font-family: 微软雅黑;font-weight: 600;color: #000000;font-size: 22px">'+json[i].name+'<span class="label label-primary" style="font-size: 5px">'+json[i].status+'</span><span class="label label-success" style="font-size: 5px">'+json[i].type+'</span></a></div>' +
+                                                    '<div class="col-sm-12" style="text-align: right"><h4 style="color:#D2691E;font-weight: 600">'+json[i].avgPrice+json[i].unit+'</h4></div>'+
+                                                    '<div class="col-sm-12" style="text-align: left"><img src="img/location_building.png"/><span class="text-muted">'+json[i].location+'</span></div>'+
+                                                    '<div class="col-sm-12" style="text-align: left"><img src="img/star.png"/><span class="text-muted">'+json[i].area+'/'+json[i].subarea+'/'+json[i].rooms+'</span></div>'+
+                                                    '<div class="col-sm-12" style="text-align: left"><img src="img/tags.png"/><span class="text-muted">'+json[i].tags+'</span></div>'+
+                                                    '</div>' +
+                                                    '</div>'
+                                                    +'</li> ');
+                                            }
+                                        },
+                                        error:function () {
+                                            alert("数据请求失败");
+                                        }
+                                    });
+                                }
+                            }
+                $(".page-info").bootstrapPaginator(options);
+            },
+            error:function () {
+                alert("数据请求失败");
+            }
+        });
+    })
+
+
+
+</script>
+</html>

@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+    <script src="js/jquery-2.1.1.min.js" th:src="@{/js/jquery-2.1.1.min.js}"></script>
+    <script src="js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}" type="text/javascript" charset="utf-8"></script>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}"/>
+    <link href="css/citystyle.css" th:href="@{/css/citystyle.css}" type="text/css" rel="stylesheet" />
+    <link href="css/headbar.css" th:href="@{/css/headbar.css}" type="text/css" rel="stylesheet" />
+    <link href="css/citystyle.css" th:href="@{/css/citystyle.css}" type="text/css" rel="stylesheet" />
+    <script src="js/bootstrap-paginator.js" th:src="@{/js/bootstrap-paginator.js}"></script>
+    <style>
+        a.hover-blue {
+            text-decoration: none;
+            color: #000000;
+        }
+        a.hover-blue:hover{
+            color: #00CCFF;
+            text-decoration: none;
+        }
+    </style>
+    <title>主页</title>
+</head>
+<body style="background-color: #eeeeee">
+<!--城市列表-->
+<div class="selcity" id="allCity" style="display:none;">
+    <table class="cityTable">
+        <tbody>
+        <tr>
+            <td><a  href="#">苏州</a></td>
+            <td><a href="#">上海</a></td>
+            <td><a href="#">广州</a></td>
+            <td><a href="#">深圳</a></td>
+            <td><a href="#">重庆</a></td>
+            <td><a href="#">西安</a></td>
+        </tr>
+        <tr>
+            <td><a href="#">北京</a></td>
+            <td><a href="#">南京</a></td>
+            <td><a href="#">成都</a></td>
+            <td><a href="#">武汉</a></td>
+            <td><a href="#">杭州</a></td>
+            <td><a href="#">济南</a></td>
+        </tr>
+        </tbody>
+    </table>
+    <div class="none"><a id="foldin" href="#">收起</a></div>
+</div>
+<!--导航栏-->
+<div class="container home_header">
+    <div  id="headerbar" class="navbar navbar-default">
+        <div class="container">
+            <div class="navbar-header" style="margin-left: 100px;">
+                <a href="#" class="navbar-brand"></a>
+            </div>
+            <label id="toggle-label" class="visible-xs-inline-block" for="toggle-checkbox">MENU</label>
+            <input class="hidden" id="toggle-checkbox" type="checkbox">
+            <div class="hidden-xs">
+                <ul class="nav navbar-nav" style="font-family: '微软雅黑';color: #FFFFFF;">
+                    <li><a th:href ="@{/}" style="font-family: '微软雅黑';color: #FFFFFF;font-weight: 600;">首页</a></li>
+                    <li><a th:href = "@{/building}" style="font-family: '微软雅黑';color: #FFFFFF;font-weight: 600;">二手房</a></li>
+                    <li><a th:href="@{/city}" style="font-family: '微软雅黑';color: #FFFFFF;font-weight: 600;">历史房价</a></li>
+                    <li><a th:href="@{/calculator}" style="font-family: '微软雅黑';color: #FFFFFF;font-weight: 600;">工具</a></li>
+                    <li><a th:href="@{/wenda?(offset=0)}" style="font-family: '微软雅黑';color: #FFFFFF;font-weight: 600;">问答</a></li>
+                    <li class="i1" th:if="${session.CityName} != null"><a id = "cityname" th:text = "${session.CityName}"  href="#" style="font-family: '微软雅黑';color: #FFFFFF;background: rgba(128,128,128,0.5)">苏州</a> </li>
+                    <li class="i1" th:if="${session.CityName} == null"><a id = "cityname"  href="#" style="font-family: '微软雅黑';color: #FFFFFF;background: rgba(128,128,128,0.5)">苏州</a> </li>
+                    <li class="i2" id="changeCity"><a href="#" style="font-family: '微软雅黑';color: #FFFFFF;font-style: italic;font-size:5px ">[切换城市]</a></li>
+                </ul>
+                <ul th:if="${user} == null"class="nav navbar-nav navbar-right" th:style = "'margin-right:50px'">
+                    <li><a th:href="@{/loginwin}" style="font-family: '微软雅黑';color: #FFFFFF;">登录</a></li>
+                    <li><a th:href="@{/loginwin}" style="font-family: '微软雅黑';color: #FFFFFF;">注册</a></li>
+                    <li><a class="btn btn-sm btn-primary" style="background: #00CC33;color: #FFFFFF"  data-placement ="left"  data-toggle="modal" data-target="#myModal" data-whatever="@mdo" >提问</a></li>
+                </ul>
+                <ul th:if="${user} != null"class="nav navbar-nav navbar-right" th:style = "'margin-right:50px'">
+                    <li><a th:text = "'您好,' + ${user.username}" style="font-family: '微软雅黑';color: #FFFFFF;"></a></li>
+                    <li><a th:href="@{/logout}" style="font-family: '微软雅黑';color: #FFFFFF;">退出</a></li>
+                    <li><a class="btn btn-sm" style="background: #00CC33;color: #FFFFFF"    data-placement ="left"  data-toggle="modal" data-target="#myModal" data-whatever="@mdo" >提问</a></li>
+                </ul>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <span id="questionContent" class="hidden" th:text ="${Question}"></span>
+    </div>
+</div>
+
+<!--第二层-->
+<div class="container" >
+    <div class="row"style="margin:0;width:100%;text-align: center;">
+        <div class=" jumbotron">
+            <h2>搜索结果</h2>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="col-sm-2"></div>
+    <div class="col-sm-8">
+        <ul class="questionList">
+
+        </ul>
+    </div>
+    <div class="col-sm-2"></div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color: #00CCFF">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">提问</h4>
+            </div>
+
+            <form method="post" th:action="@{/question/add}">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <input id="title" name="title" type="text" class="form-control" placeholder="写下你的问题">
+                    </div>
+                    <div class="form-group">
+                        <label>问题说明(可选)：</label>
+                        <textarea id="content" class="form-control" rows="3" name="content"  placeholder="问题背景、条件等详细信息"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                    <button type="submit" class="btn btn-primary">发布</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+<!-- Modal -->
+<script>
+    $(function(){
+        /*选择城市*/
+        $(".cityTable tr td a").click(function () {
+            var name = this.text;
+            $.ajax({
+                url:'/location/'+name,
+                type:'get',
+                success: function (data) {
+                    console.log("切换成功");
+                    window.location.reload();
+                },
+                error:function () {
+                    alert("切换城市失败！");
+                }
+            });
+        });
+        /*城市切换*/
+        $("#changeCity").click(function(a){
+            $("#allCity").slideDown(300);
+            a.stopPropagation();
+            $(this).blur()
+        });
+
+        $("#allCity").click(function(a){
+            a.stopPropagation()
+        });
+
+        $(document).click(function(a){
+            a.button!=2&&$("#allCity").slideUp(300)
+        });
+
+        $("#foldin").click(function(){
+            $("#allCity").slideUp(300)
+        });
+
+
+        $("#searchQuestion").click(function () {
+            var name = $("#searchContent").val();
+            alert(name);
+            $.ajax({
+                url:'selectQuestion/'+name+'/'+1,
+                dataType:'json',
+                type:'get',
+                success:function (data) {
+
+                },
+                error:function () {
+                    alert("查询失败！");
+                }
+            })
+        });
+    })
+    $(document).ready(function () {
+        var question = $("#questionContent").text();
+        console.log(question);
+        $.ajax({
+            url:'/question/selectQuestion/'+question+'/'+1,
+            dataType:'json',
+            type:'get',
+            success:function (data) {
+                var json = data.QuestionList;
+                $(".questionList").empty();
+                for(var i = 0; i< json.length;++i)
+                {
+                    $(".questionList").append(
+                        '<li style="display:block;padding: 10px;border-bottom: 1px solid #00FFFF;background: #FFFFFF">' +
+                        '<div class="container">' +
+                        '<div class="col-sm-12"><a href="/question/'+json[i].id+'"><h3>'+json[i].title+'</h3></a></div>'+
+                        '<div class="col-sm-12"><span>'+json[i].content+'</span></div>'+
+                        '</div>'+
+                        '</li>'
+                    );
+                }
+                var options = {
+                    bootstrapMajorVersion:3,
+                    currentPage: data.curPage,          //设置当前页
+                    numberOfPages: 4,		 //设置可以点击到的页数范围
+                    totalPages:data.totalPage,
+                    itemTexts: function(type, page, current) { //修改显示文字
+                        switch (type) {
+                            case "first":
+                                return "首页";
+                            case "prev":
+                                return "上一页";
+                            case "next":
+                                return "下一页";
+                            case "last":
+                                return "尾页";
+                            case "page":
+                                return page;
+                        }
+                    }, onPageClicked: function (event, originalEvent, type, page) { //异步换页
+                        //请求加载数据
+                        $.ajax({
+                            url:  '/question/selectQuestion/'+question+'/'+page,
+                            dataType:'json',
+                            type:'get',
+                            success: function (data) {
+                                var json = data.QuestionList;
+                                $(".questionList").empty();
+                                for(var i = 0; i< json.length;++i)
+                                {
+                                    $(".questionList").append(
+                                        '<li style="display:block;padding: 10px;border-bottom: 1px solid #00FFFF;background: #FFFFFF">' +
+                                        '<div class="container">' +
+                                        '<div class="col-sm-12"><a href="/question/'+json[i].id+'"><h3>'+json[i].title+'</h3></a></div>'+
+                                        '<div class="col-sm-12"><span>'+json[i].content+'</span></div>'+
+                                        '</div>'+
+                                        '</li>'
+                                    );
+                                }
+                            },
+                            error:function () {
+                                alert("数据请求失败");
+                            }
+                        });
+                    }
+                }
+                $(".page-info").bootstrapPaginator(options);
+            },
+            error:function () {
+                alert("数据请求失败");
+            }
+        })
+    });
+
+    function sendQuestion() {
+        var title = $("#title").val();
+        var content = $("#content").val();
+        var param = '{"title": '+title+',"content":'+content+'}';
+        $.ajax({
+            type: "post",
+            url: "/question/in",
+            contentType: "application/json;charset=utf-8",
+            data:JSON.stringify({"title" : title, "content" : content}),
+            dataType:"json",
+            success:function (data) {
+                $("#myModal").modal("hide");
+                $('.modal-backdrop').remove();
+            },
+            error:function (message) {
+                alert("提交失败"+JSON.stringify(message));
+            }
+        });
+
+
+    }
+</script>
+</body>
+</html>
