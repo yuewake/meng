@@ -56,22 +56,13 @@ public class QuestionController {
      * @return
      */
     @PostMapping(value = "/add")
-    @ResponseBody
     public String addQuestion(@RequestParam("title") String title, @RequestParam("content") String content) {
-        try {
             Question question = new Question();
             question.setContent(content);
             question.setCreatedDate(new Date());
             question.setTitle(title);
             question.setUserId(hostHolder.getUser().getId());
-
-            if (questionService.addQuestion(question) > 0) {
-                return AnjiaUtil.getJSONString(0);
-            }
-        } catch (Exception e) {
-            logger.error("增加题目失败" + e.getMessage());
-        }
-        return AnjiaUtil.getJSONString(1, "失败");
+            return "redirect:/wenda";
     }
 
     /**

@@ -1,6 +1,7 @@
 package com.meng.anjia;
 
 import com.meng.anjia.dao.BuildingDao;
+import com.meng.anjia.dao.MapPointDao;
 import com.meng.anjia.dao.UserDao;
 import com.meng.anjia.model.Building;
 import com.meng.anjia.model.User;
@@ -22,10 +23,20 @@ public class AnjiaApplicationTests {
 
 	@Autowired
 	BuildingDao buildingDao;
+
+	@Autowired
+	MapPointDao mapPointDao;
 	@Test
 	public void contextLoads() {
 		User user = userDao.selectById(9);
 		System.out.println(user);
+	}
+
+	@Test
+	public void mapPointTest()
+	{
+		int a = mapPointDao.findAllMap("苏州");
+		System.out.println(a);
 	}
 
 

@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-
+    <meta name="referrer" content="no-referrer"/>
     <title>楼盘显示</title>
 </head>
 <script src="js/jquery-2.1.1.min.js" th:src="@{/js/jquery-2.1.1.min.js}"></script>
@@ -272,7 +272,6 @@
                         type:'get',
                         success: function (data) {
                             var json = data.BuildingList;
-                            console.log(json);
                             $(".buildingInfo").empty();
                             for(var i = 0; i< json.length;++i)
                             {
