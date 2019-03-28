@@ -69,35 +69,34 @@
         });
 
     });
-
+    var cityName = $("#cityname").text();
     var map = new BMap.Map("allmap");
     var point = new BMap.Point(120.619907, 31.317987);//初始位置
-    map.centerAndZoom(point, 12);
+    map.centerAndZoom(cityName, 12);
     map.enableScrollWheelZoom();    //允许滚轮缩放
     map.enableInertialDragging();   //允许惯性拖拽
     map.addEventListener("zoomend", reshow);    //添加地图缩放事件
     map.enableContinuousZoom();
-    map.setMinZoom(9);              //设定最小缩放
+    map.setMinZoom(12);              //设定最小缩放
     map.setMaxZoom(16);             //设定最大缩放
-    var size = new BMap.Size(10, 20);
+    // var size = new BMap.Size(10, 20);
     //增加城市控件
-    map.addControl(new BMap.CityListControl({
-        anchor: BMAP_ANCHOR_TOP_LEFT,
-        offset: size
-        // // 切换城市之间事件
-        // onChangeBefore: function(){
-        //    alert('before');
-        // },
-        // // 切换城市之后事件
-        // onChangeAfter:function(){
-        //   alert('after');
-        // }
-    }));
+    // map.addControl(new BMap.CityListControl({
+    //     anchor: BMAP_ANCHOR_TOP_LEFT,
+    //     offset: size
+    //     // // 切换城市之间事件
+    //     // onChangeBefore: function(){
+    //     //    alert('before');
+    //     // },
+    //     // // 切换城市之后事件
+    //     // onChangeAfter:function(){
+    //     //   alert('after');
+    //     // }
+    // }));
     //地图缩放触发的事件
     function reshow() {
-        console.log(map.getOverlays());     //控制台查看有哪些覆盖物
         zoom = map.getZoom();               //获取当前缩放等级，根据等级决定显示哪一级的覆盖物
-        console.log(zoom);
+
         if(zoom>=16){
             $.each(vue.properties,function (index,value) {
                 if(4==value.level){
@@ -180,7 +179,8 @@
         beans:[],           //存放后端异步传来的place和avg_price结合查询的数据
         properties:[],
         myCompOverlay:[],    //覆盖物对象数组，index就是place表中的id
-        propertyOverlay:[]
+        propertyOverlay:[],
+        cityName:''
     };
     var vue = new Vue({
         el: '#container',       //我要绑定id为container的元素
@@ -192,9 +192,11 @@
         methods: {
             list:function () {
                 var url =  "avgprice";
+
+
                 axios.get(url).then(function (response) {   //异步获取
                     vue.beans = response.data;
-                    // console.log(vue.beans);                 //看看我拿到了什么
+
 
                      vue.beans.forEach(function (bean) {    //用我拿到的数据构造复杂自定义覆盖物哦
                          var point = new BMap.Point(bean.place.lng, bean.place.lat);
@@ -216,7 +218,10 @@
 
                     vue.properties.forEach(function (property) {    //用我拿到的数据构造复杂自定义覆盖物哦
                         var point = new BMap.Point(property.lng, property.lat);
-                        var txt = property.name + (property.avgPrice/10000).toFixed(1) +"万元";
+                        var txt = property.name + property.avgPrice +property.unit;
+                        if(property.avgPrice==0){
+                            txt = property.name + "（敬请期待）";
+                        }
                         var level = property.level;
                         var id = property.id;
                         vue.propertyOverlay[id] = new PropertyOverlay(id,point,txt,level); //构造了一数组的覆盖物
@@ -265,17 +270,14 @@
             this.style.zIndex = 6;
         };
         div.onclick = function () {     //点击事件
-            console.log(div.id);        //用到了div的id，创建覆盖物的时候不是给了id么
             $.each(vue.beans,function (index,value) {
                 if(value.place.id == div.id){
                     map.panTo(new BMap.Point(value.place.lng,value.place.lat), {noAnimation:true});
-                    if(value.place.level<3) {
-                        map.zoomIn();
-                        map.zoomIn();
-                        map.zoomIn();    //放大三级，假装级联
+                    if(value.place.level==2) {
+                        map.setZoom(15)
                     }
                     else if(value.place.level==3){
-                        map.zoomIn();
+                        map.setZoom(16);
                     }
 
                     level = value.place.level;
