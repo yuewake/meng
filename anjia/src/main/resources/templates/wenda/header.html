@@ -43,10 +43,10 @@
 				<div class="hidden-xs">
 					<ul class="nav navbar-nav" style="font-family: '微软雅黑';color: #FFFFFF;">
 						<li><a th:href ="@{/}" style="font-family: '微软雅黑';color: #FFFFFF;font-weight: 600;">首页</a></li>
-						<li><a th:href = "@{/building}" style="font-family: '微软雅黑';color: #FFFFFF;font-weight: 600;">二手房</a></li>
+						<li><a th:href = "@{/building}" style="font-family: '微软雅黑';color: #FFFFFF;font-weight: 600;">小区</a></li>
 						<li><a th:href="@{/city}" style="font-family: '微软雅黑';color: #FFFFFF;font-weight: 600;">历史房价</a></li>
 						<li><a th:href="@{/calculator}" style="font-family: '微软雅黑';color: #FFFFFF;font-weight: 600;">工具</a></li>
-						<li><a th:href="@{/wenda?(offset=0)}" style="font-family: '微软雅黑';color: #FFFFFF;font-weight: 600;">问答</a></li>
+						<li><a th:href="@{/wenda?(offset=0)}" style="font-family: '微软雅黑';color: #FFFFFF;font-weight: 600;">交流</a></li>
 						<li class="i1" th:if="${session.CityName} != null"><a id = "cityname" th:text = "${session.CityName}"  href="#" style="font-family: '微软雅黑';color: #FFFFFF;background: rgba(128,128,128,0.5)">苏州</a> </li>
 						<li class="i1" th:if="${session.CityName} == null"><a id = "cityname"  href="#" style="font-family: '微软雅黑';color: #FFFFFF;background: rgba(128,128,128,0.5)">苏州</a> </li>
 						<li class="i2" id="changeCity"><a href="#" style="font-family: '微软雅黑';color: #FFFFFF;font-style: italic;font-size:5px ">[切换城市]</a></li>
