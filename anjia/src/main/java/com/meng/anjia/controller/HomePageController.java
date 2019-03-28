@@ -1,15 +1,24 @@
 package com.meng.anjia.controller;
 
+import com.alibaba.fastjson.JSONObject;
+import com.meng.anjia.model.Building;
+import com.meng.anjia.service.BuildingService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @Controller
 public class HomePageController {
+
+	@Autowired
+	BuildingService buildingService;
 
 	public static final  String  HOMEPAGE = "HomePage";
 	public static final String MAP = "map";
@@ -37,5 +46,15 @@ public class HomePageController {
 	{
 		model.addAttribute("Content",content);
 		return "result_building";
+	}
+
+	@GetMapping(value = "/buildingShow/{cityName}")
+	@ResponseBody
+	public String buildingShow(@PathVariable("cityName")String cityName)
+	{
+		List<Building> list = buildingService.getRandomBuilding(cityName);
+		JSONObject result = new JSONObject();
+		result.put("buildingList",list);
+		return result.toJSONString();
 	}
 }

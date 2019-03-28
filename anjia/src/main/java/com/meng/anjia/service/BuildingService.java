@@ -2,6 +2,7 @@ package com.meng.anjia.service;
 
 import com.meng.anjia.dao.BuildingDao;
 import com.meng.anjia.model.Building;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -68,5 +69,15 @@ public class BuildingService {
     public Building getBuildingInfo(int id)
     {
         return buildingDao.getBuildingInfoByID(id);
+    }
+
+    /**
+     * 随机推荐几个小区
+     * @param city
+     * @return
+     */
+    public List<Building> getRandomBuilding(String city)
+    {
+        return buildingDao.getRandomBuilding(city);
     }
 }

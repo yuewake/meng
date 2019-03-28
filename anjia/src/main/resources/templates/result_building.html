@@ -54,7 +54,6 @@
             <ul class="page-info" style="text-align: right"></ul>
         </div>
         <div class="col-sm-4">
-            <div id = "main1" style="height: 250px"></div>
         </div>
     </div>
 </div>
@@ -99,57 +98,6 @@
         });
     })
 
-    /*房价半年走势图*/
-    $(document).ready(function () {
-        var name = $("#cityname").text();
-        $.ajax({
-            url: '/building/cityPrice/'+name,
-            type:'get',
-            dataType:'json',
-            success: function (data) {
-                var json = data.priceList;
-                console.log(json);
-                var price = [];
-                var time = [];
-                for(var i = json.length-1; i >= 0; i-- )
-                {
-                    price.push(json[i].price);
-                    time.push(json[i].time);
-                }
-
-                var myChart1 = echarts.init(document.getElementById('main1'));
-                option = {
-                    title:
-                        {
-                            text: name + "房价半年走势图",
-                            x:'center'
-                        },
-                    xAxis: {
-                        type: 'category',
-                        data: time
-                    },
-                    yAxis: {
-                        type: 'value',
-                        min: 'dataMin'
-                    },
-                    series: [{
-                        data: price,
-                        type: 'line',
-                        smooth: true,
-                        itemStyle : { normal: {label : {show: true}}}
-                    }]
-                };
-                myChart1.setOption(option);
-                window.onresize = function (){
-
-                    myChart1.resize();
-                }
-            },
-            error:function (errorMsg) {
-                alert("房价请求失败");
-            }
-        });
-    });
 
     /*往后台发送查询结果*/
     $(document).ready(function () {

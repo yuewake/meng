@@ -2,6 +2,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
+	<meta name="referrer" content="no-referrer"/>
 	<title>安家</title>
 </head>
 <script src="js/jquery-2.1.1.min.js" th:src="@{/js/jquery-2.1.1.min.js}"></script>
@@ -9,11 +10,41 @@
 <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}"/>
 <link href="css/citystyle.css" th:href="@{/css/citystyle.css}" type="text/css" rel="stylesheet" />
 <link rel="stylesheet" type="text/css" href="css/main.css" th:href="@{/css/main.css}"/>
+
 <style>
 	.house_img
 	{
 		height:150px;
 	}
+	.footer_banner
+	{
+		width: 100%;
+		padding: 0px ;
+		background:#06266F;
+	}
+	.footer_banner ul
+	{
+		display: inline-block;
+	}
+	.footer_banner ul li
+	{
+		display: inline-block;
+	}
+	.footer_link
+	{
+		text-decoration: none;
+		font-family: "微软雅黑";
+		color:#FFFFFF;
+		font-weight: 200;
+	}
+	.footer-link span
+	{
+		text-decoration: none;
+		font-family: "微软雅黑";
+		color:#FFFFFF;
+		font-weight: 200;
+	}
+
 </style>
 <body>
 <!--城市列表-->
@@ -126,10 +157,11 @@
 	</div>
 	<br/><br/><br/>
 </div>
+
 <!--小区推荐-->
 <div class="container house_banner" >
 	<div class="row" style="text-align: center;">
-		<h2 style="font: '微软雅黑';">小区推荐</h2>
+		<h2 style="font-family: '微软雅黑';">小区推荐</h2>
 	</div>
 	<div class="row" style="text-align: center;">
 		<h6 class="text-muted">纵览小区，恋上这座城</h6>
@@ -140,96 +172,13 @@
 		<!--三个小区介绍-->
 		<div class = "col-sm-10">
 			<!--三个小区-->
-			<div class="col-sm-4 house_show">
-				<a class="house_link" href="https:www.baidu.com">
-					<img  class="house_img" src="img/example1.jpg" />
-					<div class="col-sm-12">
-						<span class="house_title">悦湖家天下</span>
-					</div>
-					<div class="col-sm-12">
-						<span class="house_price">均价</span><span class="house_price">25589元</span>
-					</div>
-				</a>
-			</div>
-			<div class="col-sm-4 house_show">
-				<a class="house_link" href="https:www.baidu.com">
-					<img  class="house_img" src="img/example1.jpg" />
-					<div class="col-sm-12">
-						<span class="house_title">悦湖家天下</span>
-					</div>
-					<div class="col-sm-12">
-						<span class="house_price">均价</span><span class="house_price">25589元</span>
-					</div>
-				</a>
-			</div>
-			<div class="col-sm-4 house_show">
-				<a class="house_link" href="https:www.baidu.com">
-					<img  class="house_img" src="img/example1.jpg" />
-					<div class="col-sm-12">
-						<span class="house_title">悦湖家天下</span>
-					</div>
-					<div class="col-sm-12">
-						<span class="house_price">均价</span><span class="house_price">25589元</span>
-					</div>
-				</a>
-			</div>
+			<ul id = "buildingShow" class="list-inline"></ul>
 		</div>
 		<div class="col-sm-1"></div>
 	</div>
 	<br/><br/><br/>
 </div>
 
-<!--新房推荐-->
-<div class="container house_banner" style="background: #FFFFFF">
-	<div class="row" style="text-align: center;">
-		<h2 style="font: '微软雅黑';">新房推荐</h2>
-	</div>
-	<div class="row" style="text-align: center;">
-		<h6 class="text-muted">纵览小区，恋上这座城</h6>
-	</div>
-	<!--小区展示-->
-	<div class="row">
-		<div class="col-sm-1"></div>
-		<!--三个小区介绍-->
-		<div class = "col-sm-10">
-			<!--三个小区-->
-			<div class="col-sm-4 house_show">
-				<a class="house_link" href="https:www.baidu.com">
-					<img  class="house_img"  src="img/example2.jpg" />
-					<div class="col-sm-12">
-						<span class="house_title">悦湖家天下</span>
-					</div>
-					<div class="col-sm-12">
-						<span class="house_price">均价</span><span class="house_price">25589元</span>
-					</div>
-				</a>
-			</div>
-			<div class="col-sm-4 house_show">
-				<a class="house_link" href="https:www.baidu.com">
-					<img  class="house_img" src="img/example2.jpg" />
-					<div class="col-sm-12">
-						<span class="house_title">悦湖家天下</span>
-					</div>
-					<div class="col-sm-12">
-						<span class="house_price">均价</span><span class="house_price">25589元</span>
-					</div>
-				</a>
-			</div>
-			<div class="col-sm-4 house_show">
-				<a class="house_link" href="https:www.baidu.com">
-					<img  class="house_img" src="img/example2.jpg" />
-					<div class="col-sm-12">
-						<span class="house_title">悦湖家天下</span>
-					</div>
-					<div class="col-sm-12">
-						<span class="house_price">均价</span><span class="house_price">25589元</span>
-					</div>
-				</a>
-			</div>
-		</div>
-		<div class="col-sm-1"></div>
-	</div>
-</div>
 
 <!--侧边导航栏-->
 <div class="fix-right-v3" id="back-top" style="height: 100%;">
@@ -243,25 +192,28 @@
 </div>
 
 <footer class="container footer_banner">
-	<div class="row">
-		<br /><br /><br />
-	</div>
-	<!--底部导航栏-->
-	<div class="row" style="border-bottom: 2px #A6E1EC;">
-		<ul >
-			<li><a class="footer-link" href="#"><span>关于安家</span></a></li>
-			<li><a class="footer-link" href="#"><span>联系我们</span></a></li>
-			<li><a class="footer-link" href="#"><span>加入我们</span></a></li>
-			<li><a class="footer-link" href="#"><span>隐私申明</span></a></li>
-		</ul>
-	</div>
-	<div class="row" style="display: inline-block;">
-		<ul style="display: block;">
-			<li><span class="text-muted" style="font-family: '微软雅黑'; font-size: 16px;">客服电话</span></li>
-			<li><span style="font-family: '微软雅黑'; font-size: 16px;color: #FFFFFF;">741-741-74741</span></li>
-		</ul>
-	</div>
+		<div class="row">
+			<br /><br /><br />
+		</div>
+		<!--底部导航栏-->
+		<div class="row" style="border-bottom: 2px #A6E1EC;">
+			<ul >
+				<li><a class="footer-link" href="#"><span>关于安家</span></a></li>
+				<li><a class="footer-link" href="#"><span>联系我们</span></a></li>
+				<li><a class="footer-link" href="#"><span>加入我们</span></a></li>
+				<li><a class="footer-link" href="#"><span>隐私申明</span></a></li>
+			</ul>
+		</div>
+		<div class="row" style="display: inline-block;">
+			<ul style="display: block;">
+				<li><span class="text-muted" style="font-family: '微软雅黑'; font-size: 16px;">客服电话</span></li>
+				<li><span style="font-family: '微软雅黑'; font-size: 16px;color: #FFFFFF;">741-741-74741</span></li>
+			</ul>
+		</div>
 </footer>
+
+
+
 </body>
 
 
@@ -292,6 +244,8 @@
 		</div>
 	</div>
 </div>
+
+
 <!--客服-->
 <div class="modal fade" id="ServiceModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" >
 	<div class="modal-dialog" role="document">
@@ -368,6 +322,25 @@
             var content = $("#searchContent").val();
             location.href = '/buildingContent/'+content;
         })
+    })
+
+	$(document).ready(function () {
+		var name = $("#cityname").text();
+		$.ajax({
+			url:'buildingShow/'+name,
+			dataType:'json',
+			type:'get',
+			success:function (data) {
+				var json = data.buildingList;
+                for(var i = 0; i< json.length;++i)
+				{
+				    $("#buildingShow").append('<li>' +'<a style="text-decoration: none" href="/buildingInfo/'+json[i].id+'"><h3>'+json[i].name+'</h3></a>'+
+							'<img src="'+json[i].url+'" style="height: 250px">'+
+
+						'</li>');
+				}
+            }
+		})
     })
 </script>
 </html>
