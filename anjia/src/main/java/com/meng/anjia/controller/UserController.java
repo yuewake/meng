@@ -41,7 +41,6 @@ public class UserController {
 				c.setPath("/");
 				c.setMaxAge(3600*24*5);//过期时间设置为5天；
 				response.addCookie(c);
-				//TODO 如果next不为空， 就跳到next的页面。
 				return "redirect:/";
 			}else {
 				model.addAttribute("msg", map.get("msg"));
@@ -71,7 +70,6 @@ public class UserController {
 	 */
 	@RequestMapping("/regist")
 	public String regist(User user, Model model, HttpServletResponse response) {
-		//TODO 修改成邮箱注册
 		User u = new User();
 		u.setPassword(user.getPassword());
 		u.setUsername(user.getUsername());

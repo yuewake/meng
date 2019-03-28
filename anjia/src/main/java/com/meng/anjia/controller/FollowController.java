@@ -45,7 +45,6 @@ public class FollowController {
             String msg = followService.getFollowerCount(EntityType.ENTITY_QUESTION, questionId) + "";
             if(isSuccess){
                 return AnjiaUtil.getJSONString(1,msg);
-                //TODO 关注成功后 需要通知问题的发布者 使用异步队列
             }else{
                 return AnjiaUtil.getJSONString(0);
             }
@@ -64,7 +63,6 @@ public class FollowController {
             String msg = followService.getFollowerCount(EntityType.ENTITY_QUESTION, questionId) + "";
             if(isSuccess){
                 return AnjiaUtil.getJSONString(1,msg);
-                //TODO 取消需要通知问题的发布者 使用异步队列
             }else{
                 return AnjiaUtil.getJSONString(0);
             }
