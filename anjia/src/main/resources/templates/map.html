@@ -32,6 +32,44 @@
 <script src="js/axios/0.17.1/axios.min.js"></script>
 <script src="js/vue/2.5.16/vue.min.js"></script>
 <script type="text/javascript">
+
+    $(function () {
+        /*城市切换*/
+        $("#changeCity").click(function(a){
+            $("#allCity").slideDown(300);
+            a.stopPropagation();
+            $(this).blur()
+        });
+
+        $("#allCity").click(function(a){
+            a.stopPropagation()
+        });
+
+        $(document).click(function(a){
+            a.button!=2&&$("#allCity").slideUp(300)
+        });
+
+        $("#foldin").click(function(){
+            $("#allCity").slideUp(300)
+        });
+
+        $(".cityTable tr td a").click(function () {
+            var name = this.text;
+            $.ajax({
+                url:'/location/'+name,
+                type:'get',
+                success: function (data) {
+                    console.log("切换成功");
+                    window.location.reload();
+                },
+                error:function () {
+                    alert("切换城市失败！");
+                }
+            });
+        });
+
+    });
+
     var map = new BMap.Map("allmap");
     var point = new BMap.Point(120.619907, 31.317987);//初始位置
     map.centerAndZoom(point, 12);

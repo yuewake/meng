@@ -2,10 +2,12 @@
 <html xmlns:th="http://www.w3.org/1999/xhtml">
 	<head>
 		<meta charset="utf-8">
-		<link rel="stylesheet" th:href="@{css/style.css}" />
-		<link rel="stylesheet" th:href="@{css/bootstrap.css}"/>
-		<script th:src="@{js/jquery-3.3.1.js}" ></script>
-		<script th:src="@{js/bootstrap.js}" ></script>
+		<link rel="stylesheet" th:href="@{/css/style.css}" />
+		<link rel="stylesheet" th:href="@{/css/bootstrap.css}"/>
+		<script th:src="@{/js/jquery-3.3.1.js}" ></script>
+		<script th:src="@{/js/bootstrap.js}" ></script>
+		<link href="css/headbar.css" th:href="@{/css/headbar.css}" type="text/css" rel="stylesheet" />
+		<link href="css/citystyle.css" th:href="@{/css/citystyle.css}" type="text/css" rel="stylesheet" />
 		<style>
 			a.hover-blue {
 				text-decoration: none;
@@ -19,34 +21,96 @@
 		<title>主页</title>
 	</head>
 	<body style="background-color: #eeeeee">
-		<header>
-			<div>
-				<div th:include = "wenda/header"></div>
+	<!--城市列表-->
+	<div class="selcity" id="allCity" style="display:none;">
+		<table class="cityTable">
+			<tbody>
+			<tr>
+				<td><a  href="#">苏州</a></td>
+				<td><a href="#">上海</a></td>
+				<td><a href="#">广州</a></td>
+				<td><a href="#">深圳</a></td>
+				<td><a href="#">重庆</a></td>
+				<td><a href="#">西安</a></td>
+			</tr>
+			<tr>
+				<td><a href="#">北京</a></td>
+				<td><a href="#">南京</a></td>
+				<td><a href="#">成都</a></td>
+				<td><a href="#">武汉</a></td>
+				<td><a href="#">杭州</a></td>
+				<td><a href="#">济南</a></td>
+			</tr>
+			</tbody>
+		</table>
+		<div class="none"><a id="foldin" href="#">收起</a></div>
+	</div>
+
+	<!--导航栏-->
+	<div class="container home_header">
+		<div  id="headerbar" class="navbar navbar-default">
+			<div class="container">
+				<div class="navbar-header" style="margin-left: 100px;">
+					<a href="#" class="navbar-brand"></a>
+				</div>
+				<label id="toggle-label" class="visible-xs-inline-block" for="toggle-checkbox">MENU</label>
+				<input class="hidden" id="toggle-checkbox" type="checkbox">
+				<div class="hidden-xs">
+					<ul class="nav navbar-nav" style="font-family: '微软雅黑';color: #FFFFFF;">
+						<li><a th:href ="@{/}" style="font-family: '微软雅黑';color: #FFFFFF;font-weight: 600;">首页</a></li>
+						<li><a th:href = "@{/building}" style="font-family: '微软雅黑';color: #FFFFFF;font-weight: 600;">小区</a></li>
+						<li><a th:href="@{/city}" style="font-family: '微软雅黑';color: #FFFFFF;font-weight: 600;">历史房价</a></li>
+						<li><a th:href="@{/calculator}" style="font-family: '微软雅黑';color: #FFFFFF;font-weight: 600;">工具</a></li>
+						<li><a th:href="@{/wenda?(offset=0)}" style="font-family: '微软雅黑';color: #FFFFFF;font-weight: 600;">交流</a></li>
+						<li class="i1" th:if="${session.CityName} != null"><a id = "cityname" th:text = "${session.CityName}"  href="#" style="font-family: '微软雅黑';color: #FFFFFF;background: rgba(128,128,128,0.5)">苏州</a> </li>
+						<li class="i1" th:if="${session.CityName} == null"><a id = "cityname"  href="#" style="font-family: '微软雅黑';color: #FFFFFF;background: rgba(128,128,128,0.5)">苏州</a> </li>
+						<li class="i2" id="changeCity"><a href="#" style="font-family: '微软雅黑';color: #FFFFFF;font-style: italic;font-size:5px ">[切换城市]</a></li>
+						<li style="top:15px"><input class="form-control input-sm" id="searchContent" placeholder="输入问题"></li>
+						<li style="top:15px"><button id="searchQuestion" class="btn btn-sm" style="color: #FFFFFF;background: #666600">开始搜索</button></li>
+					</ul>
+					<ul th:if="${user} == null"class="nav navbar-nav navbar-right" th:style = "'margin-right:50px'">
+						<li><a th:href="@{/loginwin}" style="font-family: '微软雅黑';color: #FFFFFF;">登录</a></li>
+						<li><a th:href="@{/loginwin}" style="font-family: '微软雅黑';color: #FFFFFF;">注册</a></li>
+						<li><a class="btn btn-sm btn-primary" style="background: #00CC33;color: #FFFFFF"  data-placement ="left"  data-toggle="modal" data-target="#myModal" data-whatever="@mdo" >提问</a></li>
+					</ul>
+					<ul th:if="${user} != null"class="nav navbar-nav navbar-right" th:style = "'margin-right:50px'">
+						<li><a th:text = "'您好,' + ${user.username}" style="font-family: '微软雅黑';color: #FFFFFF;"></a></li>
+						<li><a th:href="@{/logout}" style="font-family: '微软雅黑';color: #FFFFFF;">退出</a></li>
+						<li><a class="btn btn-sm" style="background: #996633;color: #FFFFFF;font-weight: 600"    data-placement ="left"  data-toggle="modal" data-target="#myModal" data-whatever="@mdo" >提问</a></li>
+					</ul>
+
+				</div>
 			</div>
-		</header>
+		</div>
+	</div>
 
-		<div class="question">
 
-			<div class="about" th:each="vos:${vos}">
-				<a class="hover-blue" th:href="@{/question/{qid}(qid = ${vos.objs['question'].id})}"><h3 th:text="${vos.objs['question'].title}">在英国千万别做什么？</h3></a>
-				<span th:text="${vos.objs['user'].username} + ' | '">Alan Fang,</span>
-				<span th:text="${#dates.format(vos.objs['question'].createdDate, 'yyyy-MM-dd HH:mm:ss')}">2019-2-28 10:57</span>
-				<p style="margin: 10px 0px" th:text="${vos.objs['question'].content}">在英国千万别做什么？在英国千万别做什么？在英国千万别做什么？在英国千万别做什么？在英国千万别做什么？在英国千万别做什么？</p>
+	<!--问题布局-->
+	<div class="container">
+		<div class="col-sm-2"></div>
+		<div class="col-sm-8">
+			<div class="question">
+				<div class="about" th:each="vos:${vos}">
+					<a class="hover-blue" th:href="@{/question/{qid}(qid = ${vos.objs['question'].id})}"><h3 th:text="${vos.objs['question'].title}">在英国千万别做什么？</h3></a>
+					<span th:text="${vos.objs['user'].username} + ' | '">Alan Fang,</span>
+					<span th:text="${#dates.format(vos.objs['question'].createdDate, 'yyyy-MM-dd HH:mm:ss')}">2019-2-28 10:57</span>
+					<p style="margin: 10px 0px" th:text="${vos.objs['question'].content}">在英国千万别做什么？在英国千万别做什么？在英国千万别做什么？在英国千万别做什么？在英国千万别做什么？在英国千万别做什么？</p>
 
-				<a href="#"><span class="glyphicon glyphicon-plus"></span>&nbsp;关注问题</a>&nbsp;&nbsp;&nbsp;
-				<a href="#" th:text="${vos.objs['question'].commentCount} + ' 条评论'">10 条评论</a>
+					<a href="#"><span class="glyphicon glyphicon-plus"></span>&nbsp;关注问题</a>&nbsp;&nbsp;&nbsp;
+					<a href="#" th:text="${vos.objs['question'].commentCount} + ' 条评论'">10 条评论</a>
+				</div>
 			</div>
-		
+			<div style="padding: 0px 400px">
+				<nav aria-label="Page navigation">
+					<ul class="pager">
+						<li th:if="${offset} >= 1" class="previous"><a th:href="@{/wenda?(offset=${offset} - 1)}"><span aria-hidden="true">&larr;</span> 上一页</a></li>
+						<li th:if="${offset} < ${total} - 1" class="next"><a th:href="@{/wenda?(offset=${offset} + 1)}">下一页<span aria-hidden="true">&rarr;</span></a></li>
+					</ul>
+				</nav>
+			</div>
 		</div>
-		<div style="padding: 0px 400px">
-			<nav aria-label="Page navigation">
-				<ul class="pager">
-					<li th:if="${offset} >= 1" class="previous"><a th:href="@{/wenda?(offset=${offset} - 1)}"><span aria-hidden="true">&larr;</span> 上一页</a></li>
-					<li th:if="${offset} < ${total} - 1" class="next"><a th:href="@{/wenda?(offset=${offset} + 1)}">下一页<span aria-hidden="true">&rarr;</span></a></li>
-				</ul>
-			</nav>
-		</div>
-
+		<div class="col-sm-2"></div>
+	</div>
 		<!-- Modal -->
 		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 			<div class="modal-dialog" role="document">
@@ -75,6 +139,7 @@
 				</div>
 			</div>
 		</div>
+
 		<!-- Modal -->
 	<script>
         $(function(){
@@ -111,7 +176,16 @@
             $("#foldin").click(function(){
                 $("#allCity").slideUp(300)
             });
+
+
+            $("#searchQuestion").click(function () {
+                var question = $("#searchContent").val();
+                location.href = '/question/questionResult/'+question;
+            });
+
+
         })
+
             function sendQuestion() {
 			var title = $("#title").val();
 			var content = $("#content").val();
@@ -130,6 +204,7 @@
 					alert("提交失败"+JSON.stringify(message));
 				}
 			});
+
 		}
 	</script>
 	</body>

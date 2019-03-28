@@ -85,19 +85,12 @@
 	</div>
 	<!--搜索栏-->
 	<div class="row">
-		<div class="col-sm-2"></div>
-		<div class="col-sm-8">
-			<form class="form-inline" style="text-align: center;">
-				<div class="form-group">
-					<label class="sr-only text-center" for="SearchContent">输入小区，城市，区域查询房价</label>
-					<div class="input-group">
-						<div class="input-group "></div>
-						<input type="text"  class="form-control input-lg " id="SearchContent" placeholder="输入小区，城市，区域查询房价">
-						<div class="input-group"></div>
-					</div>
-				</div>
-				<button type="submit" class="btn btn-lg" style="background: #1a73e8;color: #FFFFFF">开始搜索</button>
-			</form>
+		<div class="col-sm-3"></div>
+		<div class="col-sm-5" style="padding: 0px">
+			<input type="text" class="form-control input-lg " id="searchContent" placeholder="输入小区，城市，区域查询房价">
+		</div>
+		<div class="col-sm-2" style="padding: 0px">
+			<button id="buildingSubmit" class="btn btn-lg" style="background: #1a73e8;color: #FFFFFF">开始搜索</button>
 		</div>
 		<div class="col-sm-2"></div>
 	</div>
@@ -243,8 +236,8 @@
 	<div>
 		<ul class="sidebar-ul">
 			<li><a class="fix-right-v3-icon" th:href="@{/calculator}"  style="background: url(img/calculator.png);" th:style="'background:url('+ @{/img/calculator.png} +');'"  data-content ="计算"   data-placement ="left"   ></a></li>
-			<li><a class="fix-right-v3-icon" href="#" style="background: url(img/calculator.png);" th:style="'background:url('+ @{/img/service.png} +');'"  data-content ="客服"   data-placement ="left"  data-toggle="modal" data-target="#ServiceModal" data-whatever="@mdo" ></a></li>
-			<li><a class="fix-right-v3-icon" href="#" style="background: url(img/calculator.png);" th:style="'background:url('+ @{/img/back.png} +');'"  data-content ="反馈"   data-placement ="left" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo"></a></li>
+			<li><a class="fix-right-v3-icon" href="#"  th:style="'background:url('+ @{/img/service.png} +');'"  data-content ="客服"   data-placement ="left"  data-toggle="modal" data-target="#ServiceModal" data-whatever="@mdo" ></a></li>
+			<li><a class="fix-right-v3-icon" href="#"  th:style="'background:url('+ @{/img/back.png} +');'"  data-content ="反馈"   data-placement ="left" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo"></a></li>
 		</ul>
 	</div>
 </div>
@@ -370,6 +363,11 @@
                 }
 			});
         });
+
+        $("#buildingSubmit").click(function () {
+            var content = $("#searchContent").val();
+            location.href = '/buildingContent/'+content;
+        })
     })
 </script>
 </html>

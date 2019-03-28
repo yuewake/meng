@@ -31,4 +31,11 @@ public class HomePageController {
 		request.getSession().setAttribute("CityName",cityName);
 		return "redirect:/";
 	}
+
+	@GetMapping(value = "/buildingContent/{content}")
+	public String questionContent(Model model, @PathVariable("content")String content)
+	{
+		model.addAttribute("Content",content);
+		return "result_building";
+	}
 }
