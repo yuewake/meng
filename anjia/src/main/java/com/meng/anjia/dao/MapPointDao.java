@@ -1,5 +1,6 @@
 package com.meng.anjia.dao;
 
+import com.meng.anjia.model.MapPoint;
 import com.meng.anjia.pojo.AvgPrice;
 import com.meng.anjia.pojo.Place;
 import org.apache.ibatis.annotations.Mapper;
@@ -18,7 +19,8 @@ import java.util.List;
 public interface MapPointDao {
 
     /*条件查询*/
-   int findAllMap(@Param("name") String name);
+   List<MapPoint> findAllPriceByName(@Param("name") String name);
+
 
    /*通过名称查询ID*/
     @Select("select * from place where name = #{name}")
@@ -31,5 +33,6 @@ public interface MapPointDao {
     /*通过PID查询最新的房价*/
     @Select("select * from avg_price where pid =#{pid} Order by year DESC, month DESC limit 1")
     List<AvgPrice> getAvgPriceByPid(@Param("pid")int pid);
+
 
 }

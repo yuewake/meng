@@ -3,8 +3,19 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.meng.anjia.dao.MapPointDao">
-        <!--按城市查询所有名称-->
-    <select id="findAllMap"  parameterType="string" resultType="int">
-      select count(*) from place where name = #{name}
+
+    <select id="findAllPriceByName" parameterType="java.lang.String" resultType="com.meng.anjia.model.MapPoint">
+          select name, lng, lat, price from (select place.id as id, place.lng as lng, place.lat as lat from place where name = #{name} union all
+          select place.id as id, place.lng as lng, place.lat as lat from place join (select id from place where name = #{name}) as t2 on place.uid = t2.id union all
+          select place.id as id, place.lng as lng, place.lat as lat from place join (select place.id from place join (select id from place where name = #{name}) as t2 on place.uid = t2.id) as t3 on place.uid = t3.id) as t4 join (select pid, name,price from avg_price where `year` = 2019 and `month` = '3') as t5 on t4.id = t5.pid;  
     </select>
+    
+    <resultMap id="findAllArea" type="com.meng.anjia.pojo.Place">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="lng" property="lng"/>
+        <result column="lat" property="lat"/>
+        <result column="price" property="price"/>
+    </resultMap>
+
 </mapper>

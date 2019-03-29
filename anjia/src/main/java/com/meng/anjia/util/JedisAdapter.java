@@ -227,4 +227,34 @@ public class JedisAdapter implements InitializingBean {
         }
         return null;
     }
+
+    /***********************hash*****************************/
+    public Long hset(String key, String field, String value){
+        Jedis jedis = null;
+        try{
+            jedis = pool.getResource();
+            return jedis.hset(key,field, value);
+        }catch (Exception e){
+            logger.error("发生异常" + e.getMessage());
+        }finally {
+            if (jedis != null)
+                jedis.close();
+        }
+        return null;
+    }
+
+    public String hget(String key, String field){
+        Jedis jedis = null;
+        try{
+            jedis = pool.getResource();
+            return jedis.hget(key, field);
+        }catch (Exception e){
+            logger.error("发生异常" + e.getMessage());
+        }finally {
+            if (jedis != null)
+                jedis.close();
+        }
+        return null;
+    }
+
 }

@@ -1,6 +1,8 @@
 package com.meng.anjia.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.meng.anjia.model.HostHolder;
+import com.meng.anjia.model.Question;
 import com.meng.anjia.model.User;
 import com.meng.anjia.service.UserService;
 import org.slf4j.Logger;
@@ -10,9 +12,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
+import redis.clients.jedis.Jedis;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 @Controller

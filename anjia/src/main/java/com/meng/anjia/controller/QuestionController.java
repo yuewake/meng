@@ -62,7 +62,8 @@ public class QuestionController {
             question.setCreatedDate(new Date());
             question.setTitle(title);
             question.setUserId(hostHolder.getUser().getId());
-            return "redirect:/wenda";
+            questionService.addQuestion(question);
+            return "redirect:/wenda?offset=0";
     }
 
     /**

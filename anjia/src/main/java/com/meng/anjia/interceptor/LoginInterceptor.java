@@ -17,6 +17,7 @@ public class LoginInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object o) throws Exception {
         if (hostHolder.getUser() == null) {
+            //TODO 修改路径的写法
             httpServletResponse.sendRedirect("/loginwin");
             return false;
         }
