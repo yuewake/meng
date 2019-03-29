@@ -9,6 +9,7 @@ import org.apache.solr.client.solrj.beans.Field;
  */
 public class Building {
 
+    private int level;
     @Field(value ="id")
     private int id;
     @Field(value = "name")
@@ -17,6 +18,15 @@ public class Building {
     private String type;
     @Field(value = "status")
     private String status;
+
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
+    }
+
     @Field(value = "city")
     private String city;
     @Field(value = "area")

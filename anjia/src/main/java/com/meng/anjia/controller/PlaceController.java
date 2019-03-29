@@ -2,7 +2,6 @@ package com.meng.anjia.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.meng.anjia.model.Building;
-import com.meng.anjia.model.MapPoint;
 import com.meng.anjia.pojo.AvgPrice;
 import com.meng.anjia.pojo.Place;
 import com.meng.anjia.service.BuildingService;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
