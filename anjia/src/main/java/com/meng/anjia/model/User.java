@@ -3,7 +3,8 @@ package com.meng.anjia.model;
 import java.util.Date;
 
 /**
- * Created by yue on 2019/3/4
+ * @author yue
+ * @date  2019/3/4
  */
 public class User {
     int id;

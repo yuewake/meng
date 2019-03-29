@@ -12,7 +12,8 @@ import org.springframework.stereotype.Component;
 import java.util.Date;
 
 /**
- * Created by yue on 2019/2/27
+ * @author yue
+ * @date  2019/2/27
  */
 @Aspect
 @Component

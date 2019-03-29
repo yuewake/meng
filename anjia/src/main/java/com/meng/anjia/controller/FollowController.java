@@ -15,7 +15,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
- * Created by yue on 2019/3/18
+ * @author yue
+ * @date  2019/3/18
  */
 @Controller
 public class FollowController {

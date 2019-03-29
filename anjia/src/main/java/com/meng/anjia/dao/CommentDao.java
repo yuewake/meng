@@ -7,7 +7,8 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 /**
- * Created by yue on 2019/3/18
+ * @author yue
+ * @date  2019/3/18
  */
 @Mapper
 @Component
@@ -16,10 +17,21 @@ public interface CommentDao {
     String INSERT_FIELDS = " user_id, content, created_date, entity_id, entity_type, status ";
     String SELECT_FIELDS = " id, " + INSERT_FIELDS;
 
+    /**
+     *
+     * @param comment 评论
+     * @return 是否添加成功
+     */
     @Insert({"insert into ", TABLE_NAME, "(", INSERT_FIELDS,
             ") values (#{userId},#{content},#{createdDate},#{entityId},#{entityType},#{status})"})
     int addComment(Comment comment);
 
+    /**
+     *
+     * @param entityId 实体ID
+     * @param entityType 实体类型
+     * @param status 状态
+     */
     @Update({"update ", TABLE_NAME, " set status=#{status} where entity_id=#{entityId} and entity_type=#{entityType}"})
     void updateStatus(@Param("entityId") int entityId, @Param("entityType") int entityType, @Param("status") int status);
 

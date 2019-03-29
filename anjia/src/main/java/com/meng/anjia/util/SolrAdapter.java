@@ -6,6 +6,10 @@ import org.apache.solr.client.solrj.response.QueryResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+/**
+ * @author yue
+ * @date  2019/3/27
+ */
 @Component
 public class SolrAdapter {
     @Autowired

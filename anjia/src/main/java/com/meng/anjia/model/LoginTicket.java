@@ -2,12 +2,18 @@ package com.meng.anjia.model;
 
 import java.util.Date;
 
-
+/**
+ * @author yue
+ * @date  2019/2/27
+ */
 public class LoginTicket {
     private int id;
     private int userId;
     private Date expired;
-    private int status;// 0有效，1无效
+    /**
+     * 0有效 1无效
+     */
+    private int status;
     private String ticket;
 
     public String getTicket() {

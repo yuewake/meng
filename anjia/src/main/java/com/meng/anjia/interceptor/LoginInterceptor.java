@@ -9,6 +9,10 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ * @author yue
+ * @date  2019/2/27
+ */
 @Component
 public class LoginInterceptor implements HandlerInterceptor {
     @Autowired

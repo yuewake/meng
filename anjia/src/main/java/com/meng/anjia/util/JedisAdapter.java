@@ -15,7 +15,8 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * Created by yue on 2019/3/18
+ * @author yue
+ * @date  2019/3/18
  */
 @Component
 public class JedisAdapter implements InitializingBean {
@@ -57,7 +58,12 @@ public class JedisAdapter implements InitializingBean {
         return 0;
     }
 
-    //移除元素
+    /**
+     * 移除元素
+     * @param key key
+     * @param value value
+     * @return
+     */
     public long srem(String key, String value) {
         Jedis jedis = null;
         try {
@@ -73,7 +79,10 @@ public class JedisAdapter implements InitializingBean {
         return 0;
     }
 
-    //返回名字为key集合中元素的数量
+    /**
+     * @param key
+     * @return 名字为key集合中元素的数量
+     */
     public long scard(String key) {
         Jedis jedis = null;
         try {
@@ -89,7 +98,12 @@ public class JedisAdapter implements InitializingBean {
         return 0;
     }
 
-    //判断成员元素是否是集合的成员
+    /**
+     * 判断成员元素是否是集合的成员
+     * @param key
+     * @param value
+     * @return
+     */
     public boolean sismember(String key, String value) {
         Jedis jedis = null;
         try {
@@ -122,7 +136,12 @@ public class JedisAdapter implements InitializingBean {
         return null;
     }
 
-    //移出并获取列表的最后一个元素， 如果列表没有元素会阻塞列表直到等待超时或发现可弹出元素为止。
+    /**
+     * 移出并获取列表的最后一个元素， 如果列表没有元素会阻塞列表直到等待超时或发现可弹出元素为止。
+     * @param timeout
+     * @param key
+     * @return
+     */
     public List<String> brpop(int timeout, String key) {
         Jedis jedis = null;
         try {

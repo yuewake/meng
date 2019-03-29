@@ -8,7 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
- * Created by yue on 2019/3/18
+ * @author yue
+ * @date  2019/3/18
  */
 @Component
 public class EventProducer {

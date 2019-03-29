@@ -3,7 +3,8 @@ package com.meng.anjia.async;
 import java.util.List;
 
 /**
- * Created by yue on 2019/3/18
+ * @author yue
+ * @date  2019/3/18
  */
 public interface EventHandler {
     void doHandle(EventModel model);

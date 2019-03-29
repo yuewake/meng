@@ -11,7 +11,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Created by yue on 2019/3/18
+ * @author yue
+ * @date  2019/3/18
  */
 @Component
 public class LikeHandler implements EventHandler {

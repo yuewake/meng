@@ -15,7 +15,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 
-
+/**
+ * @author yue
+ * @date  2019/2/28
+ */
 @Component
 public class PassportInterceptor implements HandlerInterceptor {
 
@@ -33,7 +36,7 @@ public class PassportInterceptor implements HandlerInterceptor {
         String ticket = null;
         if (httpServletRequest.getCookies() != null) {
             for (Cookie cookie : httpServletRequest.getCookies()) {
-                if (cookie.getName().equals("ticket")) {
+                if ("ticket".equals(cookie.getName())) {
                     ticket = cookie.getValue();
                     break;
                 }
