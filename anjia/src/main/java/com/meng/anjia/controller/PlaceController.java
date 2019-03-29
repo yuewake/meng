@@ -1,9 +1,11 @@
 package com.meng.anjia.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.meng.anjia.model.Building;
 import com.meng.anjia.model.MapPoint;
 import com.meng.anjia.pojo.AvgPrice;
 import com.meng.anjia.pojo.Place;
+import com.meng.anjia.service.BuildingService;
 import com.meng.anjia.service.MapPointService;
 import com.meng.anjia.service.PlaceService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +25,9 @@ public class PlaceController {
     @Autowired
     MapPointService mapPointService;
 
+    @Autowired
+    BuildingService buildingService;
+
     @GetMapping("/places")
     public List<Place> list(){
         return placeService.list();
@@ -35,6 +40,8 @@ public class PlaceController {
         List<AvgPrice> allPrice = mapPointService.findAllPriceByName(name);
         JSONObject result = new JSONObject();
         result.put("AllPrice",allPrice);
+        List<Building> buildingList = buildingService.getAllBuildingByCity(name);
+        result.put("AllBuilding",buildingList);
         return result.toJSONString();
     }
 }

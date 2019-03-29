@@ -80,4 +80,9 @@ public class BuildingService {
     {
         return buildingDao.getRandomBuilding(city);
     }
+
+    public List<Building> getAllBuildingByCity(String city)
+    {
+        return buildingDao.getAllBuildingByCity(city);
+    }
 }

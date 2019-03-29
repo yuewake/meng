@@ -36,4 +36,7 @@ public interface BuildingDao {
     @Select("select * from property where city = #{city} order by RAND() limit 4")
     public List<Building> getRandomBuilding(@Param("city")String city);
 
+    @Select("select * from property where city = #{city}")
+    public List<Building> getAllBuildingByCity(@Param("city")String city);
+
 }
