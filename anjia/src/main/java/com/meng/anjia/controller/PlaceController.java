@@ -32,18 +32,7 @@ public class PlaceController {
     @ResponseBody
     public String findAllMap(@PathVariable("name")String name)
     {
-        /*得到城市（苏州）的实体类*/
-        List<Place>  id = mapPointService.getIDByName(name);
-        /*得到苏州的所有子区域的实体类*/
-        List<Place> areaIdList = mapPointService.getIDByUid(id.get(0).getId());
-        /*苏州及其子区域的实体类*/
-        areaIdList.addAll(id);
-        List<Place> allAreaList = new ArrayList<>();
-        for(Place place:areaIdList)
-            allAreaList.addAll(mapPointService.getIDByUid(place.getId()));
-        List<AvgPrice> allPrice = new ArrayList<>();
-        for(Place place:allAreaList)
-            allPrice.addAll(mapPointService.getAvgPriceByPid(place.getId()));
+        List<AvgPrice> allPrice = mapPointService.findAllPriceByName(name);
         JSONObject result = new JSONObject();
         result.put("AllPrice",allPrice);
         return result.toJSONString();
