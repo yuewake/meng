@@ -67,7 +67,7 @@ public class BuildingInfoController {
         result.put("lng",building.getLng());
         result.put("lat",building.getLat());
         result.put("AvgPrice",building.getAvgPrice());
-        List<Comment> comments = commentService.getCommentsByEntity(id, EntityType.ENTITY_Building);
+        List<Comment> comments = commentService.getCommentsByEntity(id, EntityType.ENTITY_BUILDIBF);
         JSONArray array = new JSONArray();
         for(Comment comment : comments)
         {

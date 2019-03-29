@@ -13,9 +13,11 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.*;
 
 /**
- * Created by yue on 2019/3/18
+ * @author yue
+ * @date  2019/3/18
  */
 @Component
 public class EventConsumer implements InitializingBean {
@@ -46,14 +48,13 @@ public class EventConsumer implements InitializingBean {
             }
         }
 
-
         Thread t = new Thread(new Runnable() {
             @Override
             public void run() {
                 //返回该list的名字和该list中的最右边的元素
                 List<String> events = jedisAdapter.brpop(0, "EventQueue");
                 for (String event: events) {
-                    if(event.equals("EventQueue")) {continue;}
+                    if("EventQueue".equals(event)) {continue;}
                     EventModel eventModel = JSONObject.parseObject(event, EventModel.class);
                     if(!config.containsKey(eventModel.getEventType())){
                         logger.error("没有对该事件进行处理的Handler");

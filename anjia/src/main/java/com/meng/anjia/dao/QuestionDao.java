@@ -7,7 +7,8 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 /**
- * Created by yue on 2019/3/18
+ * @author yue
+ * @date  2019/3/18
  */
 @Mapper
 @Component
@@ -21,7 +22,7 @@ public interface QuestionDao {
     @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id") //id是返回到对象的属性里面
     int addQuestion(Question question);
 
-    //写到xml文件中了
+
     List<Question> selectLatestQuestions(@Param("userId") int userId, @Param("offset") int offset,
                                          @Param("limit") int limit);
 

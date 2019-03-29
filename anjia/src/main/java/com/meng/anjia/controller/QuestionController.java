@@ -22,13 +22,14 @@ import java.io.IOException;
 import java.util.*;
 
 /**
- * Created by yue on 2019/3/18
+ * @author yue
+ * @date  2019/3/18
  */
 @Controller
 @RequestMapping("/question")
 public class QuestionController {
     private static final Logger logger = LoggerFactory.getLogger(QuestionController.class);
-    private static final int size = 5;
+    private static final int SIZE = 5;
     @Autowired
     private QuestionService questionService;
 
@@ -105,13 +106,13 @@ public class QuestionController {
     public String select(@PathVariable("name") String q, @PathVariable("page") Integer offset) {
         JSONObject json = new JSONObject();
         try {
-            QueryResponse queryResponse = solrAdapter.search("question",q,"title",(offset-1) * size,size);
+            QueryResponse queryResponse = solrAdapter.search("question",q,"title",(offset-1) * SIZE,SIZE);
             // 数量，分页用
             long total = queryResponse.getResults().getNumFound();
-            if(total % size == 0) {
-                total = total / size;
+            if(total % SIZE == 0) {
+                total = total / SIZE;
             } else {
-                total = (total / size) + 1;
+                total = (total / SIZE) + 1;
             }
             List<Question> questions = queryResponse.getBeans(Question.class);
             json.put("curPage",offset);

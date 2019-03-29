@@ -1,10 +1,23 @@
 package com.meng.anjia.async;
 
 /**
- * Created by yue on 2019/3/18
+ * @author yue
+ * @date  2019/3/18
  */
 public enum EventType {
-    LIKE(0),COMMENT(1),LOGIN(2),MAIL(3),DISLIKE(4),FOLLOW(5);
+
+    //喜欢
+    LIKE(0),
+    //评论
+    COMMENT(1),
+    //登陆
+    LOGIN(2),
+    //邮箱
+    MAIL(3),
+    //不喜欢
+    DISLIKE(4),
+    //关注
+    FOLLOW(5);
 
     private int value;
     EventType(int value){

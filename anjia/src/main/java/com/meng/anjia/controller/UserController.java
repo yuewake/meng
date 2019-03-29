@@ -1,8 +1,6 @@
 package com.meng.anjia.controller;
 
-import com.alibaba.fastjson.JSONObject;
 import com.meng.anjia.model.HostHolder;
-import com.meng.anjia.model.Question;
 import com.meng.anjia.model.User;
 import com.meng.anjia.service.UserService;
 import org.slf4j.Logger;
@@ -12,14 +10,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
-import redis.clients.jedis.Jedis;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
-
+/**
+ * @author yue
+ * @date  2019/3/4
+ */
 @Controller
 public class UserController {
 
@@ -44,12 +42,13 @@ public class UserController {
 			if(map.containsKey(TICKET)){
 				Cookie c = new Cookie(TICKET, map.get(TICKET).toString());
 				c.setPath("/");
-				c.setMaxAge(3600*24*5);//过期时间设置为5天；
+				c.setMaxAge(3600*24*5);
 				response.addCookie(c);
 				return "redirect:/";
 			}else {
 				model.addAttribute("msg", map.get("msg"));
-				return LOGINWIN;//返回到登陆页面
+				//返回到登陆页面
+				return LOGINWIN;
 			}
 		}catch(Exception e){
 			logger.error("登陆异常:" + e.getMessage());
@@ -84,7 +83,7 @@ public class UserController {
 				Map<String, Object> maps = userService.login(u);
 				Cookie c = new Cookie(TICKET, maps.get(TICKET).toString());
 				c.setPath("/");
-				c.setMaxAge(3600*24*5);//过期时间设置为5天；
+				c.setMaxAge(3600*24*5);
 				response.addCookie(c);
 				return "redirect:/";
 			}else{

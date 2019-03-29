@@ -2,7 +2,10 @@ package com.meng.anjia.model;
 
 import org.springframework.stereotype.Component;
 
-
+/**
+ * @author yue
+ * @date  2019/3/1
+ */
 @Component
 public class HostHolder {
     private static ThreadLocal<User> users = new ThreadLocal<User>();

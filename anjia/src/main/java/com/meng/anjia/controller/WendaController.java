@@ -13,12 +13,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by yue on 2019/3/18
+ * @author yue
+ * @date  2019/3/18
  */
 @Controller
 public class WendaController {
 
-    private static final int size = 5;
+    private static final int SIZE = 5;
 
     @Autowired
     UserService userService;
@@ -49,12 +50,12 @@ public class WendaController {
 
     @RequestMapping("/wenda")
     public String index(Model model,int offset){
-        model.addAttribute("vos", getQuestions(0, offset * size, size));
+        model.addAttribute("vos", getQuestions(0, offset * SIZE, SIZE));
         int total = questionService.getCountOfQuestion(0);
-        if(total % size == 0) {
-            total = total / size;
+        if(total % SIZE == 0) {
+            total = total / SIZE;
         } else {
-            total = (total / size) + 1;
+            total = (total / SIZE) + 1;
         }
         model.addAttribute("total",total);
         model.addAttribute("offset",offset);

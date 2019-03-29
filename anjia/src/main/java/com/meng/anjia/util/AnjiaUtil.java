@@ -8,7 +8,8 @@ import java.security.MessageDigest;
 import java.util.Map;
 
 /**
- * Created by yue on 2019/2/27
+ * @author yue
+ * @date  2019/2/27
  */
 public class AnjiaUtil {
     private AnjiaUtil() {
@@ -49,7 +50,7 @@ public class AnjiaUtil {
         return json.toJSONString();
     }
 
-    public static String MD5(String key) {
+    public static String md5(String key) {
         char[] hexDigits = {
                 '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'
         };
