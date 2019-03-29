@@ -18,7 +18,9 @@ public class MapPointService {
     @Autowired
     MapPointDao mapPointDao;
 
-    public List<Place> getIDByName(String name){return mapPointDao.getIDByName(name);}
+    public List<Place> getIDByName(String name){
+        return mapPointDao.getIDByName(name);
+    }
 
     public List<Place> getIDByUid(int id){ return mapPointDao.getIDByUid(id);}
 
