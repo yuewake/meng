@@ -48,9 +48,9 @@
 </style>
 <body>
 <!--城市列表-->
+<!--城市列表-->
 <div class="selcity" id="allCity" style="display:none;">
-	<table >
-		<tbody class="cityTable">
+	<table class="cityTable">
 		<tbody>
 		<tr>
 			<td><a href="#">苏州</a></td>
@@ -91,10 +91,13 @@
 			<td><a href="#">昆明</a></td>
 			<td><a href="#">杭州</a></td>
 			<td><a href="#"></a></td>
+		</tr>
 		</tbody>
 	</table>
 	<div class="none"><a id="foldin" href="#">收起</a></div>
 </div>
+
+
 <!--导航栏-->
 <div class="container home_header">
 	<div  id="headerbar" class="navbar navbar-default">
@@ -308,7 +311,22 @@
                 event.preventDefault();
             }
         });
-		/*城市切换*/
+        /*选择城市*/
+        $(".cityTable tr td a").click(function () {
+            var name = this.text;
+            $.ajax({
+                url:'/location/'+name,
+                type:'get',
+                success: function (data) {
+                    console.log("切换成功");
+                    window.location.reload();
+                },
+                error:function () {
+                    alert("切换城市失败！");
+                }
+            });
+        });
+        /*城市切换*/
         $("#changeCity").click(function(a){
             $("#allCity").slideDown(300);
             a.stopPropagation();
@@ -327,20 +345,6 @@
             $("#allCity").slideUp(300)
         });
 
-        $(".cityTable tr td a").click(function () {
-            var name = this.text;
-			$.ajax({
-				url:'/location/'+name,
-				type:'get',
-				success: function (data) {
-				console.log("切换成功");
-                window.location.reload();
-            },
-				error:function () {
-					alert("切换城市失败！");
-                }
-			});
-        });
 
         $("#buildingSubmit").click(function () {
             var content = $("#searchContent").val();

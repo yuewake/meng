@@ -58,9 +58,13 @@ public class MapPointService {
             for(Place place:allAreaList)
             {
                 JSONObject item = new JSONObject();
-                item.put("AreaPrice",mapPointDao.getAvgPriceByPid(place.getId()));
-                item.put("place",place);
-                array.add(item);
+                List<AvgPrice> list = mapPointDao.getAvgPriceByPid(place.getId());
+                if( list.size()>0)
+                {
+                    item.put("AreaPrice",mapPointDao.getAvgPriceByPid(place.getId()).get(0));
+                    item.put("place",place);
+                    array.add(item);
+                }
             }
             JSONObject allPrice = new JSONObject();
             allPrice.put("AllPrice",array);
