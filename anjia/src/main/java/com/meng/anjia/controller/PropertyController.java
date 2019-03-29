@@ -17,4 +17,5 @@ public class PropertyController {
     public List<Property> list(){
         return propertyService.list();
     }
+
 }

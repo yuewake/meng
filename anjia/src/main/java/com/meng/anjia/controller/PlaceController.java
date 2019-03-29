@@ -44,7 +44,6 @@ public class PlaceController {
         List<AvgPrice> allPrice = new ArrayList<>();
         for(Place place:allAreaList)
             allPrice.addAll(mapPointService.getAvgPriceByPid(place.getId()));
-
         JSONObject result = new JSONObject();
         result.put("AllPrice",allPrice);
         return result.toJSONString();

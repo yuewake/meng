@@ -24,20 +24,12 @@ public class AnjiaApplicationTests {
 	@Autowired
 	BuildingDao buildingDao;
 
-	@Autowired
-	MapPointDao mapPointDao;
 	@Test
 	public void contextLoads() {
 		User user = userDao.selectById(9);
 		System.out.println(user);
 	}
 
-	@Test
-	public void mapPointTest()
-	{
-		int a = mapPointDao.findAllMap("苏州");
-		System.out.println(a);
-	}
 
 
 }

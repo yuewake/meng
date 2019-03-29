@@ -25,4 +25,9 @@ public class MapPointService {
     public List<AvgPrice> getAvgPriceByPid(int pid ){
         return mapPointDao.getAvgPriceByPid(pid);
     }
+
+    public List<MapPoint> findAllPriceByName(String name )
+    {
+        return mapPointDao.findAllPriceByName(name);
+    }
 }
