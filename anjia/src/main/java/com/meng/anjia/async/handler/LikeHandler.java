@@ -18,9 +18,10 @@ public class LikeHandler implements EventHandler {
     @Autowired
     LikeService likeService;
 
+    private final String  LIKE = "LIKE";
     @Override
     public void doHandle(EventModel model) {
-        if("LIKE" == model.getEventType().toString()) {
+        if(LIKE == model.getEventType().toString()) {
             likeService.like(model.getUserId(), model.getEntityType(), model.getEntityId());
         }else {
             likeService.disLike(model.getUserId(), model.getEntityType(), model.getEntityId());

@@ -17,7 +17,11 @@ import java.util.Map;
 @Component
 public interface BuildingDao {
 
-    /*条件查询*/
+    /**
+     *
+     * @param map
+     * @return
+     */
     List<Building> findBuildingByCondition(Map<String,Object> map);
     /*条件查询页数返回*/
     int findBuildingByConditionCount(Map<String,Object> map);
