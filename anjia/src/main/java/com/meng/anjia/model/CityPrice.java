@@ -1,5 +1,8 @@
 package com.meng.anjia.model;
-
+/**
+ * @author shine10076
+ * @date 2019/3/19 15:19
+ */
 public class CityPrice {
 
     int id;

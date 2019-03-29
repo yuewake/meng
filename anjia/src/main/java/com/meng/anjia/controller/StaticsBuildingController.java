@@ -26,7 +26,7 @@ import java.util.Map;
 @Controller
 public class StaticsBuildingController {
     private static final Logger logger = LoggerFactory.getLogger(StaticsBuildingController.class);
-    private static final int size = 10;
+    private static final int SIZE = 10;
 
     @Autowired
     CityService cityService;
@@ -151,13 +151,13 @@ public class StaticsBuildingController {
     public String selectBuild(@PathVariable("name") String q, @PathVariable("page") Integer offset){
         JSONObject json = new JSONObject();
         try {
-            QueryResponse queryResponse = solrAdapter.search("build",q,"name",(offset-1) * size, size);
+            QueryResponse queryResponse = solrAdapter.search("build",q,"name",(offset-1) * SIZE, SIZE);
             long total = queryResponse.getResults().getNumFound();
             List<Building> buildings = queryResponse.getBeans(Building.class);
-            if(total % size == 0)
-            {   total = total / size;}
+            if(total % SIZE == 0)
+            {   total = total / SIZE;}
             else
-            {   total = (total / size) + 1;}
+            {   total = (total / SIZE) + 1;}
             json.put("curPage",offset);
             json.put("totalPage",total);
             json.put("BuildingList",buildings);

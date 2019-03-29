@@ -18,19 +18,35 @@ import java.util.List;
 @Component
 public interface MapPointDao {
 
-    /*条件查询*/
+    /**
+     * 根据名字查询所有的价格
+     * @param name
+     * @return
+     */
    List<MapPoint> findAllPriceByName(@Param("name") String name);
 
 
-   /*通过名称查询ID*/
+    /**
+     * 根据名称查询ID
+     * @param name
+     * @return
+     */
     @Select("select * from place where name = #{name}")
     List<Place> getIDByName(@Param("name")String name);
 
-    /*通过UID查询ID*/
+    /**
+     * 根据UID查询ID
+     * @param id
+     * @return
+     */
     @Select("select * from place where uid = #{id}")
     List<Place> getIDByUid(@Param("id")int id);
 
-    /*通过PID查询最新的房价*/
+    /**
+     * 根据pid查询最新房价
+     * @param pid
+     * @return
+     */
     @Select("select * from avg_price where pid =#{pid} Order by year DESC, month DESC limit 1")
     List<AvgPrice> getAvgPriceByPid(@Param("pid")int pid);
 

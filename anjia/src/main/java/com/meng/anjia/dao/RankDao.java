@@ -16,9 +16,18 @@ import java.util.List;
 @Component
 public interface RankDao {
 
+    /**
+     * 得到所有的预测数据
+     * @return
+     */
     @Select("select * from rank")
     List<Rank> getAllRank();
 
+    /**
+     * 根据城市名得到预测数据
+     * @param city
+     * @return
+     */
     @Select("select * from rank where city = #{city}")
     Rank getRankByCity(@Param("city")String city);
 }

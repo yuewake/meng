@@ -41,9 +41,9 @@ public class MapPointService {
     public String findAllPriceByName(String name )
     {
         String value = jedisAdapter.hget("city",name);
-//        if(value != null){
-//            return value;
-//        }else {
+        if(value != null){
+            return value;
+        }else {
             /*得到城市（苏州）的实体类*/
             List<Place>  id = mapPointDao.getIDByName(name);
             /*得到苏州的所有子区域的实体类*/
@@ -66,7 +66,7 @@ public class MapPointService {
             allPrice.put("AllPrice",array);
             jedisAdapter.hset("city",name,allPrice.toJSONString());
             return allPrice.toJSONString();
-//        }
+        }
 
     }
 }

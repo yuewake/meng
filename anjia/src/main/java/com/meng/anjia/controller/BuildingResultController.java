@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @date 2019/3/27 15:25
  */
 @Controller
-public class resultBuildingController {
+public class BuildingResultController {
 
     public static  final String RESULTBUILDING = "result_building";
 

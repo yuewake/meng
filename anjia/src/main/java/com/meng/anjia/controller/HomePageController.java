@@ -13,7 +13,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
-
+/**
+ * @author shine10076
+ * @date 2019/3/19 15:19
+ */
 @Controller
 public class HomePageController {
 

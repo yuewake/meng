@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
-
 /**
- *  create by shine10076
+ * @author shine10076
+ * @date 2019/3/19 15:19
  */
 @Controller
 public class StaticsCityController {

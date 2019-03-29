@@ -14,6 +14,11 @@ import org.springframework.stereotype.Component;
 @Component
 public interface ProbabilityDao {
 
+    /**
+     * 根据城市名得到预测结果
+     * @param city
+     * @return
+     */
     @Select("select * from probability where city = #{city}")
     public Probability getProbabilityByCity(@Param("city")String city);
 
