@@ -55,6 +55,18 @@ public class Place {
         return lat;
     }
 
+    @Override
+    public String toString() {
+        return "Place{" +
+                "id=" + id +
+                ", level=" + level +
+                ", name='" + name + '\'' +
+                ", lng=" + lng +
+                ", lat=" + lat +
+                ", uid=" + uid +
+                '}';
+    }
+
     public void setLat(double lat) {
         this.lat = lat;
     }

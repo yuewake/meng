@@ -35,9 +35,15 @@ public class PlaceController {
     @ResponseBody
     public String findAllMap(@PathVariable("name")String name)
     {
-        List<AvgPrice> allPrice = mapPointService.findAllPriceByName(name);
+        String allPrice = mapPointService.findAllPriceByName(name);
+        return allPrice;
+    }
+
+    @GetMapping("/findAllBuilding/{name}")
+    @ResponseBody
+    public String findAllBuilding(@PathVariable("name")String name)
+    {
         JSONObject result = new JSONObject();
-        result.put("AllPrice",allPrice);
         List<Building> buildingList = buildingService.getAllBuildingByCity(name);
         result.put("AllBuilding",buildingList);
         return result.toJSONString();

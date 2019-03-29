@@ -108,10 +108,11 @@ public class QuestionController {
             QueryResponse queryResponse = solrAdapter.search("question",q,"title",(offset-1) * size,size);
             // 数量，分页用
             long total = queryResponse.getResults().getNumFound();
-            if(total % size == 0)
+            if(total % size == 0) {
                 total = total / size;
-            else
+            } else {
                 total = (total / size) + 1;
+            }
             List<Question> questions = queryResponse.getBeans(Question.class);
             json.put("curPage",offset);
             json.put("totalPage",total);

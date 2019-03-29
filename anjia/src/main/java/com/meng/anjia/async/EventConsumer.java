@@ -50,9 +50,10 @@ public class EventConsumer implements InitializingBean {
         Thread t = new Thread(new Runnable() {
             @Override
             public void run() {
-                List<String> events = jedisAdapter.brpop(0, "EventQueue"); //返回该list的名字和该list中的最右边的元素
+                //返回该list的名字和该list中的最右边的元素
+                List<String> events = jedisAdapter.brpop(0, "EventQueue");
                 for (String event: events) {
-                    if(event.equals("EventQueue")) continue;
+                    if(event.equals("EventQueue")) {continue;}
                     EventModel eventModel = JSONObject.parseObject(event, EventModel.class);
                     if(!config.containsKey(eventModel.getEventType())){
                         logger.error("没有对该事件进行处理的Handler");

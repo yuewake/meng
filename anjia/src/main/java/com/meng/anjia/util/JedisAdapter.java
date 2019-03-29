@@ -32,9 +32,9 @@ public class JedisAdapter implements InitializingBean {
     @Override
     public void afterPropertiesSet() throws Exception {
         JedisPoolConfig poolConfig = new JedisPoolConfig();
-        poolConfig.setMaxTotal(50);// 最大连接数，连接全部用完，进行等待
-        poolConfig.setMinIdle(10); // 最小空余数
-        poolConfig.setMaxIdle(30); // 最大空余数
+        poolConfig.setMaxTotal(50);
+        poolConfig.setMinIdle(10);
+        poolConfig.setMaxIdle(30);
         pool = new JedisPool(poolConfig,host, port, 3000, password);
     }
 
@@ -238,7 +238,7 @@ public class JedisAdapter implements InitializingBean {
             logger.error("发生异常" + e.getMessage());
         }finally {
             if (jedis != null)
-                jedis.close();
+            {jedis.close();}
         }
         return null;
     }
@@ -251,8 +251,9 @@ public class JedisAdapter implements InitializingBean {
         }catch (Exception e){
             logger.error("发生异常" + e.getMessage());
         }finally {
-            if (jedis != null)
+            if (jedis != null) {
                 jedis.close();
+            }
         }
         return null;
     }

@@ -7,13 +7,13 @@ import java.util.Map;
  * Created by yue on 2019/3/18
  */
 public class EventModel {
-    private EventType eventType;//触发的事件类型
-    private int userId; //触发该事件的人
+    private EventType eventType;
+    private int userId;
     private int entityType;
     private int entityId;
     private int entityOwnerId;
 
-    private Map<String, String> exts = new HashMap<>();//将需要触发的handler放到此处 目前没用到
+    private Map<String, String> exts = new HashMap<>();
     public EventModel setExt(String key, String value) {
         exts.put(key, value);
         return this;

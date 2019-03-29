@@ -28,7 +28,7 @@ public class UserService {
      * @return
      */
     public Map<String, Object> regist(User user) {
-        Map<String, Object> map = new HashMap<String, Object>();
+        Map<String, Object> map = new HashMap<String, Object>(1);
         if (user.getUsername() == null || "".equals(user.getUsername().trim())) {
             map.put("msg", "用户名为空");
             return map;
@@ -53,7 +53,7 @@ public class UserService {
      * @return
      */
     public Map<String, Object> login(User user){
-        Map<String, Object> map = new HashMap<String, Object>();
+        Map<String, Object> map = new HashMap<String, Object>(1);
         if(user.getPassword() == null || "".equals(user.getPassword().trim())){
             map.put("msg","密码不能为空");
             return map;

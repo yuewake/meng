@@ -119,7 +119,7 @@ public class StaticsBuildingController {
     @ResponseBody
     public String findBuildingByCondition(@PathVariable("area")String area, @PathVariable("minPrice")int minPrice, @PathVariable("maxPrice")int maxPrice,@PathVariable("type")String type,@PathVariable("status")String status,@PathVariable("page")int page)
     {
-        Map<String, Object> map = new HashMap<>();
+        Map<String, Object> map = new HashMap<>(10);
         if(!"".equals(area))
         {map.put("area", area);}
         if(minPrice != 0)
@@ -155,9 +155,9 @@ public class StaticsBuildingController {
             long total = queryResponse.getResults().getNumFound();
             List<Building> buildings = queryResponse.getBeans(Building.class);
             if(total % size == 0)
-                total = total / size;
+            {   total = total / size;}
             else
-                total = (total / size) + 1;
+            {   total = (total / size) + 1;}
             json.put("curPage",offset);
             json.put("totalPage",total);
             json.put("BuildingList",buildings);

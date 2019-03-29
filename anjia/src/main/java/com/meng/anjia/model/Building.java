@@ -47,7 +47,6 @@ public class Building {
     @Field(value = "unit")
     private String unit;
 
-    /*起步总价*/
     @Field(value = "sumPrice")
     private int sumPrice;
     @Field(value = "url")

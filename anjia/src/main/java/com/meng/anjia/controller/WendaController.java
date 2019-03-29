@@ -51,10 +51,11 @@ public class WendaController {
     public String index(Model model,int offset){
         model.addAttribute("vos", getQuestions(0, offset * size, size));
         int total = questionService.getCountOfQuestion(0);
-        if(total % size == 0)
+        if(total % size == 0) {
             total = total / size;
-        else
+        } else {
             total = (total / size) + 1;
+        }
         model.addAttribute("total",total);
         model.addAttribute("offset",offset);
         return "wenda/index";
