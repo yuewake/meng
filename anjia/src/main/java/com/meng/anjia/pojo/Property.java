@@ -19,6 +19,7 @@ public class Property {
     double lng;
     double lat;
     String unit;
+    String city;
     int avgPrice;
 
 
@@ -77,5 +78,13 @@ public class Property {
 
     public void setUnit(String unit) {
         this.unit = unit;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
     }
 }
