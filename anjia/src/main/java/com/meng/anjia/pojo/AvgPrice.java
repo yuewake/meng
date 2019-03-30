@@ -1,7 +1,6 @@
 package com.meng.anjia.pojo;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.hibernate.annotations.GeneratorType;
 
 import javax.persistence.*;
 

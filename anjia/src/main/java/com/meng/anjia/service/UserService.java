@@ -12,7 +12,10 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
-
+/**
+ * @author yue
+ * @date  2019/3/4
+ */
 @Service
 public class UserService {
 
@@ -28,7 +31,7 @@ public class UserService {
      * @return
      */
     public Map<String, Object> regist(User user) {
-        Map<String, Object> map = new HashMap<String, Object>();
+        Map<String, Object> map = new HashMap<String, Object>(1);
         if (user.getUsername() == null || "".equals(user.getUsername().trim())) {
             map.put("msg", "用户名为空");
             return map;
@@ -41,7 +44,7 @@ public class UserService {
         } else {
             String salt = UUID.randomUUID().toString().replaceAll("-", "");
             user.setSalt(salt);
-            user.setPassword(AnjiaUtil.MD5(salt + user.getPassword()));
+            user.setPassword(AnjiaUtil.md5(salt + user.getPassword()));
             userDao.insertUser(user);
             return map;
         }
@@ -53,7 +56,7 @@ public class UserService {
      * @return
      */
     public Map<String, Object> login(User user){
-        Map<String, Object> map = new HashMap<String, Object>();
+        Map<String, Object> map = new HashMap<String, Object>(1);
         if(user.getPassword() == null || "".equals(user.getPassword().trim())){
             map.put("msg","密码不能为空");
             return map;
@@ -67,7 +70,7 @@ public class UserService {
             map.put("msg","用户名不存在");
             return map;
         }
-        if(!u.getPassword().equals(AnjiaUtil.MD5(u.getSalt() + user.getPassword()))){
+        if(!u.getPassword().equals(AnjiaUtil.md5(u.getSalt() + user.getPassword()))){
             map.put("msg","密码错误");
             return map;
         }
@@ -86,7 +89,7 @@ public class UserService {
         LoginTicket ticket = new LoginTicket();
         ticket.setUserId(userId);
         Date date = new Date();
-        date.setTime(date.getTime() + 1000*3600*24);//设置过期时间为24小时
+        date.setTime(date.getTime() + 1000*3600*24);
         ticket.setExpired(date);
         ticket.setStatus(0);
         ticket.setTicket(UUID.randomUUID().toString().replaceAll("-", ""));

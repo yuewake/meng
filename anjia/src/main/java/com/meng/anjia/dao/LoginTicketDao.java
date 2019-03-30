@@ -4,6 +4,10 @@ import com.meng.anjia.model.LoginTicket;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Component;
 
+/**
+ * @author yue
+ * @date  2019/2/27
+ */
 @Mapper
 @Component
 public interface LoginTicketDao {

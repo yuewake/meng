@@ -6,7 +6,8 @@ import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Component;
 
 /**
- * Created by yue on 2019/3/4
+ * @author yue
+ * @date  2019/3/4
  */
 @Mapper
 @Component

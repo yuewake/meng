@@ -2,6 +2,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
+	<meta name="referrer" content="no-referrer"/>
 	<title>安家</title>
 </head>
 <script src="js/jquery-2.1.1.min.js" th:src="@{/js/jquery-2.1.1.min.js}"></script>
@@ -9,37 +10,94 @@
 <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}"/>
 <link href="css/citystyle.css" th:href="@{/css/citystyle.css}" type="text/css" rel="stylesheet" />
 <link rel="stylesheet" type="text/css" href="css/main.css" th:href="@{/css/main.css}"/>
+
 <style>
 	.house_img
 	{
 		height:150px;
 	}
+	.footer_banner
+	{
+		width: 100%;
+		padding: 0px ;
+		background:#06266F;
+	}
+	.footer_banner ul
+	{
+		display: inline-block;
+	}
+	.footer_banner ul li
+	{
+		display: inline-block;
+	}
+	.footer_link
+	{
+		text-decoration: none;
+		font-family: "微软雅黑";
+		color:#FFFFFF;
+		font-weight: 200;
+	}
+	.footer-link span
+	{
+		text-decoration: none;
+		font-family: "微软雅黑";
+		color:#FFFFFF;
+		font-weight: 200;
+	}
+
 </style>
 <body>
 <!--城市列表-->
+<!--城市列表-->
 <div class="selcity" id="allCity" style="display:none;">
-	<table>
+	<table class="cityTable">
 		<tbody>
 		<tr>
-			<td><a class="cur" href="#">苏州</a></td>
+			<td><a href="#">苏州</a></td>
 			<td><a href="#">上海</a></td>
 			<td><a href="#">广州</a></td>
 			<td><a href="#">深圳</a></td>
+			<td><a href="#">北京</a></td>
+			<td><a href="#">天津</a></td>
 			<td><a href="#">重庆</a></td>
+			<td><a href="#">南京</a></td>
+		</tr>
+		<tr>
+			<td><a href="#">合肥</a></td>
+			<td><a href="#">厦门</a></td>
+			<td><a href="#">兰州</a></td>
+			<td><a href="#">桂林</a></td>
+			<td><a href="#">贵阳</a></td>
+			<td><a href="#">石家庄</a></td>
+			<td><a href="#">哈尔滨</a></td>
+			<td><a href="#">银川</a></td>
+		</tr>
+		<tr>
+			<td><a href="#">郑州</a></td>
+			<td><a href="#">武汉</a></td>
+			<td><a href="#">长沙</a></td>
+			<td><a href="#">南昌</a></td>
+			<td><a href="#">沈阳</a></td>
+			<td><a href="#">呼和浩特</a></td>
+			<td><a href="#">西宁</a></td>
 			<td><a href="#">西安</a></td>
 		</tr>
 		<tr>
-			<td><a href="#">北京</a></td>
-			<td><a href="#">南京</a></td>
-			<td><a href="#">成都</a></td>
-			<td><a href="#">武汉</a></td>
-			<td><a href="#">杭州</a></td>
 			<td><a href="#">济南</a></td>
+			<td><a href="#">太原</a></td>
+			<td><a href="#">成都</a></td>
+			<td><a href="#">乌鲁木齐</a></td>
+			<td><a href="#">拉萨</a></td>
+			<td><a href="#">昆明</a></td>
+			<td><a href="#">杭州</a></td>
+			<td><a href="#"></a></td>
 		</tr>
 		</tbody>
 	</table>
 	<div class="none"><a id="foldin" href="#">收起</a></div>
 </div>
+
+
 <!--导航栏-->
 <div class="container home_header">
 	<div  id="headerbar" class="navbar navbar-default">
@@ -51,12 +109,13 @@
 			<input class="hidden" id="toggle-checkbox" type="checkbox">
 			<div class="hidden-xs">
 				<ul class="nav navbar-nav" style="font-family: '微软雅黑';color: #FFFFFF;">
-					<li><a href="#" style="font-family: '微软雅黑';color: #FFFFFF;font-weight: 600;">首页</a></li>
-					<li><a href="#" style="font-family: '微软雅黑';color: #FFFFFF;font-weight: 600;">二手房</a></li>
+					<li><a th:href = "@{/}" style="font-family: '微软雅黑';color: #FFFFFF;font-weight: 600;">首页</a></li>
+					<li><a th:href = "@{/building}" style="font-family: '微软雅黑';color: #FFFFFF;font-weight: 600;">小区</a></li>
 					<li><a th:href="@{/city}" style="font-family: '微软雅黑';color: #FFFFFF;font-weight: 600;">历史房价</a></li>
 					<li><a th:href="@{/calculator}" style="font-family: '微软雅黑';color: #FFFFFF;font-weight: 600;">工具</a></li>
-					<li><a href="#" style="font-family: '微软雅黑';color: #FFFFFF;font-weight: 600;">问答</a></li>
-					<li class="i1"><a id = "cityname" value = "苏州" href="#" style="font-family: '微软雅黑';color: #FFFFFF;background: rgba(128,128,128,0.5)">苏州</a> </li>
+					<li><a th:href="@{/wenda(offset=0)}" style="font-family: '微软雅黑';color: #FFFFFF;font-weight: 600;">交流</a></li>
+					<li class="i1" th:if="${session.CityName} != null"><a id = "cityname" th:text = "${session.CityName}"  href="#" style="font-family: '微软雅黑';color: #FFFFFF;background: rgba(128,128,128,0.5)">苏州</a> </li>
+					<li class="i1" th:if="${session.CityName} == null"><a id = "cityname"  href="#" style="font-family: '微软雅黑';color: #FFFFFF;background: rgba(128,128,128,0.5)">苏州</a> </li>
 					<li class="i2" id="changeCity"><a href="#" style="font-family: '微软雅黑';color: #FFFFFF;font-style: italic;font-size:5px ">[切换城市]</a></li>
 				</ul>
 				<ul th:if="${user} == null"class="nav navbar-nav navbar-right">
@@ -84,19 +143,12 @@
 	</div>
 	<!--搜索栏-->
 	<div class="row">
-		<div class="col-sm-2"></div>
-		<div class="col-sm-8">
-			<form class="form-inline" style="text-align: center;">
-				<div class="form-group">
-					<label class="sr-only text-center" for="SearchContent">输入小区，城市，区域查询房价</label>
-					<div class="input-group">
-						<div class="input-group "></div>
-						<input type="text"  class="form-control input-lg " id="SearchContent" placeholder="输入小区，城市，区域查询房价">
-						<div class="input-group"></div>
-					</div>
-				</div>
-				<button type="submit" class="btn btn-lg" style="background: #1a73e8;color: #FFFFFF">开始搜索</button>
-			</form>
+		<div class="col-sm-3"></div>
+		<div class="col-sm-5" style="padding: 0px">
+			<input type="text" class="form-control input-lg " id="searchContent" placeholder="输入小区，城市，区域查询房价">
+		</div>
+		<div class="col-sm-2" style="padding: 0px">
+			<button id="buildingSubmit" class="btn btn-lg" style="background: #1a73e8;color: #FFFFFF">开始搜索</button>
 		</div>
 		<div class="col-sm-2"></div>
 	</div>
@@ -111,13 +163,13 @@
 	</div>
 	<div class="row">
 		<div class="col-sm-4 ">
-			<a href="https:www.baidu.com" class="middle_link" style="text-decoration:none;display: inline-block;">
+			<a th:href="@{/building}" class="middle_link" style="text-decoration:none;display: inline-block;">
 				<img class="middle-img" src="img/house.png" style="margin: 0 auto;"/>
 				<b style="width:120px;color: #1a73e8">纵览小区</b>
 			</a>
 		</div>
 		<div class="col-sm-4 ">
-			<a href="https:www.baidu.com" class="middle_link" style="text-decoration:none;display: inline-block;">
+			<a th:href="@{/predict}" class="middle_link" style="text-decoration:none;display: inline-block;">
 				<img  class="middle-img" src="img/history.png" style="margin: 0 auto;"/>
 				<b style="width:120px;color: #1a73e8">房价预测</b>
 			</a>
@@ -132,10 +184,11 @@
 	</div>
 	<br/><br/><br/>
 </div>
+
 <!--小区推荐-->
 <div class="container house_banner" >
 	<div class="row" style="text-align: center;">
-		<h2 style="font: '微软雅黑';">小区推荐</h2>
+		<h2 style="font-family: '微软雅黑';">小区推荐</h2>
 	</div>
 	<div class="row" style="text-align: center;">
 		<h6 class="text-muted">纵览小区，恋上这座城</h6>
@@ -146,128 +199,48 @@
 		<!--三个小区介绍-->
 		<div class = "col-sm-10">
 			<!--三个小区-->
-			<div class="col-sm-4 house_show">
-				<a class="house_link" href="https:www.baidu.com">
-					<img  class="house_img" src="img/example1.jpg" />
-					<div class="col-sm-12">
-						<span class="house_title">悦湖家天下</span>
-					</div>
-					<div class="col-sm-12">
-						<span class="house_price">均价</span><span class="house_price">25589元</span>
-					</div>
-				</a>
-			</div>
-			<div class="col-sm-4 house_show">
-				<a class="house_link" href="https:www.baidu.com">
-					<img  class="house_img" src="img/example1.jpg" />
-					<div class="col-sm-12">
-						<span class="house_title">悦湖家天下</span>
-					</div>
-					<div class="col-sm-12">
-						<span class="house_price">均价</span><span class="house_price">25589元</span>
-					</div>
-				</a>
-			</div>
-			<div class="col-sm-4 house_show">
-				<a class="house_link" href="https:www.baidu.com">
-					<img  class="house_img" src="img/example1.jpg" />
-					<div class="col-sm-12">
-						<span class="house_title">悦湖家天下</span>
-					</div>
-					<div class="col-sm-12">
-						<span class="house_price">均价</span><span class="house_price">25589元</span>
-					</div>
-				</a>
-			</div>
+			<ul id = "buildingShow" class="list-inline"></ul>
 		</div>
 		<div class="col-sm-1"></div>
 	</div>
 	<br/><br/><br/>
 </div>
 
-<!--新房推荐-->
-<div class="container house_banner" style="background: #FFFFFF">
-	<div class="row" style="text-align: center;">
-		<h2 style="font: '微软雅黑';">新房推荐</h2>
-	</div>
-	<div class="row" style="text-align: center;">
-		<h6 class="text-muted">纵览小区，恋上这座城</h6>
-	</div>
-	<!--小区展示-->
-	<div class="row">
-		<div class="col-sm-1"></div>
-		<!--三个小区介绍-->
-		<div class = "col-sm-10">
-			<!--三个小区-->
-			<div class="col-sm-4 house_show">
-				<a class="house_link" href="https:www.baidu.com">
-					<img  class="house_img"  src="img/example2.jpg" />
-					<div class="col-sm-12">
-						<span class="house_title">悦湖家天下</span>
-					</div>
-					<div class="col-sm-12">
-						<span class="house_price">均价</span><span class="house_price">25589元</span>
-					</div>
-				</a>
-			</div>
-			<div class="col-sm-4 house_show">
-				<a class="house_link" href="https:www.baidu.com">
-					<img  class="house_img" src="img/example2.jpg" />
-					<div class="col-sm-12">
-						<span class="house_title">悦湖家天下</span>
-					</div>
-					<div class="col-sm-12">
-						<span class="house_price">均价</span><span class="house_price">25589元</span>
-					</div>
-				</a>
-			</div>
-			<div class="col-sm-4 house_show">
-				<a class="house_link" href="https:www.baidu.com">
-					<img  class="house_img" src="img/example2.jpg" />
-					<div class="col-sm-12">
-						<span class="house_title">悦湖家天下</span>
-					</div>
-					<div class="col-sm-12">
-						<span class="house_price">均价</span><span class="house_price">25589元</span>
-					</div>
-				</a>
-			</div>
-		</div>
-		<div class="col-sm-1"></div>
-	</div>
-</div>
 
 <!--侧边导航栏-->
 <div class="fix-right-v3" id="back-top" style="height: 100%;">
 	<div>
 		<ul class="sidebar-ul">
 			<li><a class="fix-right-v3-icon" th:href="@{/calculator}"  style="background: url(img/calculator.png);" th:style="'background:url('+ @{/img/calculator.png} +');'"  data-content ="计算"   data-placement ="left"   ></a></li>
-			<li><a class="fix-right-v3-icon" href="#" style="background: url(img/calculator.png);" th:style="'background:url('+ @{/img/service.png} +');'"  data-content ="客服"   data-placement ="left"  data-toggle="modal" data-target="#ServiceModal" data-whatever="@mdo" ></a></li>
-			<li><a class="fix-right-v3-icon" href="#" style="background: url(img/calculator.png);" th:style="'background:url('+ @{/img/back.png} +');'"  data-content ="反馈"   data-placement ="left" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo"></a></li>
+			<li><a class="fix-right-v3-icon" href="#"  th:style="'background:url('+ @{/img/service.png} +');'"  data-content ="客服"   data-placement ="left"  data-toggle="modal" data-target="#ServiceModal" data-whatever="@mdo" ></a></li>
+			<li><a class="fix-right-v3-icon" href="#"  th:style="'background:url('+ @{/img/back.png} +');'"  data-content ="反馈"   data-placement ="left" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo"></a></li>
 		</ul>
 	</div>
 </div>
 
 <footer class="container footer_banner">
-	<div class="row">
-		<br /><br /><br />
-	</div>
-	<!--底部导航栏-->
-	<div class="row" style="border-bottom: 2px #A6E1EC;">
-		<ul >
-			<li><a class="footer-link" href="#"><span>关于安家</span></a></li>
-			<li><a class="footer-link" href="#"><span>联系我们</span></a></li>
-			<li><a class="footer-link" href="#"><span>加入我们</span></a></li>
-			<li><a class="footer-link" href="#"><span>隐私申明</span></a></li>
-		</ul>
-	</div>
-	<div class="row" style="display: inline-block;">
-		<ul style="display: block;">
-			<li><span class="text-muted" style="font-family: '微软雅黑'; font-size: 16px;">客服电话</span></li>
-			<li><span style="font-family: '微软雅黑'; font-size: 16px;color: #FFFFFF;">741-741-74741</span></li>
-		</ul>
-	</div>
+		<div class="row">
+			<br /><br /><br />
+		</div>
+		<!--底部导航栏-->
+		<div class="row" style="border-bottom: 2px #A6E1EC;">
+			<ul >
+				<li><a class="footer-link" href="#"><span>关于安家</span></a></li>
+				<li><a class="footer-link" href="#"><span>联系我们</span></a></li>
+				<li><a class="footer-link" href="#"><span>加入我们</span></a></li>
+				<li><a class="footer-link" href="#"><span>隐私申明</span></a></li>
+			</ul>
+		</div>
+		<div class="row" style="display: inline-block;">
+			<ul style="display: block;">
+				<li><span class="text-muted" style="font-family: '微软雅黑'; font-size: 16px;">客服电话</span></li>
+				<li><span style="font-family: '微软雅黑'; font-size: 16px;color: #FFFFFF;">741-741-74741</span></li>
+			</ul>
+		</div>
 </footer>
+
+
+
 </body>
 
 
@@ -298,6 +271,8 @@
 		</div>
 	</div>
 </div>
+
+
 <!--客服-->
 <div class="modal fade" id="ServiceModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" >
 	<div class="modal-dialog" role="document">
@@ -336,7 +311,22 @@
                 event.preventDefault();
             }
         });
-		/*城市切换*/
+        /*选择城市*/
+        $(".cityTable tr td a").click(function () {
+            var name = this.text;
+            $.ajax({
+                url:'/location/'+name,
+                type:'get',
+                success: function (data) {
+                    console.log("切换成功");
+                    window.location.reload();
+                },
+                error:function () {
+                    alert("切换城市失败！");
+                }
+            });
+        });
+        /*城市切换*/
         $("#changeCity").click(function(a){
             $("#allCity").slideDown(300);
             a.stopPropagation();
@@ -354,6 +344,31 @@
         $("#foldin").click(function(){
             $("#allCity").slideUp(300)
         });
+
+
+        $("#buildingSubmit").click(function () {
+            var content = $("#searchContent").val();
+            location.href = '/buildingContent/'+content;
+        })
+    })
+
+	$(document).ready(function () {
+		var name = $("#cityname").text();
+		$.ajax({
+			url:'buildingShow/'+name,
+			dataType:'json',
+			type:'get',
+			success:function (data) {
+				var json = data.buildingList;
+                for(var i = 0; i< json.length;++i)
+				{
+				    $("#buildingShow").append('<li>' +'<a style="text-decoration: none" href="/buildingInfo/'+json[i].id+'"><h3>'+json[i].name+'</h3></a>'+
+							'<img src="'+json[i].url+'" style="height: 250px">'+
+
+						'</li>');
+				}
+            }
+		})
     })
 </script>
 </html>

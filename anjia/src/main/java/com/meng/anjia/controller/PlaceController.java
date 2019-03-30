@@ -1,9 +1,16 @@
 package com.meng.anjia.controller;
 
+import com.alibaba.fastjson.JSONObject;
+import com.meng.anjia.model.Building;
+import com.meng.anjia.pojo.AvgPrice;
 import com.meng.anjia.pojo.Place;
+import com.meng.anjia.service.BuildingService;
+import com.meng.anjia.service.MapPointService;
 import com.meng.anjia.service.PlaceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -13,8 +20,32 @@ public class PlaceController {
     @Autowired
     PlaceService placeService;
 
+    @Autowired
+    MapPointService mapPointService;
+
+    @Autowired
+    BuildingService buildingService;
+
     @GetMapping("/places")
-    public List<Place> list() throws Exception{
+    public List<Place> list(){
         return placeService.list();
+    }
+
+    @GetMapping("/findAllMap/{name}")
+    @ResponseBody
+    public String findAllMap(@PathVariable("name")String name)
+    {
+        String allPrice = mapPointService.findAllPriceByName(name);
+        return allPrice;
+    }
+
+    @GetMapping("/findAllBuilding/{name}")
+    @ResponseBody
+    public String findAllBuilding(@PathVariable("name")String name)
+    {
+        JSONObject result = new JSONObject();
+        List<Building> buildingList = buildingService.getAllBuildingByCity(name);
+        result.put("AllBuilding",buildingList);
+        return result.toJSONString();
     }
 }

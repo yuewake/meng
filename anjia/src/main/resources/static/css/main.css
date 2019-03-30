@@ -117,33 +117,6 @@ b{
 	background-position:center center;
 	background-repeat:no-repeat;
 }
-.footer_banner
-{
-	width: 100%;
-	background:#394043;
-}
-.footer_banner ul
-{
-	display: inline-block;
-}
-.footer_banner ul li
-{
-	display: inline-block;
-}
-.footer_link
-{
-	text-decoration: none;
-	font-family: "微软雅黑";
-	color:#FFFFFF;
-	font-weight: 200;
-}
-.footer-link span
-{
-	text-decoration: none;
-	font-family: "微软雅黑";
-	color:#FFFFFF;
-	font-weight: 200;
-}
 /*id*/
 #headerbar{
 	background: rgba(0,0,0,0);

@@ -12,7 +12,7 @@ import java.util.List;
  * @date 2019/3/13 14:25
  */
 @Service
-public class CityPriceService {
+public class    CityPriceService {
 
 
     @Autowired
@@ -40,6 +40,22 @@ public class CityPriceService {
     public CityPrice getFirstCityPriceByID(int id)
     {
         return cityPrice.getFirstCityPriceByID(id);
+    }
+
+    /**
+     * 查询某城市最近半年的房价
+     */
+    public List<CityPrice> getCityPriceHalfYear(String name)
+    {
+        return cityPrice.getCityPriceHalfYear(name);
+    }
+
+    /**
+     * 分页测试
+     */
+    public List<CityPrice> getCityPricePage(String name, int number)
+    {
+        return cityPrice.getAllCityPricePage(name, number);
     }
 
 }

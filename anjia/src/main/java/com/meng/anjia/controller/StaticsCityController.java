@@ -1,24 +1,23 @@
 package com.meng.anjia.controller;
 
-import com.alibaba.fastjson.*;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.meng.anjia.model.City;
 import com.meng.anjia.model.CityPrice;
 import com.meng.anjia.service.CityPriceService;
 import com.meng.anjia.service.CityService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.ArrayList;
-
+import java.util.List;
 /**
- *  create by shine10076
+ * @author shine10076
+ * @date 2019/3/19 15:19
  */
 @Controller
-public class Statics_cityController {
+public class StaticsCityController {
 
     @Autowired
     CityService cityService;
@@ -26,71 +25,83 @@ public class Statics_cityController {
     @Autowired
     CityPriceService cityPriceService;
 
-    private static final Logger logger = LoggerFactory.getLogger(Statics_cityController.class);
-
+    public static final String CITY = "statics_city";
     @RequestMapping("/city")
     public String getCityPath()
     {
-        return "statics_city.html";
+        return CITY;
     }
 
+    public void putCityName(JSONObject json,String cityName)
+    {
+        json.put("CityName",cityName);
+    }
+
+    public void putPrice(JSONObject json, int price)
+    {
+        json.put("price",price);
+    }
+
+    public void putStrPrice(JSONObject json, String price)
+    {
+        json.put("strPrice",price);
+    }
     /**
      * 返回某市的区域json数据
      */
-    @RequestMapping(value="/city/{cityname}", method = RequestMethod.GET)
+    @GetMapping(value="/city/{cityName}")
     @ResponseBody
-    public String  uid(@PathVariable("cityname") String cityname)
+    public String  uid(@PathVariable("cityName") String cityName)
     {
-        int uid  = cityService.getCityIDbyName(cityname);
-        List<City> list = cityService.CityList(uid);
-        JSONObject citylist = new JSONObject();
-        JSONArray  arealist = new JSONArray();
+        int uid  = cityService.getCityIDbyName(cityName);
+        List<City> list = cityService.cityList(uid);
+        JSONObject cityList = new JSONObject();
+        JSONArray  areaList = new JSONArray();
         for(int i=0;i<list.size();i++)
         {
             JSONObject area = new JSONObject();
             area.put("name", list.get(i).getName());
             area.put("ID", list.get(i).getId());
-            arealist.add(area);
+            areaList.add(area);
         }
-        citylist.put("CityName",cityname);
-        citylist.put("area",arealist);
-        System.out.println(citylist.toJSONString());
-        return citylist.toJSONString();
+        putCityName(cityList,cityName);
+        cityList.put("area",areaList);
+        return cityList.toJSONString();
     }
 
 
     /**
      * 返回某区域的历史房价json数据
      */
-    @RequestMapping(value = "/city/price/{name}" , method = RequestMethod.GET)
+    @GetMapping(value = "/city/price/{name}" )
     @ResponseBody
-    public String CityPrice(@PathVariable("name")String name)
+    public String cityPrice(@PathVariable("name")String name)
     {
         List<CityPrice> list = cityPriceService.getAllCityPrice(name);
-        JSONObject cityPricelist = new JSONObject();
-        JSONArray  pricelist = new JSONArray();
+        JSONObject cityPriceList = new JSONObject();
+        JSONArray  priceList = new JSONArray();
         for(int i = 0; i<list.size();i++)
         {
-            JSONObject price = new JSONObject();
-            price.put("price",list.get(i).getPrice());
+            JSONObject priceArea = new JSONObject();
+            putPrice(priceArea,list.get(i).getPrice());
             String year = Integer.toString(list.get(i).getYear());
             String month = Integer.toString(list.get(i).getMonth());
-            price.put("Time",year + '/' + month);
-            pricelist.add(price);
+            priceArea.put("Time",year + '/' + month);
+            priceList.add(priceArea);
         }
-        cityPricelist.put("CityName", name);
-        cityPricelist.put("priceList", pricelist);
+        putCityName(cityPriceList,name);
+        cityPriceList.put("priceList", priceList);
 
-        return cityPricelist.toJSONString();
+        return cityPriceList.toJSONString();
     }
 
 
     /**
      * 返回某区域的历史房价json数据
      */
-    @RequestMapping(value = "/city/priceByID/{id}" , method = RequestMethod.GET)
+    @GetMapping(value = "/city/priceByID/{id}")
     @ResponseBody
-    public String CityPrice(@PathVariable("id")int id)
+    public String cityPrice(@PathVariable("id")int id)
     {
         List<CityPrice> list = cityPriceService.getAllCityPriceByID(id);
         JSONObject cityPricelist = new JSONObject();
@@ -98,7 +109,7 @@ public class Statics_cityController {
         for(int i = 0; i<list.size();i++)
         {
             JSONObject price = new JSONObject();
-            price.put("price",list.get(i).getPrice());
+            putPrice(price,list.get(i).getPrice());
             String year = Integer.toString(list.get(i).getYear());
             String month = Integer.toString(list.get(i).getMonth());
             price.put("Time",year + '/' + month);
@@ -111,18 +122,16 @@ public class Statics_cityController {
     }
 
 
+
     /**
-     * 返回当前城市的最新房价
+     * 返回当前城市的最新房价,还未用到
      */
-    @RequestMapping(value = "/city/firstPrice/{name}", method = RequestMethod.GET)
+    @GetMapping(value = "/city/firstPrice/{name}")
     @ResponseBody
-    public String FirstCityPrice(@PathVariable("name")String name)
+    public String firstCityPrice(@PathVariable("name")String name)
     {
-        CityPrice firstPrice = cityPriceService.getFirstCityPrice(name);
         JSONObject price = new JSONObject();
-        price.put("CityName", name);
-        String strpirce = Integer.toString(firstPrice.getPrice());
-        price.put("price", strpirce);
+        putCityName(price,name);
         return price.toJSONString();
     }
 
@@ -130,19 +139,18 @@ public class Statics_cityController {
     /**
      * 返回当前城市子区域的最新房价
      */
-    @RequestMapping(value = "/city/FirstPriceList/{name}", method = RequestMethod.GET)
+    @GetMapping(value = "/city/FirstPriceList/{name}")
     @ResponseBody
-    public String FirstPriceList(@PathVariable("name") String name)
+    public String firstPriceList(@PathVariable("name") String name)
     {
         int uid  = cityService.getCityIDbyName(name);
-        List<City> list = cityService.CityList(uid);
-        List<CityPrice> priceList = new ArrayList<CityPrice>();
+        List<City> list = cityService.cityList(uid);
+        List<CityPrice> priceList = new ArrayList<>();
         for(int i=0;i<list.size();i++)
         {
             priceList.add(cityPriceService.getFirstCityPrice(list.get(i).getName()));
         }
         JSONArray priceArray = new JSONArray();
-        System.out.println(priceList.size());
         for(int i=0;i<priceList.size();i++)
         {
             JSONObject json = new JSONObject();

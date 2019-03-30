@@ -7,12 +7,23 @@
         body, html {width: 100%;height: 100%;overflow: hidden;margin:0;font-family:"微软雅黑";}
         #allmap{height:100%;width:100%;}
         .circle{width: 80px; height: 80px; opacity: 0.80;background-color: blue; border-radius: 50%; -moz-border-radius: 50%; -webkit-border-radius: 50%;}
+        p{margin-left:5px; font-size:14px;}
     </style>
     <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=GLi1qh8qq38xQZuCCQ7bIUhbXln3HgiN"></script>
+    <script src="js/jquery-2.1.1.min.js" th:src="@{/js/jquery-2.1.1.min.js}"></script>
+    <script src="js/bootstrap.min.js" th:src="@{/js/bootstrap.min.js}" type="text/javascript" charset="utf-8"></script>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}"/>
+    <link href="css/citystyle.css" th:href="@{/css/citystyle.css}" type="text/css" rel="stylesheet" />
     <title>房价地图</title>
 
 </head>
 <body>
+<!--引用头部文件-->
+<header>
+    <div>
+        <div th:include = "wenda/header"></div>
+    </div>
+</header>
 <div id="allmap"></div>
 </body>
 </html>
@@ -20,32 +31,87 @@
 <script src="js/axios/0.17.1/axios.min.js"></script>
 <script src="js/vue/2.5.16/vue.min.js"></script>
 <script type="text/javascript">
+
+    $(function () {
+        /*城市切换*/
+        $("#changeCity").click(function(a){
+            $("#allCity").slideDown(300);
+            a.stopPropagation();
+            $(this).blur()
+        });
+
+        $("#allCity").click(function(a){
+            a.stopPropagation()
+        });
+
+        $(document).click(function(a){
+            a.button!=2&&$("#allCity").slideUp(300)
+        });
+
+        $("#foldin").click(function(){
+            $("#allCity").slideUp(300)
+        });
+
+        $(".cityTable tr td a").click(function () {
+            var name = this.text;
+            $.ajax({
+                url:'/location/'+name,
+                type:'get',
+                success: function (data) {
+                    console.log("切换成功");
+                    window.location.reload();
+                },
+                error:function () {
+                    alert("切换城市失败！");
+                }
+            });
+        });
+
+    });
+    var cityName = $("#cityname").text();
+    console.log(cityName);
     var map = new BMap.Map("allmap");
-    var point = new BMap.Point(120.619907, 31.317987);
-    map.centerAndZoom(point, 11);
-    map.enableScrollWheelZoom();
-    map.enableInertialDragging();
-    map.addEventListener("zoomend", reshow);
+    var point = new BMap.Point(120.619907, 31.317987);//初始位置
+    map.centerAndZoom(cityName, 12);
+    map.enableScrollWheelZoom();    //允许滚轮缩放
+    map.enableInertialDragging();   //允许惯性拖拽
+    map.addEventListener("zoomend", reshow);    //添加地图缩放事件
     map.enableContinuousZoom();
-    map.setMinZoom(8);
-    map.setMaxZoom(17);
-    var size = new BMap.Size(10, 20);
-    map.addControl(new BMap.CityListControl({
-        anchor: BMAP_ANCHOR_TOP_LEFT,
-        offset: size
-        // // 切换城市之间事件
-        // onChangeBefore: function(){
-        //    alert('before');
-        // },
-        // // 切换城市之后事件
-        // onChangeAfter:function(){
-        //   alert('after');
-        // }
-    }));
+    map.setMinZoom(12);              //设定最小缩放
+    map.setMaxZoom(16);             //设定最大缩放
+    // var size = new BMap.Size(10, 20);
+    //增加城市控件
+    // map.addControl(new BMap.CityListControl({
+    //     anchor: BMAP_ANCHOR_TOP_LEFT,
+    //     offset: size
+    //     // // 切换城市之间事件
+    //     // onChangeBefore: function(){
+    //     //    alert('before');
+    //     // },
+    //     // // 切换城市之后事件
+    //     // onChangeAfter:function(){
+    //     //   alert('after');
+    //     // }
+    // }));
+    //地图缩放触发的事件
     function reshow() {
-        console.log(map.getOverlays());
-        zoom = map.getZoom();
-        if(zoom>=14&&zoom<=17){
+        zoom = map.getZoom();               //获取当前缩放等级，根据等级决定显示哪一级的覆盖物
+
+        if(zoom>=16){
+            $.each(vue.properties,function (index,value) {
+                if(4==value.level){
+                    vue.propertyOverlay[value.id].show();
+                }
+            })
+        }
+        else {
+            $.each(vue.properties,function (index,value) {
+                if(4==value.level){
+                    vue.propertyOverlay[value.id].hide();
+                }
+            })
+        }
+        if(zoom==15){
             $.each(vue.beans,function (index,value) {
                 if(3==value.place.level){
                     vue.myCompOverlay[value.place.id].show();
@@ -60,7 +126,7 @@
             })
         }
 
-        if(zoom>=11&&zoom<=14){
+        if(zoom>=12&&zoom<15){
             $.each(vue.beans,function (index,value) {
                 if(2==value.place.level){
                     vue.myCompOverlay[value.place.id].show();
@@ -75,7 +141,7 @@
             })
         }
 
-        if(zoom<11){
+        if(zoom<12){
             $.each(vue.beans,function (index,value) {
                 if(1==value.place.level){
                     vue.myCompOverlay[value.place.id].show();
@@ -110,59 +176,78 @@
     map.addControl(geolocationControl);
     
     var data4vue = {
-        uri:'avgprice',
-        beans:[],
-        myCompOverlay:[]
+        beans:[],           //存放后端异步传来的place和avg_price结合查询的数据
+        properties:[],
+        myCompOverlay:[],    //覆盖物对象数组，index就是place表中的id
+        propertyOverlay:[],
+        cityName:''
     };
     var vue = new Vue({
-        el: '#container',
-        data: data4vue,
-        mounted:function () {
+        el: '#container',       //我要绑定id为container的元素
+        data: data4vue,         //接管数据
+        mounted:function () {   //就绪，执行list函数
             this.list();
 
         },
         methods: {
             list:function () {
-                var url =  "avgprice";
-                axios.get(url).then(function (response) {
-                    vue.beans = response.data;
-                    console.log(vue.beans);
+                var url1 =  "findAllMap/" + cityName;
+                var url2 = "findAllBuilding/" + cityName;
 
-                     vue.beans.forEach(function (bean) {
+
+                axios.get(url1).then(function (response) {   //异步获取
+                    console.log(response);
+                    vue.beans = response.data.AllPrice;
+                     vue.beans.forEach(function (bean) {    //用我拿到的数据构造复杂自定义覆盖物
                          var point = new BMap.Point(bean.place.lng, bean.place.lat);
-                         var txt = "<br>"+bean.place.name+ "<br>" + (bean.price/10000).toFixed(1) +"万元";
+                         var txt = "<br>"+bean.place.name+ "<br>"  + bean.AreaPrice.price+ "元";
                          var level = bean.place.level;
                          var id = bean.place.id;
-                         vue.myCompOverlay[id] = new ComplexCustomOverlay(id,point,txt,level);
-                         map.addOverlay(vue.myCompOverlay[id]);
-                         vue.myCompOverlay[id]._div.id = id;
-                         if (vue.myCompOverlay[id]._level != 2) {
+                         vue.myCompOverlay[id] = new ComplexCustomOverlay(id,point,txt,level); //构造了一数组的覆盖物
+                         map.addOverlay(vue.myCompOverlay[id]);             //把我造的覆盖物全部扔到地图上去
+                         vue.myCompOverlay[id]._div.id = id;                //覆盖物占用的div的id设为与覆盖物id相等
+                         if (vue.myCompOverlay[id]._level != 2) {           //除了区域覆盖物显示，其他的都藏起来
                              vue.myCompOverlay[id].hide();
-
                          }
-
-                         // myCompOverlay.addEventListener("click", createClickEvent(myCompOverlay)); //覆盖物点击事件
-
                      });
                 });
-            }
+
+                axios.get(url2).then(function (response) {   //异步获取
+
+                    console.log(response.data);
+                    vue.properties = response.data.AllBuilding;
+                    vue.properties.forEach(function (property) {    //用我拿到的数据构造复杂自定义覆盖物哦
+                        var point = new BMap.Point(property.lng, property.lat);
+                        var txt = property.name + property.avgPrice +property.unit;
+                        if(property.avgPrice==0){
+                            txt = property.name + "（敬请期待）";
+                        }
+                        var level = property.level;
+                        var id = property.id;
+                        vue.propertyOverlay[id] = new PropertyOverlay(id,point,txt,level); //构造了一数组的覆盖物
+                        map.addOverlay(vue.propertyOverlay[id]);             //把我造的覆盖物全部扔到地图上去
+                        vue.propertyOverlay[id]._div.id = id;                //覆盖物占用的div的id设为与覆盖物id相等
+                        vue.propertyOverlay[id].hide();
+                    });
+                });
+            }   //list函数到此结束
 
 
-        }
+        }   // methods到此结束
     });
 
     // 复杂的自定义覆盖物
-    function ComplexCustomOverlay(id, point, text,level){
+    function ComplexCustomOverlay(id, point, text,level){   //我需要四个参数
         this._id = id;
         this._point = point;
         this._text = text;
         this._level = level;
     }
-    ComplexCustomOverlay.prototype = new BMap.Overlay();
-    ComplexCustomOverlay.prototype.initialize = function(map){
+    ComplexCustomOverlay.prototype = new BMap.Overlay();    //继承Overlay我就是自定义覆盖物了
+    ComplexCustomOverlay.prototype.initialize = function(map){  //我需要初始化
         this._map = map;
-        var div = this._div = document.createElement("div");
-        div.className = "circle";
+        var div = this._div = document.createElement("div");    //没有div我放哪？
+        div.className = "circle";           //我的样式
         div.style.position = "absolute";
         div.style.zIndex = 2;
         div.style.backgroundColor = "#0000FF";
@@ -173,7 +258,6 @@
         div.style.MozUserSelect = "none";
         div.style.fontSize = "14px";
         div.style.textAlign = "center";
-        // div.style.lineHeight = "30px";
         var span = this._span = document.createElement("span");
         span.innerHTML = this._text;
         div.appendChild(span);
@@ -185,18 +269,21 @@
             this.style.borderColor = "#f44f77";
             this.style.zIndex = 6;
         };
-        div.onclick = function () {
-            console.log(div.id);
+        div.onclick = function () {     //点击事件
             $.each(vue.beans,function (index,value) {
                 if(value.place.id == div.id){
                     map.panTo(new BMap.Point(value.place.lng,value.place.lat), {noAnimation:true});
-                    map.zoomIn();
-                    map.zoomIn();
-                    map.zoomIn();
+                    if(value.place.level==2) {
+                        map.setZoom(15)
+                    }
+                    else if(value.place.level==3){
+                        map.setZoom(16);
+                    }
+
                     level = value.place.level;
                     $.each(vue.beans,function (index,value) {
                         if(level==value.place.level){
-                            vue.myCompOverlay[value.place.id].hide();
+                            vue.myCompOverlay[value.place.id].hide();   // 把和我等级相同的小伙伴都藏起来
                         }
                     })
                 }
@@ -235,6 +322,78 @@
         }
     }
 
+    function PropertyOverlay(id, point, text, level){
+        this._id = id;
+        this._point = point;
+        this._text = text;
+        this._level = level;
+    }
+    PropertyOverlay.prototype = new BMap.Overlay();
+    PropertyOverlay.prototype.initialize = function(map){
+        this._map = map;
+        var div = this._div = document.createElement("div");
+        div.style.position = "absolute";
+        div.style.zIndex = BMap.Overlay.getZIndex(this._point.lat);
+        div.style.backgroundColor = "#EE5D5B";
+        div.style.border = "1px solid #BC3B3A";
+        div.style.color = "white";
+        div.style.zIndex = "2";
+        div.style.height = "24px";
+        div.style.padding = "2px";
+        div.style.lineHeight = "18px";
+        div.style.whiteSpace = "nowrap";
+        div.style.MozUserSelect = "none";
+        div.style.fontSize = "14px";
+        var span = this._span = document.createElement("span");
+        div.appendChild(span);
+        span.appendChild(document.createTextNode(this._text));
+        var that = this;
 
+        var arrow = this._arrow = document.createElement("div");
+        arrow.style.background = "url(http://map.baidu.com/fwmap/upload/r/map/fwmap/static/house/images/label.png) no-repeat";
+        arrow.style.position = "absolute";
+        arrow.style.width = "11px";
+        arrow.style.height = "10px";
+        arrow.style.top = "22px";
+        arrow.style.left = "10px";
+        arrow.style.overflow = "hidden";
+        div.appendChild(arrow);
 
+        div.onmouseover = function(){
+            this.style.backgroundColor = "#6BADCA";
+            this.style.borderColor = "#0000ff";
+            div.style.zIndex = "6";
+            arrow.style.backgroundPosition = "0px -20px";
+        }
+
+        div.onmouseout = function(){
+            this.style.backgroundColor = "#EE5D5B";
+            this.style.borderColor = "#BC3B3A";
+            div.style.zIndex = "2";
+            arrow.style.backgroundPosition = "0px 0px";
+        }
+
+        map.getPanes().labelPane.appendChild(div);
+
+        return div;
+    }
+    PropertyOverlay.prototype.draw = function(){
+        var map = this._map;
+        var pixel = map.pointToOverlayPixel(this._point);
+        this._div.style.left = pixel.x - parseInt(this._arrow.style.left) + "px";
+        this._div.style.top  = pixel.y - 30 + "px";
+    }
+    // 实现显示方法
+    PropertyOverlay.prototype.show = function () {
+        if(this._div){
+            this._div.style.display = '';
+        }
+    }
+
+    // 实现隐藏方法
+    PropertyOverlay.prototype.hide = function () {
+        if(this._div){
+            this._div.style.display = 'none';
+        }
+    }
 </script>
